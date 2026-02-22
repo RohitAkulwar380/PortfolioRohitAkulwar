@@ -35,7 +35,7 @@ if not _is_sqlite and "sslmode=" not in final_url.lower():
     separator = "&" if "?" in final_url else "?"
     final_url = f"{final_url}{separator}sslmode=require"
 
-connect_args = {"check_same_thread": False} if _is_sqlite else {"connect_timeout": 10}
+connect_args = {"check_same_thread": False} if _is_sqlite else {}
 
 engine = create_engine(final_url, connect_args=connect_args)
 
