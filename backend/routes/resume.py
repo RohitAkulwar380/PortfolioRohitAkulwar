@@ -48,6 +48,7 @@ async def get_resume(
 
 
 @router.get("/health", status_code=status.HTTP_200_OK)
+@router.head("/health", status_code=status.HTTP_200_OK)
 async def health_check() -> dict[str, str]:
     """
     Lightweight health check endpoint.
