@@ -31,9 +31,9 @@ function TypingIndicator() {
 /* ── Custom Text Formatter ── */
 const HIGHLIGHT_RULES = [
     { regex: /\b(Master of Computer Applications|Bachelor of Business Administration|Computer Applications|Business Administration|MCA|BBA|CGPA)\b/gi, type: 'edu' },
-    { regex: /\b(Python|Java|Kotlin|HTML|CSS|JavaScript|TypeScript|React|Node\.js|Express\.js|PyGame)\b/gi, type: 'lang' },
-    { regex: /\b(MySQL|n8n|Git|GitHub|Docker|SQL)\b/gi, type: 'tool' },
-    { regex: /\b(Prompt engineering|Machine learning|AI|Artificial Intelligence|Workflow automation|Automation|Software Developer|Software Development|API)\b/gi, type: 'concept' },
+    { regex: /\b(Python|Java|Kotlin|HTML|CSS|JavaScript|TypeScript|React|Node\.js|Express\.js|PyGame|Django)\b/gi, type: 'lang' },
+    { regex: /\b(MySQL|n8n|Git|GitHub|Docker|SQL|OpenRouter)\b/gi, type: 'tool' },
+    { regex: /\b(Prompt engineering|Machine learning|AI|Artificial Intelligence|Workflow automation|Automation|Software Developer|Software Development|API|Full Stack|Web Development|Communication|Adaptability|Teamwork|Time Management)\b/gi, type: 'concept' },
     { regex: /\b(Education|Skills|Projects|Experience|Contact|About)(?=:)/gi, type: 'heading' }
 ];
 

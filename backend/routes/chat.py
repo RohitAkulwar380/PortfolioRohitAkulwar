@@ -113,8 +113,12 @@ async def chat(
                 )
             )
             conn.commit()
-    except SQLAlchemyError:
-        # Log silently — in production you'd emit a structured log entry here.
-        pass
+    except SQLAlchemyError as e:
+        print("DB INSERT ERROR:", e)
+        # We now raise the error so you can see exactly why Supabase is rejecting it
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error: {str(e)}"
+        )
 
     return ChatResponse(reply=reply, session_id=body.session_id)
