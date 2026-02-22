@@ -1,0 +1,80 @@
+/* ChatInput.css - Redesign */
+
+.input-area {
+    padding: 16px 28px 24px;
+    border-top: 1px solid #EDE8E0;
+    background-color: #FAF8F4;
+    flex-shrink: 0;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    border: 1px solid #DDD5C8;
+    border-radius: 14px;
+    padding: 10px 10px 10px 16px;
+    transition: border-color 0.2s ease;
+    box-shadow: 0 1px 4px rgba(44, 31, 14, 0.05);
+}
+
+.input-row:focus-within {
+    border-color: #8B7355;
+}
+
+.chat-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    color: #2C1F0E;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    /* Removed min-height and max-height to keep it at a single row */
+}
+
+.chat-input::placeholder {
+    color: #C4B5A5;
+}
+
+.send-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.send-btn--active {
+    background-color: #2C1F0E;
+    color: #FAF8F4;
+    cursor: pointer;
+}
+
+.send-btn--active:hover {
+    background-color: #5C4A35;
+}
+
+.send-btn--disabled {
+    background-color: #EDE8E0;
+    color: #C4B5A5;
+    cursor: default;
+}
+
+.input-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: #C4B5A5;
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin: 10px 0 0 0;
+}

@@ -1,0 +1,134 @@
+{
+    "personal": {
+        "name": "Rohit Bharat Akulwar",
+        "title": "Software Developer",
+        "email": "rohitakulwar380@gmail.com",
+        "phone": "+917020161320",
+        "location": "Pune, India",
+        "linkedin": "https://www.linkedin.com/in/RohitAkulwar380",
+        "github": "https://github.com/RohitAkulwar380",
+        "objective": "Aspiring software developer with a strong focus on AI applications and automation systems. Detail-oriented problem solver with excellent analytical thinking and adaptability in rapidly evolving tech environments. Experienced in workflow automation using n8n, creating intelligent pipelines that streamline complex processes. Actively exploring AI-driven image and video generation, with growing expertise in prompt engineering and model integration. Passionate about developing scalable AI solutions and leveraging automation to enhance productivity and creative workflows through collaborative innovation and continuous learning.",
+        "personal_ai_context": {
+            "hobbies": "When I'm not coding, I'm usually tinkering around trying to find inspiration with new designs, listening to music, or playing video games",
+            "work_style": "I treat coding like solving a puzzle. I love getting deep into architecture, whether that is managing game states or designing robust backend APIs."
+        }
+    },
+    "education": [
+        {
+            "degree": "Master of Computer Applications",
+            "institution": "IMED, Bharti Vidyapeeth",
+            "dates": "08/2024 - Present",
+            "score": "CGPA: 8.08"
+        },
+        {
+            "degree": "Bachelor of Business Administration (Computer Applications)",
+            "institution": "Ness Wadia College of Commerce",
+            "dates": "06/2021 - 05/2024",
+            "score": "CGPA: 8.23"
+        },
+        {
+            "degree": "HSC — Maharashtra State Board",
+            "institution": "Ness Wadia College of Commerce (Jr. College)",
+            "dates": "07/2019 - 05/2021",
+            "score": "78.83%"
+        },
+        {
+            "degree": "SSC — Maharashtra State Board",
+            "institution": "Erin N. Nagarvala Day School",
+            "dates": "06/2005 - 05/2019",
+            "score": "61.6%"
+        }
+    ],
+    "skills": {
+        "technical": [
+            "OpenRouter",
+            "Django",
+            "React",
+            "Full Stack",
+            "Web Development",
+            "Python",
+            "Java",
+            "n8n / Automation",
+            "Kotlin",
+            "HTML / CSS",
+            "MySQL",
+            "Prompt Engineering",
+            "Git"
+        ],
+        "soft": [
+            "Communication",
+            "Adaptability",
+            "Teamwork",
+            "Time Management"
+        ]
+    },
+    "projects": [
+        {
+            "title": "Automated Data Analytics Pipeline using n8n",
+            "description": "Developed a comprehensive data analytics automation pipeline using n8n that integrates multiple APIs to collect, process, and analyze business data in real-time. Created automated data extraction workflows from various sources with advanced data transformation capabilities and dynamic report generation featuring interactive charts and visualizations.",
+            "technologies": [
+                "n8n",
+                "Gemini API",
+                "AI Agent Integration",
+                "Data Visualization",
+                "Quickchart.io"
+            ],
+            "ai_context": {
+                "why_this_project": "I wanted to move beyond basic scripts and build an enterprise-grade automation pipeline that handles real-world API complexities and dynamic data manipulation.",
+                "biggest_challenge": "Managing asynchronous data flows and ensuring the visualizations generated accurately reflected real-time changes without hitting API rate limits."
+            },
+            "videoUrl": "/videos/AutomatedDataAnalyticsPipelineUsingn8n.mp4"
+        },
+        {
+            "title": "AI Content Aggregation & Automation Pipeline",
+            "description": "Built an AI-powered automated content aggregation and workflow system using n8n, leveraging RSS feeds and custom API integrations to scrape, filter, and organize real-time articles from multiple websites. Implemented intelligent content processing with NLP-based classification and topic extraction, enabling automated categorization into domains like finance, mental health, and tech. Designed a clean frontend in JSX to display categorized articles, trending topics, and workflow results in an intuitive dashboard.",
+            "technologies": [
+                "n8n",
+                "RSS Feeds",
+                "Node.js",
+                "JSX Frontend",
+                "API Integrations",
+                "NLP-Based Classification",
+                "Automation Workflows",
+                "AI/LLM Processing"
+            ],
+            "ai_context": {
+                "how_it_works": "It uses NLP to read the sentiment and topic of RSS feeds, then auto-routes them to the correct dashboard category without manual intervention.",
+                "future_plans": "I am looking into expanding its capabilities to automatically generate tailored email newsletters based on the categorized content."
+            },
+            "videoUrl": "/videos/AIContentAggregationAutomationPipeline.mp4"
+        },
+        {
+            "title": "2D Game in Python - Pixel Fire",
+            "description": "A 2D Indie Platformer built in Python using the PyGame Library. Includes multiple levels and stages with unique Boss Fights and their respective stages. Used Sprites and a Level Builder to build the World.",
+            "technologies": [
+                "Python",
+                "PyGame"
+            ],
+            "ai_context": {
+                "design_choices": "I chose PyGame because it is fantastic for rapid prototyping and helped me deeply understand game state management and sprite collision mechanics.",
+                "fun_fact": "Building this 2D platformer actually laid the groundwork for my current interest in C++, where I am exploring more complex game development concepts like 2.5D isometric perspectives and the Factory Method design pattern."
+            },
+            "videoUrl": "/videos/2DPythonGame.mp4"
+        },
+        {
+            "title": "Full Stack E-commerce Website",
+            "description": "A full-stack E-Commerce application built with the MERN stack and TypeScript. Includes a responsive customer storefront with a shopping cart, product filtering, and secure checkout, alongside a comprehensive Admin Dashboard for inventory and user management. Features JWT authentication, image uploads, and automated email notifications with a modern Neo-Brutalist UI.",
+            "technologies": [
+                "React",
+                "Node.js",
+                "Express.js",
+                "MongoDB",
+                "TypeScript",
+                "Tailwind CSS",
+                "Vite"
+            ],
+            "ai_context": {
+                "design_choices": "I deliberately chose a Neo-Brutalist UI to break away from generic, overly polished corporate templates. The bold, high-contrast visuals make the customer storefront memorable and highly intuitive.",
+                "biggest_challenge": "Handling complex features like dynamic shopping carts, product variants, and automated PDF invoice generation.",
+                "architecture_notes": "While this specific build utilizes MERN, my broader e-commerce experience includes building robust architectures connecting Django backends with React frontends, and containerizing deployments with Docker and Nginx."
+            },
+            "videoUrl": "/videos/FullStack.mp4"
+        }
+    ]
+}

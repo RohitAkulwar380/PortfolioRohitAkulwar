@@ -1,0 +1,204 @@
+/* About.css — Two Column Stat / Bio */
+
+.about {
+    padding-bottom: 48px;
+}
+
+/* ── Grid ── */
+.about__grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 0;
+}
+
+/* ── Left: Stats column ── */
+.about__stats {
+    padding-right: 48px;
+    border-right: 1px solid var(--color-rule, #EDE8E0);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.about__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.about__stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #C4B5A5);
+    line-height: 1;
+}
+
+.about__stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text-primary, #2C1F0E);
+    line-height: 1.35;
+}
+
+.about__stat-value--accent {
+    color: #C4533A;
+}
+
+/* ── Right: Bio column ── */
+.about__bio {
+    padding-left: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+}
+
+.about__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.25rem);
+    font-weight: 400;
+    color: var(--color-text-primary, #2C1F0E);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+.about__headline em {
+    height: 1.25em;
+    width: 180px;
+    /* Increased to fit the longest word */
+    display: flex;
+    align-items: center;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-text-secondary, #8B7355);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.about__carousel {
+    display: inline-flex;
+    overflow: hidden;
+    height: 1.25em;
+    width: 180px;
+    /* Must perfectly match the em width above */
+    vertical-align: top;
+}
+
+.about__carousel-items {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    flex-wrap: nowrap;
+    animation: carousel-slide-x 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes carousel-slide-x {
+
+    0%,
+    28% {
+        transform: translateX(0%);
+    }
+
+    33.33%,
+    61.33% {
+        transform: translateX(-25%);
+    }
+
+    66.66%,
+    94.66% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(-75%);
+    }
+}
+
+.about__text {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary, #4A3828);
+    line-height: 1.85;
+    max-width: 65ch;
+    margin: 0;
+}
+
+/* ── Tags ── */
+.about__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.about__tag {
+    padding: 6px 12px;
+    border: 1px solid rgba(196, 168, 130, 0.4);
+    border-radius: 4px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: #6B5035;
+    background-color: rgba(196, 168, 130, 0.15);
+    transition: all 0.25s ease;
+    cursor: default;
+}
+
+/* Color-coded hover states */
+.about__tag:nth-child(1):hover {
+    border-color: #7AAE6E;
+    color: #4A7A3E;
+    background-color: rgba(122, 174, 110, 0.1);
+}
+
+.about__tag:nth-child(2):hover {
+    border-color: #C47C5A;
+    color: #A85A3A;
+    background-color: rgba(196, 124, 90, 0.1);
+}
+
+.about__tag:nth-child(3):hover {
+    border-color: #5A83C4;
+    color: #3A5C9A;
+    background-color: rgba(90, 131, 196, 0.1);
+}
+
+.about__tag:nth-child(4):hover {
+    border-color: #C4A882;
+    color: #9A7B52;
+    background-color: rgba(196, 168, 130, 0.15);
+}
+
+.about__tag:nth-child(5):hover {
+    border-color: #A65AC4;
+    color: #7A3A9A;
+    background-color: rgba(166, 90, 196, 0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .about__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about__stats {
+        border-right: none;
+        border-bottom: 1px solid var(--color-rule, #EDE8E0);
+        padding-right: 0;
+        padding-bottom: 28px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 16px;
+    }
+
+    .about__stat:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .about__bio {
+        padding-left: 0;
+        padding-top: 28px;
+    }
+}

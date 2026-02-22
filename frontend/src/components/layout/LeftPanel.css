@@ -1,0 +1,78 @@
+/*
+ * LeftPanel.css
+ */
+
+.left-panel {
+    padding: var(--space-16) var(--space-12);
+    max-width: 720px;
+    margin: 0 auto;
+    transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.split-layout--minimized-chat .left-panel {
+    max-width: 1080px;
+}
+
+.left-panel--loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.loading-pulse {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-divider);
+    animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+    }
+}
+
+/* Section separator — fine line divider between each section */
+.section+.section {
+    border-top: var(--panel-divider);
+    margin-top: var(--space-8);
+    padding-top: var(--space-8);
+}
+
+/* Shared section header style */
+.section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    font-size: 0.62rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #C4A882;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-eyebrow::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: #C4A882;
+    opacity: 0.45;
+}
+
+@media (max-width: 768px) {
+    .left-panel {
+        padding: var(--space-8) var(--space-6);
+    }
+}

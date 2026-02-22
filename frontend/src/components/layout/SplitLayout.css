@@ -1,0 +1,97 @@
+/*
+ * SplitLayout.css
+ * ───────────────
+ * Layout-only styles for the split-panel shell.
+ * No colours or typography — those live in globals.css tokens.
+ */
+
+/* ── Desktop: two-panel row ─────────────────────────────────────────────────── */
+.split-layout {
+    display: flex;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+/* Hide mobile tab bar on desktop */
+.mobile-tabs {
+    display: none;
+}
+
+.panel-wrapper {
+    height: 100%;
+    overflow: hidden;
+}
+
+.panel-wrapper--left {
+    width: var(--panel-left-width);
+    border-right: var(--panel-divider);
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1;
+    /* left panel scrolls independently */
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.panel-wrapper--right {
+    width: var(--panel-right-width);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Minimized Chat State (Desktop Only) ────────────────────────────────────── */
+.split-layout--minimized-chat .panel-wrapper--left {
+    width: calc(100% - 64px);
+}
+
+.split-layout--minimized-chat .panel-wrapper--right {
+    width: 64px;
+}
+
+/* ── Mobile: stacked + tab toggle (< 768px) ─────────────────────────────────── */
+@media (max-width: 768px) {
+    .split-layout {
+        flex-direction: column;
+    }
+
+    /* Show tab bar on mobile */
+    .mobile-tabs {
+        display: flex;
+        border-bottom: var(--panel-divider);
+        background-color: var(--color-bg);
+        flex-shrink: 0;
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: var(--space-3) var(--space-4);
+        font-family: var(--font-sans);
+        font-size: var(--text-sm);
+        font-weight: 500;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        transition: color var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .tab-btn--active {
+        color: var(--color-text-primary);
+        border-bottom-color: var(--color-accent);
+    }
+
+    .panel-wrapper--left,
+    .panel-wrapper--right {
+        width: 100%;
+        flex: 1;
+        border-right: none;
+    }
+
+    /* Hide the inactive panel on mobile */
+    .panel-wrapper--hidden-mobile {
+        display: none;
+    }
+}

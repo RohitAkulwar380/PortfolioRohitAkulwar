@@ -1,0 +1,56 @@
+/*
+ * TopNav.css
+ * ──────────
+ * Full-width sticky top navigation.
+ */
+
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.top-nav__content {
+    cursor: pointer;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-divider, #EDE8E0);
+    padding: 20px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(44, 31, 14, 0.02);
+    transition: background 0.2s ease, padding 0.2s ease;
+}
+
+.top-nav__content:hover {
+    background: var(--color-bg-panel);
+}
+
+.top-nav__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
+    /* Matches chat header size more closely */
+    font-weight: 500;
+    color: var(--color-text-primary, #2C1F0E);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    user-select: none;
+}
+
+.top-nav__image {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-divider, #EDE8E0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Hide navigation entirely on smaller screens (matches existing BottomNav logic) */
+@media (max-width: 768px) {
+    .top-nav {
+        display: none;
+    }
+}

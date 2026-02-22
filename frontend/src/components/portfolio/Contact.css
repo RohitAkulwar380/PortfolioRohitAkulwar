@@ -1,0 +1,77 @@
+/* Contact.css */
+
+.contact-a__headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    color: #2C1F0E;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 36px;
+}
+
+.contact-a__headline em {
+    font-style: italic;
+    font-weight: 400;
+    color: #8B7355;
+}
+
+.contact-a__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.contact-a__link {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #EDE8E0;
+    text-decoration: none;
+    transition: padding-left 0.2s ease;
+}
+
+.contact-a__link:first-child {
+    border-top: 1px solid #EDE8E0;
+}
+
+.contact-a__link:hover {
+    padding-left: 8px;
+}
+
+.contact-a__link:hover .contact-a__value {
+    color: #2C1F0E;
+}
+
+.contact-a__link:hover .contact-a__arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.contact-a__type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.67rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #C4B5A5;
+}
+
+.contact-a__value {
+    font-size: 1.05rem;
+    color: #8B7355;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contact-a__arrow {
+    margin-left: auto;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all 0.2s ease;
+    color: #C4A882;
+    font-size: 1rem;
+}

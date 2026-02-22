@@ -1,0 +1,194 @@
+/* ChatPanel.css - Redesign */
+
+.chat-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #FAF8F4;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+    border-left: 1px solid #E8E0D5;
+    /* Separator from left panel */
+}
+
+/* ── Header ── */
+.chat-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid #EDE8E0;
+    background: #FAF8F4;
+    flex-shrink: 0;
+}
+
+.header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.header-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: #B8A898;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+}
+
+.meta-divider {
+    width: 1px;
+    height: 10px;
+    background-color: #E8E0D5;
+}
+
+.header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #2C1F0E;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+.header-title em {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.status-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.chat-close-btn {
+    background: transparent;
+    border: 1px solid #EDE8E0;
+    color: #8B7355;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.chat-close-btn .close-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.725rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.chat-close-btn:hover {
+    color: #2C1F0E;
+    border-color: #C4A882;
+    background-color: rgba(196, 168, 130, 0.06);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #7AAE6E;
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+.status-dot.thinking {
+    background-color: #C4A882;
+    animation: typeBouncePulse 1s ease infinite;
+}
+
+.status-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: #7AAE6E;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.status-dot.thinking+.status-label {
+    color: #C4A882;
+}
+
+.header-rule {
+    margin-top: 16px;
+    height: 1px;
+    background: linear-gradient(to right, #C4A882, #E8E0D5, transparent);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes typeBouncePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+/* ── Suggestions Area ── */
+.suggestions-area {
+    padding: 0 28px 16px;
+    flex-shrink: 0;
+}
+
+.suggestions-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #C4B5A5;
+    margin: 0 0 10px 0;
+}
+
+.suggestions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.suggestion-pill {
+    padding: 7px 14px;
+    border-radius: 4px;
+    border: 1px solid #DDD5C8;
+    background-color: #F5F1EB;
+    color: #7A6855;
+    font-size: 0.88rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.01em;
+}
+
+.suggestion-pill:hover {
+    background-color: #EDE8E0;
+    border-color: #B8A898;
+    color: #3D2E1E;
+}

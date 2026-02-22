@@ -1,0 +1,129 @@
+/* Education.css */
+
+.section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #C4A882;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-eyebrow::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: #C4A882;
+    opacity: 0.45;
+}
+
+.edu-c__headline {
+    font-size: clamp(3rem, 5vw, var(--text-5xl));
+    font-weight: 400;
+    color: var(--color-text-primary);
+    line-height: 1.1;
+    margin-bottom: var(--space-12);
+    letter-spacing: -0.02em;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.edu-c__headline em {
+    font-style: italic;
+    font-weight: 400;
+    color: #8B7355;
+}
+
+.edu-c__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.edu-c__item {
+    padding: 28px 32px;
+    border: 1px solid #EDE8E0;
+    margin: -1px 0 0 -1px;
+    transition: background 0.2s ease;
+    cursor: default;
+    position: relative;
+}
+
+.edu-c__item:hover {
+    background: rgba(196, 168, 130, 0.05);
+    z-index: 1;
+    border-color: #C4A882;
+}
+
+.edu-c__num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.45rem;
+    font-weight: 600;
+    color: #C4533A;
+    line-height: 1;
+    margin-bottom: 12px;
+    opacity: 0.85;
+}
+
+.edu-c__item--muted .edu-c__num {
+    color: #E8E0D5;
+    opacity: 1;
+}
+
+.edu-c__degree {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #2C1F0E;
+    line-height: 1.3;
+    margin-bottom: 5px;
+}
+
+.edu-c__item--muted .edu-c__degree {
+    font-size: 1.03rem;
+    color: #8B7355;
+}
+
+.edu-c__inst {
+    font-size: 0.85rem;
+    color: #8B7355;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.edu-c__item--muted .edu-c__inst {
+    color: #C4B5A5;
+}
+
+.edu-c__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edu-c__date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.67rem;
+    color: #C4B5A5;
+    letter-spacing: 0.04em;
+}
+
+.edu-c__score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #C4533A;
+}
+
+.edu-c__item--muted .edu-c__score {
+    color: #C4B5A5;
+}
+
+/* Make it stack on smaller screens */
+@media (max-width: 768px) {
+    .edu-c__grid {
+        grid-template-columns: 1fr;
+    }
+}
