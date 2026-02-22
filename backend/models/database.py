@@ -24,17 +24,19 @@ from config.settings import DATABASE_URL
 # ── Engine ────────────────────────────────────────────────────────────────────
 # DATABASE_URL sourced from config/settings.py (loaded from backend/.env).
 #
-# connect_args differ between SQLite and Postgres:
-#   - SQLite: check_same_thread=False  (FastAPI uses multiple threads)
-#   - Postgres/Supabase: sslmode=require (Supabase enforces SSL connections)
+# SQLite requires check_same_thread=False for FastAPI.
+# Postgres (Supabase) requires SSL. We append ?sslmode=require to the URL
+# if it's not already there, rather than using connect_args which can clash.
 _is_sqlite = DATABASE_URL.startswith("sqlite")
-connect_args = (
-    {"check_same_thread": False}
-    if _is_sqlite
-    else {"sslmode": "require"}
-)
 
-engine = create_engine(DATABASE_URL, connect_args=connect_args)
+final_url = DATABASE_URL
+if not _is_sqlite and "sslmode=" not in final_url.lower():
+    separator = "&" if "?" in final_url else "?"
+    final_url = f"{final_url}{separator}sslmode=require"
+
+connect_args = {"check_same_thread": False} if _is_sqlite else {"connect_timeout": 10}
+
+engine = create_engine(final_url, connect_args=connect_args)
 
 # Shared metadata registry — all tables are registered here.
 metadata = MetaData()
