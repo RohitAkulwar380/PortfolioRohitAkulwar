@@ -22,6 +22,7 @@
     font-family: 'Cormorant Garamond', serif;
     will-change: font-family, color, font-size;
     padding: 0 24px;
+    white-space: nowrap;
     /* No transition — font swaps must be instant */
     transition: none;
 }
