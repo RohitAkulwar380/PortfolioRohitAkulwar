@@ -35,9 +35,14 @@ if not _is_sqlite and "sslmode=" not in final_url.lower():
     separator = "&" if "?" in final_url else "?"
     final_url = f"{final_url}{separator}sslmode=require"
 
-connect_args = {"check_same_thread": False} if _is_sqlite else {}
+connect_args = {"check_same_thread": False} if _is_sqlite else {"connect_timeout": 10}
 
-engine = create_engine(final_url, connect_args=connect_args)
+engine = create_engine(
+    final_url,
+    connect_args=connect_args,
+    pool_pre_ping=True,      # Drops stale connections before use
+    pool_timeout=15,         # Give up waiting for a pool connection after 15s
+)
 
 # Shared metadata registry — all tables are registered here.
 metadata = MetaData()
@@ -61,5 +66,12 @@ async def create_tables() -> None:
     """
     Create all tables that are registered in `metadata` if they don't exist.
     Called once at app startup from main.py. Runs in a thread to avoid blocking.
+    Errors are logged but do not crash the app — routes will surface DB errors
+    naturally if the DB is genuinely unreachable.
     """
-    await asyncio.to_thread(metadata.create_all, engine)
+    import logging
+    try:
+        await asyncio.to_thread(metadata.create_all, engine)
+        logging.info("Database tables created/verified OK.")
+    except Exception as e:
+        logging.error(f"Database startup error (non-fatal): {e}")
