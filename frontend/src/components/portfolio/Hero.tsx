@@ -80,13 +80,10 @@ export default function Hero({ personal, skills, isChatMinimized }: HeroProps) {
                 {/* Profile Image (Dynamic size via Framer Motion) */}
                 <motion.div
                     className="hero__image-wrapper fade-in-item"
-                    initial={{
-                        width: isChatMinimized ? 280 : 140,
-                        height: isChatMinimized ? 280 : 140
-                    }}
+                    initial={false}
                     animate={{
-                        width: isChatMinimized ? 280 : 140,
-                        height: isChatMinimized ? 280 : 140
+                        width: window.innerWidth > 768 ? (isChatMinimized ? 280 : 140) : 220,
+                        height: window.innerWidth > 768 ? (isChatMinimized ? 280 : 140) : 220
                     }}
                     transition={{
                         type: "spring",

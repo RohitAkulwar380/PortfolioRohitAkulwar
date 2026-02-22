@@ -45,6 +45,17 @@
     object-position: center;
 }
 
+.hero__name {
+    font-size: clamp(2.5rem, 4.5vw, var(--text-5xl, 4.5rem));
+    font-weight: 300;
+    color: var(--color-text-primary);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-family: 'Cormorant Garamond', serif;
+    white-space: nowrap;
+    /* Required MUST NOT BE REMOVED: IntroOverlay uses getBoundingClientRect() on this element to animate the fly-in Name text. If it wraps, the height calculation breaks the animation. */
+}
+
 @media (max-width: 768px) {
     .hero__layout {
         display: flex;
@@ -72,6 +83,8 @@
     .hero__name {
         white-space: normal;
         /* Safe to wrap on mobile since mobile handles intro differently or has full width */
+        font-size: clamp(2.2rem, 8vw, 3rem);
+        line-height: 1.1;
     }
 }
 
@@ -85,16 +98,6 @@
     margin-bottom: var(--space-6);
 }
 
-.hero__name {
-    font-size: clamp(2.5rem, 4.5vw, var(--text-5xl, 4.5rem));
-    font-weight: 300;
-    color: var(--color-text-primary);
-    line-height: 0.92;
-    letter-spacing: -0.03em;
-    font-family: 'Cormorant Garamond', serif;
-    white-space: nowrap;
-    /* Required MUST NOT BE REMOVED: IntroOverlay uses getBoundingClientRect() on this element to animate the fly-in Name text. If it wraps, the height calculation breaks the animation. */
-}
 
 .hero__name em {
     font-style: italic;

@@ -42,12 +42,14 @@
 }
 
 /* ── Minimized Chat State (Desktop Only) ────────────────────────────────────── */
-.split-layout--minimized-chat .panel-wrapper--left {
-    width: calc(100% - 64px);
-}
+@media (min-width: 769px) {
+    .split-layout--minimized-chat .panel-wrapper--left {
+        width: calc(100% - 64px);
+    }
 
-.split-layout--minimized-chat .panel-wrapper--right {
-    width: 64px;
+    .split-layout--minimized-chat .panel-wrapper--right {
+        width: 64px;
+    }
 }
 
 /* ── Mobile: stacked + tab toggle (< 768px) ─────────────────────────────────── */
