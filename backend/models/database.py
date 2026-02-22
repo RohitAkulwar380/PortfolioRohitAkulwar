@@ -8,6 +8,7 @@ Design decision: Using SQLAlchemy Core (not ORM) for the chat_logs table
 so we avoid heavy ORM overhead for a simple append-only log.
 """
 
+import asyncio
 from sqlalchemy import (
     create_engine,
     MetaData,
@@ -56,9 +57,9 @@ chat_logs = Table(
 )
 
 
-def create_tables() -> None:
+async def create_tables() -> None:
     """
     Create all tables that are registered in `metadata` if they don't exist.
-    Called once at app startup from main.py.
+    Called once at app startup from main.py. Runs in a thread to avoid blocking.
     """
-    metadata.create_all(engine)
+    await asyncio.to_thread(metadata.create_all, engine)

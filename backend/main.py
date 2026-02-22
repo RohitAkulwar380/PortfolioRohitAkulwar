@@ -33,7 +33,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     Startup: create DB tables (idempotent — safe to call on every restart).
     Shutdown: nothing to clean up for now.
     """
-    create_tables()
+    await create_tables()
     yield  # Application runs here
     # (Add cleanup logic below the yield if ever needed, e.g. closing a connection pool)
 
