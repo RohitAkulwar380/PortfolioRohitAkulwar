@@ -11,7 +11,7 @@
 import { useState, useCallback, useRef } from 'react';
 import type { Message, ChatRequest, ChatResponse } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 /* Generate a client-side UUID for message keys */
 function uuid(): string {

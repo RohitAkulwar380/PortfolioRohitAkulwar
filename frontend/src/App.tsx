@@ -14,8 +14,8 @@ import SplitLayout from './components/layout/SplitLayout';
 import IntroOverlay from './components/layout/IntroOverlay';
 import './styles/globals.css';
 
-/* Base API URL from .env — falls back to localhost for dev */
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+/* Base API URL from .env */
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export default function App() {
   const [resume, setResume] = useState<ResumeData | null>(null);
