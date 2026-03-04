@@ -176,8 +176,8 @@ body.intro-finished .fade-in-item:nth-child(10) {
     }
 }
 
-/* Portfolio name starts hidden — IntroOverlay reveals it at landing */
-#portfolio-name {
+/* Portfolio name starts hidden ONLY IF glitch intro is active — IntroOverlay reveals it at landing */
+.intro-variant-glitch #portfolio-name {
     opacity: 0;
     transition: none;
 }

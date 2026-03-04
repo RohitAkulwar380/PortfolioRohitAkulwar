@@ -1,17 +1,14 @@
 /*
  * App.tsx
  * ────────
- * Application root. Single Responsibility: fetch resume data on mount
- * and pass it down to the layout tree via props.
- *
- * All routing, data-fetching, and error handling lives here.
- * Components below App are purely presentational.
+ * Updated to randomly select between IntroOverlay and StripedIntro
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import type { ResumeData } from './types';
 import SplitLayout from './components/layout/SplitLayout';
 import IntroOverlay from './components/layout/IntroOverlay';
+import StripedIntro from './components/layout/StripedIntro'; // Import the new component
 import './styles/globals.css';
 
 /* Base API URL from .env */
@@ -23,8 +20,14 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [introFinished, setIntroFinished] = useState(false);
 
+  // Randomly select animation variant once on mount. 
+  // 'glitch' = Original Spider-verse style
+  // 'stripes' = New Retro Stack style
+  const animationVariant = useMemo(() => {
+    return Math.random() > 0.5 ? 'glitch' : 'stripes';
+  }, []);
+
   useEffect(() => {
-    /* Fetch resume from our FastAPI backend on mount — once only */
     fetch(`${API_BASE}/api/resume`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -39,16 +42,10 @@ export default function App() {
         setError('Could not load portfolio data. Is the backend running?');
         setLoading(false);
       });
-  }, []); /* Empty deps — run once on mount */
+  }, []);
 
-  /*
-   * Assign stagger animation delays once the resume DOM has rendered.
-   * By using inline styles for the delay, React won't overwrite them on re-renders,
-   * but the CSS animation itself will drive the opacity safely.
-   */
   useEffect(() => {
     if (resume) {
-      // Small timeout to ensure SplitLayout children have mounted into the DOM
       setTimeout(() => {
         document.querySelectorAll('.fade-in-item').forEach((el, i) => {
           (el as HTMLElement).style.animationDelay = `${i * 90}ms`;
@@ -57,7 +54,26 @@ export default function App() {
     }
   }, [resume]);
 
-  /* Error state — only shown if the backend is completely unreachable */
+  /* 
+   * Handle the intro completion signal from child components.
+   * We add the 'intro-finished' class to the body here so that 
+   * CSS-based stagger animations (.fade-in-item) can trigger.
+   */
+  const handleIntroComplete = () => {
+    setIntroFinished(true);
+    document.body.classList.add('intro-finished');
+  };
+
+  useEffect(() => {
+    if (resume) {
+      setTimeout(() => {
+        document.querySelectorAll('.fade-in-item').forEach((el, i) => {
+          (el as HTMLElement).style.animationDelay = `${i * 90}ms`;
+        });
+      }, 50);
+    }
+  }, [resume]);
+
   if (error) {
     return (
       <div style={{
@@ -75,20 +91,26 @@ export default function App() {
     );
   }
 
-  /*
-   * Pass resume + loading state down to LeftPanel via SplitLayout.
-   * IntroOverlay runs initially if we have the resume data.
-   */
   return (
     <>
       {resume && !introFinished && (
-        <IntroOverlay name={resume.personal.name} onComplete={() => setIntroFinished(true)} />
+        <>
+          {animationVariant === 'glitch' ? (
+            <IntroOverlay name={resume.personal.name} onComplete={handleIntroComplete} />
+          ) : (
+            <StripedIntro name={resume.personal.name} onComplete={handleIntroComplete} />
+          )}
+        </>
       )}
 
-      {/* Portfolio must always be in the DOM (opacity 0 until intro done)
-          so getBoundingClientRect() can measure portfolio-name during the fly. */}
+      {/* Portfolio container.
+        Note: The 'glitch' intro relies on measuring #portfolio-name during its animation,
+        so we keep it in the DOM. We add 'intro-variant-glitch' class to allow CSS 
+        to hide the name initially ONLY for that variant.
+      */}
       <div
         id="portfolio"
+        className={animationVariant === 'glitch' ? 'intro-variant-glitch' : ''}
         style={{ opacity: introFinished ? 1 : 0, transition: 'opacity 0.3s ease' }}
       >
         <SplitLayout resume={resume} isLoading={isLoading} />

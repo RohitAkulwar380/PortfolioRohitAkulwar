@@ -126,7 +126,7 @@ class OpenRouterService:
 
         # Safely extract the message text — raise a clear error if missing.
         try:
-            return data["choices"][0]["message"]["content"].strip()
+            return data["choices"][0]["message"]["content"].strip() #converts the response from the LLM to a string and removes any leading/trailing whitespace
         except (KeyError, IndexError) as exc:
             raise ValueError(
                 f"Unexpected OpenRouter response shape: {data}"
