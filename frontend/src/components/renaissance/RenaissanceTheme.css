@@ -332,11 +332,12 @@
 .r-lead-text {
     font-family: 'IM Fell English', serif;
     font-size: 1rem;
-    line-height: 1.7;
+    line-height: 1.82;
+    /* was 1.7 — slightly airier for readability */
     color: var(--ink-faded);
     column-count: 3;
-    /* 3 columns of prose in the wide centre */
-    column-gap: 1.8rem;
+    column-gap: 2.4rem;
+    /* was 1.8rem — more breathing room per column */
     column-rule: 1px solid rgba(0, 0, 0, .18);
     text-align: justify;
     hyphens: auto;
@@ -387,10 +388,13 @@
     background: var(--ink);
     color: var(--parchment);
     font-family: 'Special Elite', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    /* was 0.2em — more authority in the dark bar */
     text-transform: uppercase;
-    padding: 0.32rem 0.7rem;
+    font-weight: 700;
+    /* heavier so text doesn't get lost in fill */
+    padding: 0.34rem 0.7rem;
 }
 
 .r-sidebar-box-body {
@@ -427,11 +431,22 @@
 }
 
 .r-star-ornament {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     color: var(--gold);
-    font-size: 0.95rem;
-    letter-spacing: 0.55rem;
-    padding: 0.55rem 0;
+    font-size: 0.88rem;
+    letter-spacing: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.r-star-ornament::before,
+.r-star-ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink-light);
+    opacity: 0.45;
 }
 
 .r-theatre-row {
@@ -553,7 +568,10 @@
 .r-projects-grid {
     display: grid;
     grid-template-columns: 1.3fr 1fr 1fr;
-    gap: 0;
+    /* Gap-as-line trick: the grid background shows through the 1px gaps
+       as separator lines — works even for rows with fewer cards than columns */
+    gap: 1px;
+    background: var(--ink-light);
     border: 1px solid var(--ink);
     margin-bottom: 2.5rem;
     animation: r-fadeInUp .8s .4s ease both;
@@ -561,18 +579,15 @@
 
 .r-project-card {
     padding: 1.4rem;
-    border-right: 1px solid var(--ink-light);
+    background: var(--parchment);
+    /* explicit so gap colour shows through as lines */
     position: relative;
     cursor: pointer;
     transition: background .2s;
 }
 
-.r-project-card:last-child {
-    border-right: none;
-}
-
 .r-project-card:hover {
-    background: rgba(0, 0, 0, .04);
+    background: #ddd0b0;
 }
 
 .r-project-issue {
@@ -711,15 +726,6 @@
         radial-gradient(ellipse at 100% 100%, rgba(60, 30, 10, .4) 0%, transparent 35%);
 }
 
-.r-fold-line-h {
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: 1px;
-    pointer-events: none;
-    z-index: 996;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, .06) 30%, rgba(0, 0, 0, .06) 70%, transparent);
-}
 
 .r-stars-decoration {
     position: fixed;

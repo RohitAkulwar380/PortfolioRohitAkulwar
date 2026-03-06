@@ -168,8 +168,10 @@ export default function IntroOverlay({ name, onComplete }: IntroOverlayProps) {
 
                 const portfolioEl = document.getElementById('portfolio');
                 if (portfolioEl) {
-                    // We just ensure transition is set so the state change in App.tsx is smooth
-                    portfolioEl.style.transition = 'opacity 1.25s ease';
+                    setTimeout(() => {
+                        portfolioEl.style.transition = 'opacity 0.25s ease';
+                        portfolioEl.style.opacity = '1';
+                    }, 100);
                 }
 
                 Object.assign(flyingDiv.style, {
@@ -215,7 +217,8 @@ export default function IntroOverlay({ name, onComplete }: IntroOverlayProps) {
         };
 
         const finishAnimation = () => {
-            if (panelEl) panelEl.style.display = 'none';
+            panelEl.style.display = 'none';
+            document.body.classList.add('intro-finished');
             onCompleteRef.current();
             setDone(true);
         };

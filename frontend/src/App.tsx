@@ -6,14 +6,14 @@
  * All original intro animation and portfolio logic is fully preserved.
  */
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import type { ResumeData } from './types';
 import SplitLayout from './components/layout/SplitLayout';
 import IntroOverlay from './components/layout/IntroOverlay';
-import StripedIntro from './components/layout/StripedIntro';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import RenaissanceTheme from './components/renaissance/RenaissanceTheme';
-import ThemeSwitcher from './components/renaissance/ThemeSwitcher';
+import ArchitecturalTheme from './components/architectural/ArchitecturalTheme';
+import ThemeTransition from './components/renaissance/ThemeTransition';
 import './styles/globals.css';
 
 /* Base API URL from .env */
@@ -26,14 +26,7 @@ function AppInner() {
   const [error, setError] = useState<string | null>(null);
   const [introFinished, setIntroFinished] = useState(false);
 
-  const { activeTheme } = useTheme();
-
-  // Randomly select animation variant once on mount.
-  // 'glitch' = Original Spider-verse style
-  // 'stripes' = New Retro Stack style
-  const animationVariant = useMemo(() => {
-    return Math.random() > 0.5 ? 'glitch' : 'stripes';
-  }, []);
+  const { activeTheme, isTransitioning } = useTheme();
 
   useEffect(() => {
     fetch(`${API_BASE}/api/resume`)
@@ -91,23 +84,25 @@ function AppInner() {
 
   return (
     <>
-      {/* ── Intro animation (only plays on first load, Modern theme only) ── */}
-      {resume && !introFinished && activeTheme === 'modern' && (
-        <>
-          {animationVariant === 'glitch' ? (
-            <IntroOverlay name={resume.personal.name} onComplete={handleIntroComplete} />
-          ) : (
-            <StripedIntro name={resume.personal.name} onComplete={handleIntroComplete} />
-          )}
-        </>
+      {/* ── Vintage film transition overlay ── */}
+      {isTransitioning && (
+        <ThemeTransition name={resume?.personal?.name ?? 'Rohit Bharat Akulwar'} />
       )}
 
-      {/* ── Theme switcher button (always visible after intro) ── */}
-      {introFinished && <ThemeSwitcher />}
+      {resume && !introFinished && activeTheme === 'modern' && (
+        <IntroOverlay name={resume.personal.name} onComplete={handleIntroComplete} />
+      )}
+
+      {/* ── Theme switcher injected into components locally ── */}
 
       {/* ── Renaissance theme ── */}
       {activeTheme === 'renaissance' && (
         <RenaissanceTheme resume={resume} />
+      )}
+
+      {/* ── Architectural theme ── */}
+      {resume && activeTheme === 'architectural' && (
+        <ArchitecturalTheme resume={resume} />
       )}
 
       {/* ── Modern (original) portfolio ──────────────────────────────────────
@@ -117,12 +112,13 @@ function AppInner() {
       ── */}
       <div
         id="portfolio"
-        className={animationVariant === 'glitch' ? 'intro-variant-glitch' : ''}
+        className="intro-variant-glitch"
         style={{
           opacity: introFinished && activeTheme === 'modern' ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-          // Visually hide and remove from layout when renaissance is active
-          display: activeTheme === 'renaissance' ? 'none' : undefined,
+          // No transition here — individual items use .fade-in-item CSS animations.
+          // A transition would keep #portfolio-name invisible (opacity:0 parent)
+          // for up to 300ms after the flying clone hides, causing the flicker.
+          display: activeTheme !== 'modern' ? 'none' : undefined,
         }}
       >
         <SplitLayout resume={resume} isLoading={isLoading} />

@@ -1,27 +1,63 @@
-/**
- * ThemeSwitcher.tsx
- * ──────────────────
- * Fixed floating button that toggles between Modern and Renaissance themes.
- * Always visible in the bottom-right corner.
- */
-
+import { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
+import type { Theme } from '../../contexts/ThemeContext';
 import './ThemeSwitcher.css';
 
 export default function ThemeSwitcher() {
-    const { activeTheme, toggleTheme } = useTheme();
+    const { activeTheme, switchTheme, isTransitioning } = useTheme();
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const isRenaissance = activeTheme === 'renaissance';
+    // Close on click outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const themes: { id: Theme; label: string; icon: string }[] = [
+        { id: 'modern', label: 'Modern', icon: '◈' },
+        { id: 'renaissance', label: 'Renaissance', icon: '⚜' },
+        { id: 'architectural', label: 'Architectural', icon: '◩' }
+    ];
+
+    const currentThemeData = themes.find(t => t.id === activeTheme) || themes[0];
 
     return (
-        <button
-            className={`theme-switcher-btn ${isRenaissance ? 'style-renaissance' : 'style-modern'}`}
-            onClick={toggleTheme}
-            title={isRenaissance ? 'Switch to Modern theme' : 'Switch to Renaissance theme'}
-            aria-label={isRenaissance ? 'Switch to Modern theme' : 'Switch to Renaissance theme'}
-        >
-            <span className="switcher-icon">{isRenaissance ? '◈' : '⚜'}</span>
-            {isRenaissance ? 'Modern View' : 'Renaissance'}
-        </button>
+        <div className="theme-switcher-container" ref={dropdownRef}>
+            <button
+                className={`theme-switcher-btn style-${activeTheme}`}
+                onClick={() => setIsOpen(!isOpen)}
+                disabled={isTransitioning}
+                title="Change Theme"
+                aria-label="Change Theme"
+            >
+                <span className="switcher-icon">{currentThemeData.icon}</span>
+                {currentThemeData.label} View
+            </button>
+
+            {isOpen && (
+                <div className="theme-dropdown-menu">
+                    {themes.map(theme => (
+                        <button
+                            key={theme.id}
+                            className={`theme-dropdown-item ${activeTheme === theme.id ? 'active' : ''}`}
+                            onClick={() => {
+                                switchTheme(theme.id);
+                                setIsOpen(false);
+                            }}
+                            disabled={isTransitioning || activeTheme === theme.id}
+                        >
+                            <span className="dropdown-icon">{theme.icon}</span>
+                            {theme.label}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }

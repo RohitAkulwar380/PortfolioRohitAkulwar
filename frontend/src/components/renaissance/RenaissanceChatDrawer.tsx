@@ -87,9 +87,9 @@ export default function RenaissanceChatDrawer() {
 
     return (
         <>
-            {/* ── Toggle button (always visible, bottom-centre) ── */}
+            {/* ── Toggle button (always visible when closed, bottom-centre) ── */}
             <button
-                className="r-chat-toggle"
+                className={`r-chat-toggle ${open ? 'open' : ''}`}
                 onClick={() => setOpen((o) => !o)}
                 aria-label={open ? 'Close oracle' : 'Open oracle chat'}
             >

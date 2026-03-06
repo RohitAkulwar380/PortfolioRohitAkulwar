@@ -3,6 +3,7 @@
  */
 
 .left-panel {
+    position: relative;
     padding: var(--space-16) var(--space-12);
     max-width: 720px;
     margin: 0 auto;

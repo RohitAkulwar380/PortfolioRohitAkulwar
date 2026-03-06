@@ -1,0 +1,424 @@
+/*
+ * ThemeTransition.css — v3: end-of-reel roll, 4s total cycle
+ */
+
+.film-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
+    pointer-events: all;
+    animation: filmFadeIn 0.2s ease forwards;
+}
+
+/* Smooth fade-out — SVG animations keep running, overlay fades to transparent */
+.film-transition-overlay.exiting {
+    animation: filmFadeOut 0.7s ease-out forwards;
+    pointer-events: none;
+    /* allow clicks through as it fades */
+}
+
+@keyframes filmFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes filmFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.ft-screen {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+    background: #000;
+}
+
+.ft-screen svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ── SVG animations ─────────────────────────────────────────────────────────── */
+
+.ft-flicker {
+    animation: ftFlickerAnim 0.4s step-end infinite alternate;
+}
+
+@keyframes ftFlickerAnim {
+    0% {
+        opacity: 0.88;
+    }
+
+    20% {
+        opacity: 0.95;
+    }
+
+    40% {
+        opacity: 0.85;
+    }
+
+    60% {
+        opacity: 0.98;
+    }
+
+    80% {
+        opacity: 0.82;
+    }
+
+    100% {
+        opacity: 0.92;
+    }
+}
+
+.ft-gate-weave {
+    animation: ftWeaveAnim 0.25s step-end infinite;
+}
+
+@keyframes ftWeaveAnim {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    25% {
+        transform: translate(-1.5px, 2px);
+    }
+
+    50% {
+        transform: translate(2px, -1.5px);
+    }
+
+    75% {
+        transform: translate(-1px, 1px);
+    }
+
+    100% {
+        transform: translate(0px, 0px);
+    }
+}
+
+.ft-scratch {
+    stroke: #2a1e12;
+    stroke-width: 2.5;
+    opacity: 0;
+    animation: ftScratchAnim linear infinite step-end;
+}
+
+@keyframes ftScratchAnim {
+
+    0%,
+    85% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    86% {
+        opacity: 0.6;
+        transform: translateX(-40px);
+    }
+
+    90% {
+        opacity: 0.3;
+        transform: translateX(25px);
+    }
+
+    95% {
+        opacity: 0.5;
+        transform: translateX(10px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+}
+
+.ft-moving-grain {
+    animation: ftGrainMove 0.2s step-end infinite;
+}
+
+@keyframes ftGrainMove {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-2%, 1%);
+    }
+
+    50% {
+        transform: translate(1%, -2%);
+    }
+
+    75% {
+        transform: translate(-1%, -1%);
+    }
+
+    100% {
+        transform: translate(1%, 2%);
+    }
+}
+
+/*
+ * Film-slip / end-of-reel roll — 4s total
+ *  0–64%  : normal play with minor slips             (0–2.56s)
+ *  64–66% : skew glitch                              (2.56–2.64s)
+ *  67–97% : violent end-of-reel frame rolling        (2.68–3.88s)
+ *  97–100%: damped settle back to rest               (3.88–4.0s)
+ */
+.ft-film-slip {
+    animation: ftSlipAnim 4s step-end infinite;
+    transform-origin: center;
+}
+
+@keyframes ftSlipAnim {
+    0% {
+        transform: translate(0, 0) scale(1) skew(0);
+    }
+
+    /* Minor slip at ~1s */
+    24% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translateY(-50px) scaleY(1.08);
+    }
+
+    26% {
+        transform: translateY(25px) scaleY(0.94);
+    }
+
+    27% {
+        transform: translate(0, 0);
+    }
+
+    /* Skew glitch at ~2.56s */
+    63% {
+        transform: translate(0, 0);
+    }
+
+    64% {
+        transform: translateX(25px) scaleX(1.12) skewX(12deg);
+    }
+
+    65% {
+        transform: translateX(-20px) scaleX(0.88) skewX(-12deg);
+    }
+
+    66% {
+        transform: translate(0, 0);
+    }
+
+    /* END-OF-REEL CHAOS — strong rolling from 67%+ */
+    67% {
+        transform: translateY(-220px);
+    }
+
+    68% {
+        transform: translateY(-550px) skewX(4deg);
+    }
+
+    69% {
+        transform: translateY(-980px);
+    }
+
+    70% {
+        transform: translateY(-1250px) scaleY(1.18);
+    }
+
+    71% {
+        transform: translateY(-650px) skewX(-5deg);
+    }
+
+    72% {
+        transform: translateY(-120px);
+    }
+
+    73% {
+        transform: translateY(420px);
+    }
+
+    74% {
+        transform: translateY(920px);
+    }
+
+    75% {
+        transform: translateY(1250px) scaleY(1.14);
+    }
+
+    76% {
+        transform: translateY(720px) skewX(7deg);
+    }
+
+    77% {
+        transform: translateY(-620px);
+    }
+
+    78% {
+        transform: translateY(1100px);
+    }
+
+    79% {
+        transform: translateY(-1100px);
+    }
+
+    80% {
+        transform: translateY(560px) skewX(-7deg);
+    }
+
+    81% {
+        transform: translateY(-560px);
+    }
+
+    82% {
+        transform: translateY(310px);
+    }
+
+    83% {
+        transform: translateY(-850px) skewX(5deg);
+    }
+
+    84% {
+        transform: translateY(220px);
+    }
+
+    85% {
+        transform: translateY(-420px);
+    }
+
+    86% {
+        transform: translateY(640px) skewX(-4deg);
+    }
+
+    87% {
+        transform: translateY(-210px);
+    }
+
+    88% {
+        transform: translateY(160px);
+    }
+
+    89% {
+        transform: translateY(-520px);
+    }
+
+    90% {
+        transform: translateY(360px) scaleY(1.06);
+    }
+
+    91% {
+        transform: translateY(-90px);
+    }
+
+    92% {
+        transform: translateY(45px);
+    }
+
+    93% {
+        transform: translateY(-28px);
+    }
+
+    94% {
+        transform: translateY(16px);
+    }
+
+    95% {
+        transform: translateY(-10px);
+    }
+
+    96% {
+        transform: translateY(6px);
+    }
+
+    97% {
+        transform: translateY(-3px);
+    }
+
+    98% {
+        transform: translateY(2px);
+    }
+
+    99% {
+        transform: translateY(-1px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.ft-font-glitch {
+    animation: ftFontAnim 10s step-end infinite;
+}
+
+@keyframes ftFontAnim {
+    0% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        font-weight: normal;
+        letter-spacing: 2px;
+    }
+
+    18% {
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        letter-spacing: -3px;
+    }
+
+    19% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: italic;
+        letter-spacing: 6px;
+    }
+
+    20% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        letter-spacing: 2px;
+    }
+
+    55% {
+        font-family: 'Impact', 'Arial Black', sans-serif;
+        font-stretch: condensed;
+        letter-spacing: 3px;
+    }
+
+    56% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        letter-spacing: 2px;
+    }
+
+    85% {
+        font-family: 'Georgia', serif;
+        font-weight: bold;
+        font-style: italic;
+        letter-spacing: -1px;
+    }
+
+    86% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        letter-spacing: 2px;
+    }
+}
+
+/* Absolute 130px locks the 1080p frame-scroll math */
+.ft-text-style {
+    font-size: 130px;
+    fill: #261c11;
+}

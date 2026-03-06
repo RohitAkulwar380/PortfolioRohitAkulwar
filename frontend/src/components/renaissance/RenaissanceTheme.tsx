@@ -8,6 +8,7 @@
 
 import { useEffect } from 'react';
 import type { ResumeData } from '../../types';
+import ThemeSwitcher from './ThemeSwitcher';
 import RenaissanceChatDrawer from './RenaissanceChatDrawer';
 import './RenaissanceTheme.css';
 
@@ -74,9 +75,9 @@ export default function RenaissanceTheme({ resume }: Props) {
 
                 {/* ═══════════ MASTHEAD ═══════════ */}
                 <header className="r-masthead">
-                    <div className="r-masthead-top-rule">
+                    <div className="r-masthead-top-rule" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'nowrap' }}>
                         <span>Est. Anno Domini 2001</span>
-                        <span className="r-masthead-stars">✦ ✦ ✦ ✦ ✦</span>
+                        <ThemeSwitcher />
                         <span>Pune, India Dispatch</span>
                     </div>
                     <h1 className="r-masthead-title">The Akulwar Dispatch</h1>
@@ -109,7 +110,7 @@ export default function RenaissanceTheme({ resume }: Props) {
                     <div className="r-col-portrait">
                         <div className="r-portrait-frame">
                             <img
-                                src="https://ui-avatars.com/api/?name=RBA&background=4a3828&color=d4b882&size=400&bold=true&font-size=0.38&format=png"
+                                src="/RohitProfilePhoto.jpeg"
                                 alt={p?.name ?? 'Rohit Bharat Akulwar'}
                             />
                         </div>
@@ -262,6 +263,10 @@ export default function RenaissanceTheme({ resume }: Props) {
                                     {proj.technologies.map(t => <span key={t}>{t}</span>)}
                                 </div>
                             </div>
+                        ))}
+                        {/* Parchment fillers to complete the last row so grid lines don't bleed */}
+                        {Array.from({ length: (3 - (projects.length % 3)) % 3 }).map((_, i) => (
+                            <div key={`filler-${i}`} style={{ background: 'var(--parchment)' }} />
                         ))}
                     </div>
 

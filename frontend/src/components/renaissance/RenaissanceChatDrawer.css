@@ -29,10 +29,17 @@
     border-bottom: none;
     padding: 0.5rem 1.8rem 0.55rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.35s cubic-bezier(0.32, 0, 0.2, 1), opacity 0.25s ease;
 
     /* keep the theme-switcher from overlapping */
     margin-right: 0;
+}
+
+/* Hide toggle button when drawer is open so it doesn't block the input */
+.r-chat-toggle.open {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .r-chat-toggle:hover {

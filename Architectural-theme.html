@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohit Bharat Akulwar — Graphic Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<!-- GSAP & ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- Lenis Smooth Scroll -->
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+<style>
+/* ─────────────────────────────
+   TOKENS & RESET
+───────────────────────────── */
+:root {
+  --cream:   #f0ece3;
+  --ink:     #111010;
+  --sage:    #7a8c6e;
+  --sage-bg: #b8c4a8;
+  --sage-dk: #3d4a34;
+  --cobalt:  #1f3a8f;
+  --orange:  #d44b1a;
+  --olive:   #5c5a38;
+
+  --bb: 'Bebas Neue', sans-serif;
+  --dm: 'DM Sans', sans-serif;
+  --is: 'Instrument Serif', serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: auto; }
+body { 
+  background: var(--ink); color: var(--cream); 
+  font-family: var(--dm); overflow-x: hidden; cursor: none;
+  -webkit-font-smoothing: antialiased;
+}
+body.noscroll { overflow: hidden; }
+
+/* ─────────────────────────────
+   CURSOR
+───────────────────────────── */
+#cur {
+  position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+  background: var(--cream); border-radius: 50%;
+  pointer-events: none; z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s;
+  mix-blend-mode: difference;
+}
+#cur.expand {
+  width: 60px; height: 60px;
+  background: transparent;
+  border: 1px solid var(--cream);
+  mix-blend-mode: normal;
+}
+#cur.dark-mode { background: var(--ink); mix-blend-mode: normal; }
+
+/* ─────────────────────────────
+   NAV — Bauhaus Hover
+───────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 2rem 3rem; mix-blend-mode: difference; pointer-events: none;
+}
+.nav-links { display: flex; gap: 3rem; list-style: none; }
+nav a {
+  position: relative;
+  font-family: var(--dm); font-weight: 400; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream); text-decoration: none;
+  pointer-events: all; display: inline-block; overflow: hidden;
+}
+nav a span { display: inline-block; transition: transform 0.4s var(--ease-out-expo); }
+nav a::after {
+  content: attr(data-text);
+  position: absolute; top: 100%; left: 0;
+  font-family: var(--bb); font-size: 1.2rem; 
+  letter-spacing: 0.05em; color: var(--cream);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+nav a:hover span { transform: translateY(-100%); opacity: 0; }
+nav a:hover::after { transform: translateY(-110%); }
+
+/* ─────────────────────────────
+   INTRO — Monolith Lift
+───────────────────────────── */
+#intro {
+  position: fixed; inset: 0; z-index: 8000;
+  background: var(--ink); display: flex; align-items: flex-end;
+  padding: 3rem; overflow: hidden;
+}
+.intro-text-block { width: 100%; }
+.intro-line-wrap { overflow: hidden; }
+.intro-line {
+  font-family: var(--bb); font-size: clamp(5rem, 14vw, 14rem);
+  line-height: 0.85; color: var(--cream); letter-spacing: -0.01em;
+  transform: translateY(110%); display: block;
+}
+.intro-line.l2 { color: transparent; -webkit-text-stroke: 1px var(--cream); }
+.intro-line.l3 {
+  font-family: var(--dm); font-weight: 200; font-size: clamp(0.7rem, 1vw, 1rem);
+  letter-spacing: 0.3em; text-transform: uppercase; color: #888; margin-top: 1.5rem;
+}
+
+/* ─────────────────────────────
+   SECTION ZERO — HERO
+───────────────────────────── */
+.s0 {
+  min-height: 100vh; background: var(--cream);
+  position: relative; display: flex; align-items: flex-end;
+  overflow: hidden; padding: 4rem 3rem;
+  transition: background 0.5s var(--ease);
+}
+.s0.dark-mode {
+  background: var(--ink);
+}
+
+/* Hero Theme Switcher */
+.hero-theme-switcher {
+  position: absolute; top: 7rem; right: 3rem; z-index: 20;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--dm); font-weight: 500; font-size: 0.55rem; 
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink);
+  transition: color 0.5s var(--ease);
+}
+.s0.dark-mode .hero-theme-switcher {
+  color: var(--cream);
+}
+.ht-btn {
+  background: transparent; border: 1px solid currentColor; color: inherit;
+  padding: 0.4rem 0.8rem; border-radius: 40px; cursor: none;
+  transition: all 0.3s var(--ease);
+}
+.ht-btn.active {
+  background: currentColor; color: var(--cream);
+}
+.s0.dark-mode .ht-btn.active {
+  color: var(--ink);
+}
+
+.s0-letter {
+  position: absolute; top: -5%; right: -5%;
+  font-family: var(--bb); font-size: clamp(20rem, 50vw, 45rem);
+  line-height: 0.8; color: transparent;
+  -webkit-text-stroke: 2px rgba(0,0,0,0.04);
+  pointer-events: none; user-select: none; z-index: 0;
+  transition: -webkit-text-stroke 0.5s var(--ease);
+}
+.s0.dark-mode .s0-letter {
+  -webkit-text-stroke: 2px rgba(255,255,255,0.04);
+}
+
+.s0-content {
+  position: relative; z-index: 2; width: 100%;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 4rem;
+}
+.s0-name {
+  font-family: var(--bb); font-size: clamp(4rem, 9vw, 9rem);
+  line-height: 0.85; letter-spacing: -0.01em; color: var(--ink);
+  transition: color 0.5s var(--ease);
+}
+.s0.dark-mode .s0-name {
+  color: var(--cream);
+}
+.s0-name span {
+  display: block; font-family: var(--dm); font-weight: 300;
+  font-size: 0.12em; letter-spacing: 0.3em; text-transform: uppercase;
+  color: #888; margin-top: 1.5rem;
+}
+.s0-right { max-width: 340px; text-align: right; }
+.s0-bio {
+  font-family: var(--is); font-style: italic; font-size: 1.2rem;
+  line-height: 1.6; color: #444; margin-bottom: 2rem;
+  transition: color 0.5s var(--ease);
+}
+.s0.dark-mode .s0-bio {
+  color: #aaa;
+}
+
+/* ─────────────────────────────
+   HERO FALLING CARDS STREAM
+───────────────────────────── */
+.hero-streams {
+  position: absolute; top: -10vh; left: 0; right: 0; bottom: 0;
+  z-index: 1; overflow: hidden; pointer-events: none;
+}
+.hero-fade {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 50vh;
+  background: linear-gradient(to top, var(--cream) 15%, transparent);
+  z-index: 2; pointer-events: none;
+  transition: background 0.5s var(--ease);
+}
+.s0.dark-mode .hero-fade {
+  background: linear-gradient(to top, var(--ink) 15%, transparent);
+}
+
+.h-stream {
+  position: absolute; top: 0; bottom: 0;
+  width: clamp(240px, 22vw, 320px);
+}
+.h-stream-1 { left: 4%; }
+.h-stream-2 { left: 35%; }
+.h-stream-3 { right: 4%; }
+
+.h-track {
+  display: flex; flex-direction: column;
+}
+.h-set {
+  display: flex; flex-direction: column; gap: 2rem; padding-bottom: 2rem;
+}
+
+.h-card {
+  padding: 2.5rem 2rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+  min-height: 280px;
+  transition: border-color 0.5s var(--ease);
+  pointer-events: auto; /* Ensures clicks register through the transparent stream overlay */
+}
+.s0.dark-mode .h-card {
+  border-color: rgba(255,255,255,0.08);
+}
+
+.h-card.cc-0 { background: var(--sage-bg); color: var(--sage-dk); }
+.h-card.cc-1 { background: #c8b8d8; color: #3a2a4a; }
+.h-card.cc-2 { background: var(--cream); color: var(--ink); }
+.h-card.cc-3 { background: #d6d0c8; color: #333; }
+.h-card.cc-4 { background: var(--cobalt); color: #ccd8ff; border: none; }
+
+.hc-head {
+  font-family: var(--dm); font-weight: 500; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  border-bottom: 1px solid currentColor; padding-bottom: 1rem;
+  opacity: 0.7; margin-bottom: 1.5rem;
+}
+.hc-q {
+  font-family: var(--is); font-style: italic; font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+  line-height: 1.1; margin-bottom: 2rem;
+}
+.hc-foot {
+  font-family: var(--dm); font-weight: 500; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase; align-self: flex-start;
+  margin-top: auto;
+}
+
+/* ─────────────────────────────
+   SECTION ONE — PROJECTS
+───────────────────────────── */
+.s1 { background: var(--ink); padding: 10rem 3rem; position: relative; }
+.s1-label {
+  font-family: var(--dm); font-weight: 300; font-size: 0.6rem;
+  letter-spacing: 0.3em; text-transform: uppercase; color: #555;
+  margin-bottom: 6rem; display: flex; align-items: center; gap: 1rem;
+}
+.s1-label::before { content: ''; width: 40px; height: 1px; background: #333; }
+
+.proj-list { display: flex; flex-direction: column; gap: 4rem; }
+.proj-item {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  min-height: 320px; cursor: none; position: relative;
+}
+.pi-color {
+  position: relative; display: flex; align-items: flex-end;
+  padding: 3rem; overflow: hidden; transform-origin: left center;
+}
+.pi-num {
+  position: absolute; bottom: -0.1em; left: -0.05em;
+  font-family: var(--bb); font-size: 14rem; line-height: 0.8;
+  opacity: 0.1; pointer-events: none;
+  transition: opacity 0.4s, transform 0.6s var(--ease-out-expo);
+}
+.proj-item:hover .pi-num { opacity: 0.3; transform: scale(1.05) translateX(20px); }
+
+.pi-title-big {
+  font-family: var(--bb); font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.9; letter-spacing: -0.01em; z-index: 1;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.proj-item:hover .pi-title-big { transform: translateX(15px); }
+
+.pi-body {
+  padding: 3rem 4rem; display: flex; flex-direction: column; justify-content: center;
+}
+.pi-cat {
+  font-family: var(--dm); font-weight: 300; font-size: 0.55rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #666;
+}
+.pi-desc {
+  font-family: var(--is); font-style: italic; font-size: 1.1rem;
+  line-height: 1.7; color: #999; margin: 1.5rem 0 2.5rem;
+}
+.pi-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pi-pill {
+  font-family: var(--dm); font-weight: 300; font-size: 0.5rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: 1px solid #333; color: #777; padding: 0.3rem 0.7rem; border-radius: 40px; 
+}
+
+.pi-c0 { background: var(--cobalt); color: #ccd8ff; }
+.pi-c1 { background: #5c3a1e; color: #f0c898; }
+.pi-c2 { background: #2d4a3e; color: #a8d4c0; }
+
+/* ─────────────────────────────
+   SECTION TWO — SAGE SKILLS (SPLIT FLAP)
+───────────────────────────── */
+.s2 { background: var(--sage-bg); padding: 12rem 3rem; position: relative; overflow: hidden; }
+.s2-rotate {
+  position: absolute; top: 0; left: -1rem; transform-origin: left top;
+  font-family: var(--bb); font-size: clamp(8rem, 15vw, 15rem);
+  color: transparent; -webkit-text-stroke: 1.5px rgba(60,72,48,0.15);
+  pointer-events: none; white-space: nowrap; line-height: 0.75;
+}
+.s2-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
+.s2-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 6rem; border-bottom: 1px solid rgba(60,72,48,0.2); padding-bottom: 2rem;
+}
+.s2-title {
+  font-family: var(--bb); font-size: clamp(3.5rem, 7vw, 7rem);
+  line-height: 0.85; color: var(--sage-dk); letter-spacing: -0.01em;
+}
+
+/* Refined Structural Toggles */
+.s2-toggle { 
+  display: inline-flex; 
+  margin-top: 3rem; 
+  border: 1px solid var(--sage-dk); 
+}
+.s2-tab {
+  font-family: var(--dm); font-weight: 400; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--sage-dk); background: transparent;
+  border: none;
+  border-right: 1px solid var(--sage-dk);
+  padding: 1rem 2.5rem; border-radius: 0;
+  transition: color 0.3s var(--ease), background 0.3s var(--ease);
+  cursor: none;
+}
+.s2-tab:last-child {
+  border-right: none;
+}
+.s2-tab.active, .s2-tab:hover {
+  background: var(--sage-dk); color: var(--sage-bg);
+}
+
+.s2-sub {
+  font-family: var(--is); font-style: italic; font-size: 1.1rem;
+  line-height: 1.6; color: var(--olive); max-width: 300px; text-align: right;
+}
+
+/* FLIP DISPLAY STYLES */
+.skill-catalogue {
+  display: grid; grid-template-columns: repeat(3, 1fr); 
+  border-top: 1px solid rgba(60,72,48,0.15);
+  border-left: 1px solid rgba(60,72,48,0.15);
+  perspective: 1200px; 
+  transform-style: preserve-3d;
+}
+.sc-item {
+  background: var(--sage-bg); padding: 3rem 2rem;
+  position: relative; overflow: hidden; transition: background 0.4s;
+  transform-origin: center center; 
+  backface-visibility: hidden;
+  border-right: 1px solid rgba(60,72,48,0.15);
+  border-bottom: 1px solid rgba(60,72,48,0.15);
+}
+.sc-item:hover { background: rgba(255,255,255,0.1); }
+.sc-chip { width: 16px; height: 16px; margin-bottom: 2rem; }
+.sc-name {
+  font-family: var(--bb); font-size: 2.2rem; line-height: 1;
+  color: var(--sage-dk); margin-bottom: 0.8rem;
+}
+.sc-detail {
+  font-family: var(--dm); font-weight: 300; font-size: 0.7rem;
+  line-height: 1.6; color: var(--olive); letter-spacing: 0.05em;
+}
+.sc-level {
+  position: absolute; bottom: -0.1em; right: 0.05em;
+  font-family: var(--bb); font-size: 8rem; line-height: 0.8;
+  color: transparent; -webkit-text-stroke: 2px rgba(60,72,48,0.12);
+  pointer-events: none;
+}
+
+/* ─────────────────────────────
+   SECTION THREE — ABOUT VOID
+───────────────────────────── */
+.s3 {
+  background: var(--cream); min-height: 100vh; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 8rem 3rem 5rem; overflow: hidden;
+}
+.s3-block {
+  position: absolute; top: 10%; left: 10%;
+  width: clamp(250px, 40vw, 500px); aspect-ratio: 3/4;
+  background: var(--cobalt); z-index: 0;
+  box-shadow: 20px 20px 0px rgba(0,0,0,0.03);
+}
+.s3-bottom {
+  position: relative; z-index: 1; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end;
+}
+.s3-right { display: flex; flex-direction: column; gap: 4rem; background: var(--cream); padding: 3rem; margin: -3rem; }
+.s3-title {
+  font-family: var(--bb); font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 0.85; color: var(--ink); letter-spacing: -0.01em;
+}
+.s3-title em {
+  display: block; font-family: var(--is); font-style: italic;
+  font-size: 0.4em; color: #888; letter-spacing: 0; margin-top: 0.5rem;
+}
+.s3-text {
+  font-family: var(--is); font-style: italic; font-size: 1.2rem;
+  line-height: 1.7; color: #555;
+}
+.s3-text strong { color: var(--ink); font-style: normal; font-family: var(--dm); font-weight: 400; }
+
+.s3-data { display: flex; flex-direction: column; border-top: 1px solid #ccc; }
+.sd-row {
+  display: grid; grid-template-columns: 120px 1fr; gap: 2rem;
+  padding: 1.2rem 0; border-bottom: 1px solid #ddd;
+  transition: padding-left 0.3s var(--ease);
+}
+.sd-row:hover { padding-left: 1rem; background: rgba(0,0,0,0.02); }
+.sd-k {
+  font-family: var(--dm); font-weight: 400; font-size: 0.55rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #999;
+}
+.sd-v, .sd-v a {
+  font-family: var(--dm); font-weight: 300; font-size: 0.9rem;
+  color: var(--ink); text-decoration: none;
+}
+.sd-v a:hover { color: var(--cobalt); }
+
+/* ─────────────────────────────
+   SECTION FOUR — FOOTER BLEED
+───────────────────────────── */
+.s4 {
+  background: var(--ink); padding: 8rem 3rem 0;
+  overflow: hidden; position: relative; display: flex; flex-direction: column;
+}
+.s4-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding-bottom: 6rem; border-bottom: 1px solid #222;
+}
+.s4-status {
+  font-family: var(--dm); font-weight: 300; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #555; line-height: 2.2;
+}
+.s4-status span { color: #aaa; margin-left: 1rem;}
+.s4-contact { display: flex; flex-direction: column; gap: 1rem; align-items: flex-end; }
+
+.s4-clink {
+  position: relative; font-family: var(--bb); font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--cream); text-decoration: none; letter-spacing: 0.02em;
+  overflow: hidden; padding-bottom: 0.1em;
+}
+.s4-clink span { display: inline-block; transition: transform 0.5s var(--ease-out-expo); }
+.s4-clink::after {
+  content: attr(data-text); position: absolute; top: 100%; left: 0;
+  font-family: var(--is); font-style: italic; color: var(--sage);
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.s4-clink:hover span { transform: translateY(-100%); }
+.s4-clink:hover::after { transform: translateY(-100%); }
+
+.s4-wordmark-wrap { margin-top: auto; overflow: hidden; width: 100%; padding-top: 4rem;}
+.s4-wordmark {
+  font-family: var(--bb); font-size: 28vw;
+  line-height: 0.75; letter-spacing: -0.02em; color: var(--cream); white-space: nowrap; 
+}
+
+/* ─────────────────────────────
+   CHAT INTERFACE
+───────────────────────────── */
+.chat-bar {
+  position: fixed; bottom: 0; left: 0; width: 100%;
+  background: var(--ink); color: var(--cream);
+  padding: 1.2rem; text-align: center;
+  font-family: var(--dm); font-weight: 500; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+  z-index: 998; cursor: none;
+  transform: translateY(100%);
+  transition: transform 0.6s var(--ease-out-expo), background 0.3s var(--ease);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.chat-bar.visible { transform: translateY(0); }
+.chat-bar:hover { background: var(--cobalt); border-color: var(--cobalt); }
+
+.chat-window {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 65vh; max-height: 600px;
+  background: var(--cream); z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.7s var(--ease-out-expo);
+  display: flex; flex-direction: column;
+  border-top: 2px solid var(--ink);
+  box-shadow: 0 -20px 40px rgba(0,0,0,0.1);
+}
+.chat-window.open { transform: translateY(0); }
+
+.cw-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 1.5rem 3rem; border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.cw-title { 
+  font-family: var(--bb); font-size: 3rem; line-height: 0.85; 
+  color: var(--ink); margin: 0; letter-spacing: -0.01em;
+}
+.cw-close {
+  background: transparent; border: none; font-family: var(--dm);
+  font-weight: 500; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: none; color: var(--ink); margin-bottom: 0.2rem;
+  transition: color 0.3s;
+}
+.cw-close:hover { color: var(--orange); }
+
+.cw-body {
+  flex: 1; padding: 2rem 3rem; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 2rem;
+}
+.cw-msg { max-width: 80%; display: flex; flex-direction: column; gap: 0.5rem; }
+.cw-sender { 
+  font-family: var(--dm); font-weight: 500; font-size: 0.55rem; 
+  letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6;
+}
+.cw-bot { align-self: flex-start; }
+.cw-bot p { 
+  background: var(--sage-bg); color: var(--sage-dk); padding: 1.5rem; 
+  font-family: var(--is); font-style: italic; font-size: 1.2rem; line-height: 1.5; 
+  border: 1px solid var(--sage-dk); margin: 0; 
+}
+.cw-user { align-self: flex-end; align-items: flex-end;}
+.cw-user p { 
+  background: var(--ink); color: var(--cream); padding: 1.5rem; 
+  font-family: var(--dm); font-size: 1rem; line-height: 1.5; margin: 0; 
+}
+
+/* Processing Animation */
+.cw-loading {
+  display: flex; gap: 0.4rem; align-items: center; height: 1.5rem;
+}
+.cw-block {
+  width: 10px; height: 100%;
+  background-color: var(--sage-dk);
+  animation: process-blink 1.2s infinite ease-in-out;
+  transform-origin: center;
+}
+.cw-block:nth-child(1) { animation-delay: 0s; }
+.cw-block:nth-child(2) { animation-delay: 0.15s; }
+.cw-block:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes process-blink {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.4); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+.cw-input-area {
+  display: flex; border-top: 1px solid rgba(0,0,0,0.1);
+  background: #fff;
+}
+.cw-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  padding: 1.5rem 3rem;
+  font-family: var(--dm); font-size: 1.1rem; color: var(--ink);
+}
+.cw-input::placeholder { color: #aaa; }
+.cw-send {
+  background: var(--ink); color: var(--cream); border: none;
+  padding: 0 3rem; font-family: var(--dm); font-weight: 500;
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: none; transition: background 0.3s;
+}
+.cw-send:hover { background: var(--cobalt); }
+
+/* ─────────────────────────────
+   RESPONSIVE
+───────────────────────────── */
+@media(max-width: 900px) {
+  nav { padding: 1.5rem; }
+  .s0, .s1, .s2, .s3, .s4 { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .s0-content, .s3-bottom, .s4-top { flex-direction: column; align-items: flex-start; gap: 3rem; }
+  .proj-item { grid-template-columns: 1fr; }
+  .pi-color { min-height: 250px; }
+  .s2-head { flex-direction: column; gap: 2rem; align-items: flex-start;}
+  .s2-sub { text-align: left; }
+  .skill-catalogue { grid-template-columns: 1fr 1fr; }
+  .s2-rotate { display: none; }
+  .s3-block { position: relative; width: 100%; top: 0; left: 0; margin-bottom: -5rem; aspect-ratio: 16/9; }
+  .s3-right { margin: 0; padding: 2rem 0 0 0; background: transparent;}
+  
+  .hero-theme-switcher { top: 6rem; right: 1.5rem; }
+  
+  .h-stream-1 { left: -5%; width: 45%; }
+  .h-stream-2 { left: 45%; width: 45%; }
+  .h-stream-3 { display: none; } 
+  .h-card { min-height: 220px; padding: 1.5rem; }
+  .hc-q { font-size: 1.4rem; margin-bottom: 1rem; }
+
+  .cw-header, .cw-body, .cw-input { padding: 1.5rem; }
+  .cw-send { padding: 0 1.5rem; }
+  .cw-msg { max-width: 95%; }
+}
+@media(max-width: 500px) {
+  .skill-catalogue { grid-template-columns: 1fr; }
+  .nav-links { gap: 1.5rem; }
+}
+</style>
+</head>
+<body class="noscroll">
+
+<!-- CURSOR -->
+<div id="cur"></div>
+
+<!-- ═══════════════════════
+     INTRO
+════════════════════════ -->
+<div id="intro">
+  <div class="intro-text-block">
+    <div class="intro-line-wrap"><span class="intro-line">ROHIT</span></div>
+    <div class="intro-line-wrap"><span class="intro-line l2">AKULWAR</span></div>
+    <div class="intro-line-wrap"><span class="intro-line l3">Software Developer · Pune, India · 2026</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" data-text="R.B.A"><span>R.B.A</span></a>
+  <ul class="nav-links">
+    <li><a href="#s1" data-text="Work"><span>Work</span></a></li>
+    <li><a href="#s2" data-text="Skills"><span>Skills</span></a></li>
+    <li><a href="#s3" data-text="About"><span>About</span></a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════
+     S0 — HERO WITH FALLING CARDS (Defaults to Dark Mode)
+════════════════════════ -->
+<section class="s0 dark-mode">
+  
+  <div class="hero-theme-switcher">
+    <span>Hero Theme:</span>
+    <button class="ht-btn active" onclick="setHeroTheme('dark', event)">Dark</button>
+    <button class="ht-btn" onclick="setHeroTheme('light', event)">Light</button>
+  </div>
+
+  <div class="hero-streams">
+    <!-- Stream 1: 3 Cards -->
+    <div class="h-stream h-stream-1">
+      <div class="h-track">
+        <div class="h-set">
+          <div class="h-card cc-0">
+            <div class="hc-head">Prompt / 01</div>
+            <div class="hc-q">"What are Rohit's core engineering strengths?"</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-1">
+            <div class="hc-head">Info / 01</div>
+            <div class="hc-q">Currently pursuing MCA at IMED Bharti Vidyapeeth (2026).</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+          <div class="h-card cc-2">
+            <div class="hc-head">Prompt / 02</div>
+            <div class="hc-q">"How does he approach AI systems design?"</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+        </div>
+        <!-- Duplicated for flawless loop -->
+        <div class="h-set">
+          <div class="h-card cc-0">
+            <div class="hc-head">Prompt / 01</div>
+            <div class="hc-q">"What are Rohit's core engineering strengths?"</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-1">
+            <div class="hc-head">Info / 01</div>
+            <div class="hc-q">Currently pursuing MCA at IMED Bharti Vidyapeeth (2026).</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+          <div class="h-card cc-2">
+            <div class="hc-head">Prompt / 02</div>
+            <div class="hc-q">"How does he approach AI systems design?"</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stream 2: 4 Cards (Taller track, fundamentally breaks horizontal alignment) -->
+    <div class="h-stream h-stream-2">
+      <div class="h-track">
+        <div class="h-set">
+          <div class="h-card cc-3">
+            <div class="hc-head">Prompt / 03</div>
+            <div class="hc-q">"Break down the Titanic Agent architecture."</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-0">
+            <div class="hc-head">Info / 02</div>
+            <div class="hc-q">Detail-oriented and analytically sharp. Focused on ML & engineering.</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+          <div class="h-card cc-4">
+            <div class="hc-head">Prompt / 04</div>
+            <div class="hc-q">"Explain the n8n automation pipeline."</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-1">
+            <div class="hc-head">Info / 03</div>
+            <div class="hc-q">Recently shortlisted at TailorTalk & Emergence Software.</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+        </div>
+        <!-- Duplicated for flawless loop -->
+        <div class="h-set">
+          <div class="h-card cc-3">
+            <div class="hc-head">Prompt / 03</div>
+            <div class="hc-q">"Break down the Titanic Agent architecture."</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-0">
+            <div class="hc-head">Info / 02</div>
+            <div class="hc-q">Detail-oriented and analytically sharp. Focused on ML & engineering.</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+          <div class="h-card cc-4">
+            <div class="hc-head">Prompt / 04</div>
+            <div class="hc-q">"Explain the n8n automation pipeline."</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-1">
+            <div class="hc-head">Info / 03</div>
+            <div class="hc-q">Recently shortlisted at TailorTalk & Emergence Software.</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stream 3: 3 Cards -->
+    <div class="h-stream h-stream-3">
+      <div class="h-track">
+        <div class="h-set">
+          <div class="h-card cc-2">
+            <div class="hc-head">Prompt / 05</div>
+            <div class="hc-q">"Summarize his professional experience."</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-3">
+            <div class="hc-head">Info / 04</div>
+            <div class="hc-q">Expertise in LangGraph, FastAPI, and Supabase pgvector.</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+          <div class="h-card cc-0">
+            <div class="hc-head">Prompt / 06</div>
+            <div class="hc-q">"What is his frontend stack?"</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+        </div>
+        <!-- Duplicated for flawless loop -->
+        <div class="h-set">
+          <div class="h-card cc-2">
+            <div class="hc-head">Prompt / 05</div>
+            <div class="hc-q">"Summarize his professional experience."</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+          <div class="h-card cc-3">
+            <div class="hc-head">Info / 04</div>
+            <div class="hc-q">Expertise in LangGraph, FastAPI, and Supabase pgvector.</div>
+            <div class="hc-foot">Context ↗</div>
+          </div>
+          <div class="h-card cc-0">
+            <div class="hc-head">Prompt / 06</div>
+            <div class="hc-q">"What is his frontend stack?"</div>
+            <div class="hc-foot">Execute Query ↗</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero-fade"></div>
+
+  <div class="s0-letter">R</div>
+  <div class="s0-content">
+    <h1 class="s0-name">
+      <div class="gsap-hero-text">ROHIT</div>
+      <div class="gsap-hero-text">BHARAT</div>
+      <div class="gsap-hero-text">AKULWAR</div>
+      <span class="gsap-hero-text">AI Applications · Automation · Full-Stack</span>
+    </h1>
+    <div class="s0-right">
+      <p class="s0-bio gsap-hero-text">
+        Building intelligent systems at the intersection of machine learning and precise engineering. Detail-oriented. Analytically inclined.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════
+     S1 — INK / PROJECTS
+════════════════════════ -->
+<section class="s1" id="s1">
+  <div class="s1-label">Selected Work</div>
+  <div class="proj-list">
+
+    <div class="proj-item">
+      <div class="pi-color pi-c0">
+        <div class="pi-num">01</div>
+        <div class="pi-title-big">Titanic<br>Intelligence<br>Agent</div>
+      </div>
+      <div class="pi-body">
+        <div class="pi-cat">AI Systems · Full Stack</div>
+        <p class="pi-desc">LangGraph multi-agent chatbot on the Titanic dataset. Nautical interface, CORS-hardened FastAPI, deployed across Railway.</p>
+        <div class="pi-pills">
+          <span class="pi-pill">LangGraph</span><span class="pi-pill">FastAPI</span><span class="pi-pill">Railway</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="pi-color pi-c1">
+        <div class="pi-num">02</div>
+        <div class="pi-title-big">AI Learning<br>Assistant</div>
+      </div>
+      <div class="pi-body">
+        <div class="pi-cat">Education · RAG Pipeline</div>
+        <p class="pi-desc">Processes YouTube archives and PDFs into flashcards, quizzes, and RAG chat. LLaMA 3.1 8B, OpenAI embeddings, Supabase.</p>
+        <div class="pi-pills">
+          <span class="pi-pill">LLaMA 3.1</span><span class="pi-pill">Supabase</span><span class="pi-pill">pgvector</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="pi-color pi-c2">
+        <div class="pi-num">03</div>
+        <div class="pi-title-big">RSS<br>Intelligence<br>Pipeline</div>
+      </div>
+      <div class="pi-body">
+        <div class="pi-cat">Automation · Intelligence</div>
+        <p class="pi-desc">Multi-workflow n8n system. Firecrawl scraping, Gemini AI classification, full-stack Postgres dashboard. Automated intelligence.</p>
+        <div class="pi-pills">
+          <span class="pi-pill">n8n</span><span class="pi-pill">Firecrawl</span><span class="pi-pill">Gemini AI</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════
+     S2 — SAGE / SKILLS
+════════════════════════ -->
+<section class="s2" id="s2">
+  <div class="s2-rotate">SKILLS — SYSTEM — LOGIC</div>
+  <div class="s2-inner">
+    <div class="s2-head">
+      <div>
+        <h2 class="s2-title">Material<br>Strengths</h2>
+        <div class="s2-toggle">
+          <button class="s2-tab active" onclick="switchTab('technical')">Technical</button>
+          <button class="s2-tab" onclick="switchTab('soft')">Soft Skills</button>
+        </div>
+      </div>
+      <p class="s2-sub">Tools, languages, and systems built through deliberate practice across AI engineering, automation, and full-stack development.</p>
+    </div>
+
+    <!-- Container for dynamic flap injection -->
+    <div class="skill-catalogue" id="skill-catalogue"></div>
+    
+  </div>
+</section>
+
+<!-- ═══════════════════════
+     S3 — CREAM / ABOUT
+════════════════════════ -->
+<section class="s3" id="s3">
+  <div class="s3-block"></div>
+  <div class="s3-bottom">
+    <div><!-- empty for grid --></div>
+    <div class="s3-right">
+      <h2 class="s3-title">
+        About
+        <em>background & contact</em>
+      </h2>
+      <p class="s3-text">
+        Aspiring software developer with deliberate focus on <strong>AI systems</strong> and <strong>automation architectures</strong>. Detail-oriented, analytically sharp — recently shortlisted at <strong>TailorTalk</strong> and invited to interview at <strong>Emergence Software</strong>. Currently completing MCA at IMED Bharti Vidyapeeth.
+      </p>
+      <div class="s3-data">
+        <div class="sd-row"><span class="sd-k">Location</span><span class="sd-v">Pune, Maharashtra, India</span></div>
+        <div class="sd-row"><span class="sd-k">Education</span><span class="sd-v">MCA — IMED Bharti Vidyapeeth</span></div>
+        <div class="sd-row"><span class="sd-k">Focus</span><span class="sd-v">AI & Automation Systems</span></div>
+        <div class="sd-row"><span class="sd-k">Social</span><span class="sd-v"><a href="#">LinkedIn</a> / <a href="#">GitHub</a></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════
+     S4 — INK FOOTER
+════════════════════════ -->
+<footer class="s4">
+  <div class="s4-top">
+    <div class="s4-status">
+      Status <span>Available</span><br>
+      Location <span>Pune, IN</span><br>
+      Year <span>2026</span>
+    </div>
+    <div class="s4-contact">
+      <a href="#" class="s4-clink" data-text="LINKEDIN"><span>LINKEDIN</span></a>
+      <a href="#" class="s4-clink" data-text="GITHUB"><span>GITHUB</span></a>
+      <a href="#" class="s4-clink" data-text="EMAIL"><span>EMAIL</span></a>
+    </div>
+  </div>
+  <div class="s4-wordmark-wrap">
+    <div class="s4-wordmark">AKULWAR</div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════
+     BOTTOM CHAT UI
+════════════════════════ -->
+<div id="chat-bar" class="chat-bar">
+  <span>Initialize Intelligence Agent ↗</span>
+</div>
+
+<div id="chat-window" class="chat-window">
+  <div class="cw-header">
+    <h3 class="cw-title">Intelligence Terminal</h3>
+    <button id="cw-close" class="cw-close">Close ✕</button>
+  </div>
+  <div class="cw-body">
+    <div class="cw-msg cw-bot">
+      <div class="cw-sender">System / 01</div>
+      <p>Context loaded. I am ready to answer queries regarding Rohit's technical background, architecture decisions, and project specifications.</p>
+    </div>
+    <div class="cw-msg cw-user">
+      <div class="cw-sender">User / 01</div>
+      <p>What is his specific approach to multi-agent AI systems?</p>
+    </div>
+    <div class="cw-msg cw-bot">
+      <div class="cw-sender">System / 02</div>
+      <p>He leverages LangGraph for deterministic routing between conversational agents. By utilizing strict state schemas, he ensures precise, isolated context boundaries to heavily mitigate hallucination during multi-step reasoning.</p>
+    </div>
+  </div>
+  <div class="cw-input-area">
+    <input type="text" id="chat-input" class="cw-input" placeholder="Initiate query...">
+    <button id="chat-send" class="cw-send">Transmit ↗</button>
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────
+   LENIS SMOOTH SCROLL
+───────────────────────────── */
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  direction: 'vertical',
+  smooth: true
+});
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+gsap.ticker.lagSmoothing(0, 0);
+
+/* ─────────────────────────────
+   CURSOR LOGIC
+───────────────────────────── */
+const cur = document.getElementById('cur');
+let mx=0, my=0;
+window.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  gsap.to(cur, { x: mx, y: my, duration: 0.15, ease: "power2.out" });
+});
+
+function bindCursor(elements) {
+  elements.forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('expand'));
+  });
+}
+bindCursor(document.querySelectorAll('a, button, .proj-item, .sd-row, .s2-tab, .ht-btn, .chat-bar, .cw-close, .cw-send, .h-card'));
+
+// Cursor color flipping logic
+const s0 = document.querySelector('.s0');
+const s2 = document.querySelector('.s2');
+const s3 = document.querySelector('.s3');
+
+window.addEventListener('mousemove', () => {
+  const el = document.elementFromPoint(mx, my);
+  if(!el) return;
+  
+  let onLight = false;
+  
+  // Check default light sections
+  if (s0.contains(el)) {
+    // If hero is NOT dark mode, it's light
+    onLight = !s0.classList.contains('dark-mode');
+  } else if (s2.contains(el) || s3.contains(el)) {
+    onLight = true;
+  }
+  
+  // Specific interactive overrides
+  if (el.closest('.h-card.cc-0') || el.closest('.h-card.cc-1') || 
+      el.closest('.h-card.cc-2') || el.closest('.h-card.cc-3')) {
+      onLight = true;
+  }
+  if (el.closest('.h-card.cc-4') || el.closest('#chat-bar')) {
+      onLight = false;
+  }
+  // The chat window background is cream, so cursor needs to be dark
+  if (el.closest('#chat-window')) {
+      onLight = true;
+  }
+
+  cur.classList.toggle('dark-mode', onLight);
+});
+
+/* ─────────────────────────────
+   HERO THEME TOGGLE
+───────────────────────────── */
+window.setHeroTheme = function(theme, event) {
+  const heroSection = document.querySelector('.s0');
+  document.querySelectorAll('.ht-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  if (theme === 'dark') {
+    heroSection.classList.add('dark-mode');
+  } else {
+    heroSection.classList.remove('dark-mode');
+  }
+};
+
+/* ─────────────────────────────
+   SKILLS DATA & SPLIT-FLAP
+───────────────────────────── */
+const skillsData = {
+  technical: [
+    { name: "Python", detail: "FastAPI · LangChain", level: "PY", color: "#1f3a8f" },
+    { name: "LangGraph", detail: "Agents · RAG", level: "AI", color: "#5c3a1e" },
+    { name: "n8n", detail: "Workflow Pipelines", level: "SYS", color: "#2d4a3e" },
+    { name: "Vectors", detail: "pgvector · OpenAI", level: "DB", color: "#4a1e3a" },
+    { name: "Java/Kt", detail: "Backend · Native App", level: "APP", color: "#3a3a1e" },
+    { name: "Frontend", detail: "GSAP · React UI", level: "UI", color: "#1e3a4a" }
+  ],
+  soft: [
+    { name: "Analytic", detail: "Problem Mapping", level: "AN", color: "#1e3a4a" },
+    { name: "Execution", detail: "Shipping Products", level: "EX", color: "#3a3a1e" },
+    { name: "Adaptable", detail: "Rapid Upskilling", level: "AD", color: "#4a1e3a" },
+    { name: "Precision", detail: "Detail-Oriented", level: "PR", color: "#2d4a3e" },
+    { name: "Comm.", detail: "Technical Writing", level: "CO", color: "#5c3a1e" },
+    { name: "Systems", detail: "Architectural Vision", level: "SY", color: "#1f3a8f" }
+  ]
+};
+
+const catalogue = document.getElementById('skill-catalogue');
+let currentTab = 'technical';
+
+function createSkillCard(skill) {
+  return `
+    <div class="sc-item">
+      <div class="sc-chip" style="background:${skill.color}"></div>
+      <div class="sc-name" style="font-size: 1.6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${skill.name}</div>
+      <div class="sc-detail">${skill.detail}</div>
+      <div class="sc-level">${skill.level}</div>
+    </div>
+  `;
+}
+
+catalogue.innerHTML = skillsData.technical.map(createSkillCard).join('');
+bindCursor(catalogue.querySelectorAll('.sc-item'));
+
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.from(".sc-item", {
+  rotationX: 90, 
+  opacity: 0, 
+  duration: 0.8, 
+  stagger: 0.1, 
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: ".skill-catalogue",
+    start: "top 80%"
+  }
+});
+
+window.switchTab = function(tabName) {
+  if (tabName === currentTab) return;
+  currentTab = tabName;
+  
+  document.querySelectorAll('.s2-tab').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const items = catalogue.querySelectorAll('.sc-item');
+  const newData = skillsData[tabName];
+  
+  items.forEach((item, index) => {
+    const newSkill = newData[index];
+    
+    gsap.to(item, {
+      rotationX: 90, 
+      duration: 0.2,
+      ease: "power1.in",
+      delay: index * 0.08,
+      onComplete: () => {
+        item.querySelector('.sc-chip').style.background = newSkill.color;
+        item.querySelector('.sc-name').innerText = newSkill.name;
+        item.querySelector('.sc-detail').innerText = newSkill.detail;
+        item.querySelector('.sc-level').innerText = newSkill.level;
+
+        gsap.fromTo(item, 
+          { rotationX: -90 }, 
+          { rotationX: 0, duration: 0.3, ease: "power2.out", clearProps: "transform" }
+        );
+      }
+    });
+  });
+};
+
+/* ─────────────────────────────
+   GSAP CORE ANIMATIONS
+───────────────────────────── */
+const tlIntro = gsap.timeline({
+  onComplete: () => {
+    document.getElementById('intro').style.display = 'none';
+    document.body.classList.remove('noscroll');
+  }
+});
+tlIntro.to(".intro-line", {
+  y: "0%", duration: 1.2, stagger: 0.15, ease: "expo.out", delay: 0.2
+})
+.to(".intro-text-block", {
+  opacity: 0, y: -30, duration: 0.8, ease: "power2.inOut"
+}, "+=0.4")
+.to("#intro", {
+  yPercent: -100, duration: 1.2, ease: "expo.inOut"
+}, "-=0.2")
+.from(".gsap-hero-text", {
+  y: 50, opacity: 0, duration: 1, stagger: 0.1, ease: "power3.out"
+}, "-=0.8");
+
+gsap.utils.toArray('.proj-item').forEach(item => {
+  const colorBlock = item.querySelector('.pi-color');
+  gsap.from(item, {
+    y: 100, opacity: 0, duration: 1, ease: "power3.out",
+    scrollTrigger: { trigger: item, start: "top 85%" }
+  });
+  gsap.to(colorBlock, {
+    scale: 0.95, ease: "none",
+    scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true }
+  });
+});
+
+gsap.to(".s2-rotate", {
+  y: () => window.innerHeight * 0.5, rotation: -90, transformOrigin: "left top", ease: "none",
+  scrollTrigger: { trigger: ".s2", start: "top bottom", end: "bottom top", scrub: true }
+});
+
+/* ─────────────────────────────
+   HERO FALLING CARDS ANIMATION
+───────────────────────────── */
+const tracks = document.querySelectorAll('.h-track');
+const streamDurations = [28, 35, 24]; 
+const startProgress = [0.1, 0.65, 0.3];
+
+tracks.forEach((track, i) => {
+  const tl = gsap.fromTo(track, 
+    { yPercent: -50 }, 
+    { yPercent: 0, duration: streamDurations[i], ease: "none", repeat: -1 }
+  );
+  tl.progress(startProgress[i]);
+});
+
+/* ─────────────────────────────
+   ABOUT BLOCK & FOOTER
+───────────────────────────── */
+gsap.fromTo(".s3-block", 
+  { yPercent: -20, scale: 0.9, rotation: -2 },
+  { yPercent: 30, scale: 1, rotation: 2, ease: "none",
+    scrollTrigger: { trigger: ".s3", start: "top bottom", end: "bottom top", scrub: true }
+  }
+);
+
+gsap.fromTo(".s4-wordmark", 
+  { x: "-45%" },
+  { x: "5%", ease: "none", scrollTrigger: { trigger: ".s4", start: "top bottom", end: "bottom bottom", scrub: true } }
+);
+
+/* ─────────────────────────────
+   CHAT UI LOGIC
+───────────────────────────── */
+ScrollTrigger.create({
+  trigger: ".s1", 
+  start: "top 90%", 
+  onEnter: () => document.getElementById('chat-bar').classList.add('visible'),
+  onLeaveBack: () => {
+    document.getElementById('chat-bar').classList.remove('visible');
+    document.getElementById('chat-window').classList.remove('open');
+  }
+});
+
+document.getElementById('chat-bar').addEventListener('click', () => {
+  document.getElementById('chat-window').classList.add('open');
+});
+
+document.getElementById('cw-close').addEventListener('click', () => {
+  document.getElementById('chat-window').classList.remove('open');
+});
+
+/* ─────────────────────────────
+   CHAT INTERACTION SIMULATION
+───────────────────────────── */
+const chatBody = document.querySelector('.cw-body');
+const chatInput = document.getElementById('chat-input');
+const chatSend = document.getElementById('chat-send');
+let msgCounter = 2; // Starting after initial 2 system messages
+
+function handleChatSubmit() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+
+  msgCounter++;
+  const userMsg = document.createElement('div');
+  userMsg.className = 'cw-msg cw-user';
+  userMsg.innerHTML = `
+    <div class="cw-sender">User / ${String(msgCounter).padStart(2, '0')}</div>
+    <p>${text}</p>
+  `;
+  chatBody.appendChild(userMsg);
+  chatInput.value = '';
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  const procMsg = document.createElement('div');
+  procMsg.className = 'cw-msg cw-bot cw-processing';
+  procMsg.innerHTML = `
+    <div class="cw-sender">System / Processing...</div>
+    <p style="padding: 1.5rem; background: var(--sage-bg); border: 1px solid var(--sage-dk); margin: 0;">
+      <span class="cw-loading">
+        <span class="cw-block"></span>
+        <span class="cw-block"></span>
+        <span class="cw-block"></span>
+      </span>
+    </p>
+  `;
+  chatBody.appendChild(procMsg);
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  chatInput.disabled = true;
+  chatSend.disabled = true;
+
+  setTimeout(() => {
+    procMsg.remove();
+    msgCounter++;
+    
+    const botMsg = document.createElement('div');
+    botMsg.className = 'cw-msg cw-bot';
+    botMsg.innerHTML = `
+      <div class="cw-sender">System / ${String(msgCounter).padStart(2, '0')}</div>
+      <p>This is an automated simulation acknowledging your query: "${text}". In the fully integrated environment, this prompt will be dynamically routed to the backend LLM architecture.</p>
+    `;
+    chatBody.appendChild(botMsg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    
+    chatInput.disabled = false;
+    chatSend.disabled = false;
+    
+    // Check if the current focused element was the input before auto-focusing again.
+    if(document.activeElement === chatInput) {
+       chatInput.focus();
+    }
+  }, 1800);
+}
+
+chatSend.addEventListener('click', handleChatSubmit);
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') handleChatSubmit();
+});
+
+/* ─────────────────────────────
+   HERO FALLING CARDS INTERACTION (GROWING STREAK)
+───────────────────────────── */
+document.querySelectorAll('.h-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (card.classList.contains('animating')) return;
+    card.classList.add('animating');
+
+    // Extract text
+    const qText = card.querySelector('.hc-q').innerText.replace(/^"|"$/g, '').trim();
+    const rect = card.getBoundingClientRect();
+    
+    // Create physical clone
+    const clone = card.cloneNode(true);
+    document.body.appendChild(clone);
+
+    // Fetch the exact background color of the clicked card for the streak and aura
+    const computedStyle = window.getComputedStyle(card);
+    const cardBgColor = computedStyle.backgroundColor;
+
+    // Isolate the clone in fixed space over the original position
+    gsap.set(clone, {
+      position: 'fixed',
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
+      margin: 0,
+      zIndex: 10000, 
+      boxSizing: 'border-box'
+    });
+
+    // Generate the SVG growing streak using precise perimeter math
+    const perimeter = (rect.width + rect.height) * 2;
+    
+    // The SVG is expanded by 20px and offset by -10px so the thick stroke and shadow don't get clipped
+    const svgHTML = `
+      <svg width="${rect.width + 20}" height="${rect.height + 20}" style="position:absolute; top:-10px; left:-10px; z-index:10; pointer-events:none; overflow:visible;">
+        <rect x="10" y="10" width="${rect.width}" height="${rect.height}" fill="none" 
+              stroke="${cardBgColor}" stroke-width="6" stroke-linecap="round"
+              stroke-dasharray="0 ${perimeter + 100}" 
+              stroke-dashoffset="0" 
+              style="filter: drop-shadow(0 0 8px ${cardBgColor}) drop-shadow(0 0 16px ${cardBgColor});"
+              class="glowing-streak-rect" />
+      </svg>
+    `;
+    clone.insertAdjacentHTML('beforeend', svgHTML);
+
+    // Dim the original card 
+    gsap.to(card, { opacity: 0, duration: 0.2 });
+
+    const glowObj = { len: 0 }; // Proxy object to smoothly animate the dasharray length
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        clone.remove();
+        // Restore the original card's opacity when done
+        gsap.to(card, { opacity: 1, duration: 1, delay: 1 });
+        card.classList.remove('animating');
+
+        // Insert prompt into terminal and execute
+        const chatInput = document.getElementById('chat-input');
+        chatInput.value = qText;
+        handleChatSubmit();
+      }
+    });
+
+    // 1. Yank the card forward securely to the center of the screen
+    tl.to(clone, {
+      top: "40%",
+      left: "50%",
+      xPercent: -50,
+      yPercent: -50,
+      scale: 1.35,
+      boxShadow: `0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1)`, 
+      duration: 0.8,
+      ease: "elastic.out(1, 0.6)" 
+    })
+    // 2. The glowing dot races around, growing the streak until it fully occupies the card's perimeter
+    .to(glowObj, {
+      len: perimeter,
+      duration: 1.1,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        const rectEl = clone.querySelector('.glowing-streak-rect');
+        if (rectEl) {
+          // Updates the stroke length dynamically on every frame
+          rectEl.setAttribute('stroke-dasharray', `${glowObj.len} ${perimeter + 100}`);
+        }
+      }
+    }, "-=0.4") // Starts the lap just as the card settles into the center
+    // 3. Plunge it down into the terminal
+    .to(clone, {
+      top: "100%",
+      scale: 0.2,
+      opacity: 0,
+      duration: 0.45,
+      ease: "expo.in"
+    }, "+=0.1"); // Brief pause after sealing the border
+
+    // 4. Auto-open the chat terminal exactly as the card hits the bottom
+    tl.call(() => {
+      document.getElementById('chat-bar').classList.add('visible');
+      document.getElementById('chat-window').classList.add('open');
+    }, null, "-=0.2");
+  });
+});
+
+</script>
+</body>
+</html>
