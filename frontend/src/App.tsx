@@ -1,26 +1,34 @@
 /*
  * App.tsx
  * ────────
- * Updated to randomly select between IntroOverlay and StripedIntro
+ * Supports two themes: 'modern' (original) and 'renaissance'.
+ * A floating ThemeSwitcher button lets the user toggle between them.
+ * All original intro animation and portfolio logic is fully preserved.
  */
 
 import { useEffect, useState, useMemo } from 'react';
 import type { ResumeData } from './types';
 import SplitLayout from './components/layout/SplitLayout';
 import IntroOverlay from './components/layout/IntroOverlay';
-import StripedIntro from './components/layout/StripedIntro'; // Import the new component
+import StripedIntro from './components/layout/StripedIntro';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import RenaissanceTheme from './components/renaissance/RenaissanceTheme';
+import ThemeSwitcher from './components/renaissance/ThemeSwitcher';
 import './styles/globals.css';
 
 /* Base API URL from .env */
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export default function App() {
+/* ── Inner app — must live inside ThemeProvider so useTheme() works ── */
+function AppInner() {
   const [resume, setResume] = useState<ResumeData | null>(null);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [introFinished, setIntroFinished] = useState(false);
 
-  // Randomly select animation variant once on mount. 
+  const { activeTheme } = useTheme();
+
+  // Randomly select animation variant once on mount.
   // 'glitch' = Original Spider-verse style
   // 'stripes' = New Retro Stack style
   const animationVariant = useMemo(() => {
@@ -54,25 +62,15 @@ export default function App() {
     }
   }, [resume]);
 
-  /* 
+  /*
    * Handle the intro completion signal from child components.
-   * We add the 'intro-finished' class to the body here so that 
+   * We add the 'intro-finished' class to the body here so that
    * CSS-based stagger animations (.fade-in-item) can trigger.
    */
   const handleIntroComplete = () => {
     setIntroFinished(true);
     document.body.classList.add('intro-finished');
   };
-
-  useEffect(() => {
-    if (resume) {
-      setTimeout(() => {
-        document.querySelectorAll('.fade-in-item').forEach((el, i) => {
-          (el as HTMLElement).style.animationDelay = `${i * 90}ms`;
-        });
-      }, 50);
-    }
-  }, [resume]);
 
   if (error) {
     return (
@@ -93,7 +91,8 @@ export default function App() {
 
   return (
     <>
-      {resume && !introFinished && (
+      {/* ── Intro animation (only plays on first load, Modern theme only) ── */}
+      {resume && !introFinished && activeTheme === 'modern' && (
         <>
           {animationVariant === 'glitch' ? (
             <IntroOverlay name={resume.personal.name} onComplete={handleIntroComplete} />
@@ -103,18 +102,40 @@ export default function App() {
         </>
       )}
 
-      {/* Portfolio container.
-        Note: The 'glitch' intro relies on measuring #portfolio-name during its animation,
-        so we keep it in the DOM. We add 'intro-variant-glitch' class to allow CSS 
-        to hide the name initially ONLY for that variant.
-      */}
+      {/* ── Theme switcher button (always visible after intro) ── */}
+      {introFinished && <ThemeSwitcher />}
+
+      {/* ── Renaissance theme ── */}
+      {activeTheme === 'renaissance' && (
+        <RenaissanceTheme resume={resume} />
+      )}
+
+      {/* ── Modern (original) portfolio ──────────────────────────────────────
+          Note: kept in DOM even when renaissance is active so the 'glitch'
+          intro can measure #portfolio-name. Hidden via display:none instead
+          of conditional rendering to preserve DOM references.
+      ── */}
       <div
         id="portfolio"
         className={animationVariant === 'glitch' ? 'intro-variant-glitch' : ''}
-        style={{ opacity: introFinished ? 1 : 0, transition: 'opacity 0.3s ease' }}
+        style={{
+          opacity: introFinished && activeTheme === 'modern' ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+          // Visually hide and remove from layout when renaissance is active
+          display: activeTheme === 'renaissance' ? 'none' : undefined,
+        }}
       >
         <SplitLayout resume={resume} isLoading={isLoading} />
       </div>
     </>
+  );
+}
+
+/* ── Root export — wraps AppInner in ThemeProvider ── */
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
   );
 }

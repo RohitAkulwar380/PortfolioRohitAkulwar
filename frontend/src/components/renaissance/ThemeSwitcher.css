@@ -1,0 +1,86 @@
+/*
+ * ThemeSwitcher.css
+ * ──────────────────
+ * Floating toggle button — bottom-right corner.
+ * Adapts its visual style based on the current theme class on the wrapper.
+ */
+
+.theme-switcher-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.55rem 1.1rem;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+
+    /* Shadow */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18), 0 1px 4px rgba(0, 0, 0, 0.12);
+
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
+    user-select: none;
+}
+
+/* ── Modern theme style (shown while viewing Modern) ── */
+.theme-switcher-btn.style-modern {
+    background: #1a1a1a;
+    color: #F5F1E8;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.theme-switcher-btn.style-modern:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Renaissance theme style (shown while viewing Renaissance) ── */
+.theme-switcher-btn.style-renaissance {
+    background: #1a1208;
+    color: #e8dcc8;
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1.5px solid #6b5a3e;
+    border-radius: 0;
+    /* flat, newspaper style */
+    box-shadow: 3px 3px 0 #3d2e18;
+}
+
+.theme-switcher-btn.style-renaissance:hover {
+    background: #3d2e18;
+    transform: translateY(-1px) translateX(-1px);
+    box-shadow: 4px 4px 0 #1a1208;
+}
+
+.theme-switcher-btn .switcher-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* Tooltip label shown on hover */
+.theme-switcher-btn[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: -2.2rem;
+    right: 0;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    white-space: nowrap;
+    pointer-events: none;
+}
