@@ -14,47 +14,107 @@ import './RenaissanceTheme.css';
 
 interface Props { resume: ResumeData | null; }
 
-/* Skill pip row */
-function SkillPips({ filled, total = 5 }: { filled: number; total?: number }) {
-    return (
-        <div className="r-skill-bar">
-            {Array.from({ length: total }).map((_, i) => (
-                <div key={i} className={`r-skill-pip${i < filled ? ' filled' : ''}`} />
-            ))}
-        </div>
-    );
-}
-
-const SKILL_PIPS: Record<string, number> = {
-    Python: 5, Java: 4, Kotlin: 4, JavaScript: 4, TypeScript: 4,
-    LangGraph: 5, FastAPI: 5, RAG: 4, n8n: 5,
-    Supabase: 3, React: 4, GSAP: 4,
-};
-function getPips(skill: string) {
-    for (const [k, v] of Object.entries(SKILL_PIPS)) {
-        if (skill.toLowerCase().includes(k.toLowerCase())) return v;
+const SKILL_GROUPS = [
+    {
+        title: 'Core Languages',
+        skills: [
+            { name: 'Python', type: 'Primary', level: 5 },
+            { name: 'Java', type: 'Secondary', level: 4 },
+            { name: 'Kotlin', type: 'JVM', level: 4 },
+            { name: 'JavaScript', type: 'Web', level: 4 },
+            { name: 'TypeScript', type: 'Strict', level: 4 }
+        ]
+    },
+    {
+        title: 'AI & Intelligence',
+        skills: [
+            { name: 'LangGraph', type: 'Agents', level: 5 },
+            { name: 'RAG Systems', type: 'Retrieval', level: 5 },
+            { name: 'Vector DBs', type: 'Storage', level: 4 },
+            { name: 'OpenAI API', type: 'Models', level: 4 },
+            { name: 'Whisper', type: 'Audio', level: 3 }
+        ]
+    },
+    {
+        title: 'Frameworks & Tools',
+        skills: [
+            { name: 'FastAPI', type: 'Backend', level: 5 },
+            { name: 'n8n', type: 'Automation', level: 5 },
+            { name: 'React', type: 'Frontend', level: 4 },
+            { name: 'Supabase', type: 'Database', level: 3 },
+            { name: 'GSAP', type: 'Animation', level: 4 }
+        ]
     }
-    return 4;
-}
-
-const SKILL_LABELS = [
-    'Primary Arm', 'Secondary Arm', 'Signal Corps', 'Field Intelligence',
-    'Logistics', 'Provisions', 'Reconnaissance', 'Communications', 'Cartography', 'Vanguard',
 ];
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+
+const termsToHighlight = [
+    'artificial intelligence and automation systems',
+    'AI applications and automation systems',
+    'workflow automation using n8n',
+    'full-stack arts of development',
+    'LangGraph agents',
+    'scalable AI solutions'
+];
+
+function HighlightText({ text, highlights }: { text: string; highlights: string[] }) {
+    if (!text) return null;
+    if (!highlights.length) return <>{text}</>;
+
+    const escapedHighlights = highlights.map(h => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const regex = new RegExp(`(${escapedHighlights.join('|')})`, 'gi');
+    const parts = text.split(regex);
+
+    return (
+        <>
+            {parts.map((part, i) => {
+                const isHighlight = highlights.some(h => h.toLowerCase() === part.toLowerCase());
+                if (isHighlight) {
+                    return <span key={i} className="r-highlight">{part}</span>;
+                }
+                return <span key={i}>{part}</span>;
+            })}
+        </>
+    );
+}
 
 export default function RenaissanceTheme({ resume }: Props) {
 
     /* Unlock body scroll while mounted; restore on unmount */
     useEffect(() => {
         document.body.style.overflow = 'auto';
-        return () => { document.body.style.overflow = ''; };
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const highlightObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const timeoutId = setTimeout(() => {
+            document.querySelectorAll('.r-highlight, .r-circle-highlight').forEach(el => {
+                highlightObserver.observe(el);
+            });
+        }, 100);
+
+        return () => {
+            document.body.style.overflow = '';
+            highlightObserver.disconnect();
+            clearTimeout(timeoutId);
+        };
     }, []);
 
     const p = resume?.personal;
     const edu = resume?.education?.[0];
-    const skills = resume?.skills.technical ?? [];
     const projects = resume?.projects ?? [];
 
     return (
@@ -148,8 +208,10 @@ export default function RenaissanceTheme({ resume }: Props) {
                         </div>
 
                         <p className="r-lead-text">
-                            {p?.objective ??
-                                'Aspiring software developer with a formidable focus upon artificial intelligence and automation systems. A detail-oriented problem solver of considerable analytical power, demonstrating remarkable adaptability across the rapidly evolving theatres of technological conflict. Trained in the full-stack arts of development, our correspondent has constructed AI-powered applications of considerable distinction — from LangGraph agents to learning assistants capable of digesting entire video archives. Having recently been summoned to interview by TailorTalk and Emergence Software, the young engineer stands at the threshold of a most distinguished campaign. With arms forged in Python, Java, and the Kotlin protocols, and intelligence supplied by LangGraph and FastAPI, the subject is prepared for the campaigns of the new machine age.'}
+                            <HighlightText
+                                text={p?.objective ?? 'Aspiring software developer with a formidable focus upon artificial intelligence and automation systems. A detail-oriented problem solver of considerable analytical power, demonstrating remarkable adaptability across the rapidly evolving theatres of technological conflict. Trained in the full-stack arts of development, our correspondent has constructed AI-powered applications of considerable distinction — from LangGraph agents to learning assistants capable of digesting entire video archives. Having recently been summoned to interview by TailorTalk and Emergence Software, the young engineer stands at the threshold of a most distinguished campaign. With arms forged in Python, Java, and the Kotlin protocols, and intelligence supplied by LangGraph and FastAPI, the subject is prepared for the campaigns of the new machine age.'}
+                                highlights={termsToHighlight}
+                            />
                         </p>
 
                         <div className="r-dispatch-tags">
@@ -234,12 +296,25 @@ export default function RenaissanceTheme({ resume }: Props) {
                         <h2>Arsenal of Competencies</h2>
                         <hr className="r-section-rule" />
                     </div>
-                    <div className="r-skills-grid">
-                        {skills.slice(0, 10).map((skill, i) => (
-                            <div className="r-skill-cell" key={skill}>
-                                <div className="r-skill-cell-label">{SKILL_LABELS[i] ?? `Arm ${i + 1}`}</div>
-                                <div className="r-skill-cell-name">{skill}</div>
-                                <SkillPips filled={getPips(skill)} />
+                    <div className="r-skills-glossary">
+                        {SKILL_GROUPS.map((group) => (
+                            <div className="r-skill-group" key={group.title}>
+                                <h3>{group.title}</h3>
+                                <ul>
+                                    {group.skills.map((skill) => (
+                                        <li key={skill.name}>
+                                            <span className={`r-skill-name ${skill.level >= 5 ? 'r-circle-highlight' : ''}`}>
+                                                {skill.name}
+                                                {skill.level >= 5 && (
+                                                    <svg className="r-handdrawn-circle" viewBox="0 0 100 40" preserveAspectRatio="none">
+                                                        <path d="M 12 25 C 20 5, 80 0, 92 18 C 98 32, 60 42, 18 35 C 2 30, -2 15, 22 10" />
+                                                    </svg>
+                                                )}
+                                            </span>
+                                            <span className="r-skill-type">{skill.type}</span>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         ))}
                     </div>

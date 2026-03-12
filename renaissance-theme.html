@@ -1,1076 +1,2665 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rohit Bharat Akulwar — Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
-
-<style>
-  :root {
-    --parchment: #e8dcc8;
-    --parchment-dark: #d4c4a0;
-    --parchment-deep: #c4b080;
-    --ink: #1a1208;
-    --ink-faded: #3d2e18;
-    --ink-light: #6b5a3e;
-    --blood-red: #8b1a1a;
-    --gold: #c9a227;
-    --gold-dim: #8a6b1a;
-    --sepia: #7a5c2e;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background-color: var(--parchment);
-    color: var(--ink);
-    font-family: 'IM Fell English', serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
-  }
-
-  /* PAPER TEXTURE LAYERS */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    mix-blend-mode: multiply;
-  }
-
-  /* AGED PAPER GRADIENT */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 15% 20%, rgba(180,140,60,0.15) 0%, transparent 50%),
-      radial-gradient(ellipse at 85% 80%, rgba(100,70,30,0.20) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(80,50,20,0.12) 100%);
-    pointer-events: none;
-    z-index: 999;
-  }
-
-  /* NEWSPAPER COLUMNS WRAPPER */
-  .page-wrapper {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ============ MASTHEAD ============ */
-  .masthead {
-    border-bottom: 4px double var(--ink);
-    padding: 1.5rem 0 1rem;
-    text-align: center;
-    position: relative;
-  }
-
-  .masthead-top-rule {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-    font-family: 'Special Elite', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    color: var(--ink-light);
-    text-transform: uppercase;
-  }
-
-  .masthead-top-rule::before,
-  .masthead-top-rule::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--ink-light);
-  }
-
-  .masthead-title {
-    font-family: 'UnifrakturMaguntia', cursive;
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 0.9;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
-  }
-
-  .masthead-subtitle {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    margin-top: 0.4rem;
-    border-top: 1px solid var(--ink-light);
-    border-bottom: 1px solid var(--ink-light);
-    padding: 0.3rem 0;
-    display: inline-block;
-    width: 100%;
-  }
-
-  .masthead-date-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Special Elite', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
-    color: var(--ink-faded);
-    margin-top: 0.6rem;
-    padding: 0.4rem 0;
-    border-bottom: 2px solid var(--ink);
-  }
-
-  .masthead-stars {
-    color: var(--gold);
-    letter-spacing: 0.4em;
-    font-size: 0.8rem;
-  }
-
-  /* ============ NAV ============ */
-  .nav-bar {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    border-bottom: 1px solid var(--ink);
-    margin-bottom: 0;
-  }
-
-  .nav-bar a {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink);
-    text-decoration: none;
-    padding: 0.5rem 1.5rem;
-    border-right: 1px solid var(--ink);
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .nav-bar a:first-child { border-left: 1px solid var(--ink); }
-
-  .nav-bar a:hover, .nav-bar a.active {
-    background: var(--ink);
-    color: var(--parchment);
-  }
-
-  /* ============ HEADLINE SECTION ============ */
-  .headline-section {
-    display: grid;
-    grid-template-columns: 1fr 2px 1.6fr 2px 1fr;
-    gap: 0;
-    padding: 2rem 0;
-    border-bottom: 3px double var(--ink);
-  }
-
-  .col-divider {
-    background: var(--ink);
-    width: 1px;
-    margin: 0 1rem;
-    opacity: 0.4;
-  }
-
-  /* COLUMN 1: Portrait + vitals */
-  .col-portrait {
-    padding-right: 1.5rem;
-  }
-
-  .portrait-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3/4;
-    overflow: hidden;
-    border: 3px solid var(--ink-faded);
-    filter: sepia(0.6) contrast(1.1) brightness(0.92);
-    box-shadow: 4px 4px 0 var(--ink-faded), 6px 6px 0 rgba(0,0,0,0.1);
-  }
-
-  .portrait-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-  }
-
-  .portrait-caption {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.08em;
-    text-align: center;
-    color: var(--ink-light);
-    margin-top: 0.4rem;
-    font-style: italic;
-    text-transform: uppercase;
-  }
-
-  .vitals-box {
-    margin-top: 1rem;
-    border: 1px solid var(--ink-light);
-    padding: 0.8rem;
-    background: rgba(0,0,0,0.04);
-  }
-
-  .vitals-box h4 {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--blood-red);
-    border-bottom: 1px solid var(--ink-light);
-    padding-bottom: 0.3rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .vital-row {
-    display: flex;
-    gap: 0.3rem;
-    margin-bottom: 0.3rem;
-    align-items: flex-start;
-  }
-
-  .vital-label {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    min-width: 55px;
-    padding-top: 0.05rem;
-  }
-
-  .vital-value {
-    font-family: 'IM Fell English', serif;
-    font-size: 0.72rem;
-    color: var(--ink);
-    font-style: italic;
-  }
-
-  /* COLUMN 2: Main headline + lead */
-  .col-main {
-    padding: 0 2rem;
-  }
-
-  .headline-kicker {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--blood-red);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .headline-kicker::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--blood-red);
-    opacity: 0.5;
-  }
-
-  .main-headline {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
-    font-weight: 900;
-    line-height: 1.05;
-    color: var(--ink);
-    margin-bottom: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-  }
-
-  .main-headline em {
-    font-style: italic;
-    font-weight: 400;
-    font-size: 0.75em;
-    color: var(--ink-faded);
-    display: block;
-    text-transform: none;
-    letter-spacing: 0;
-    font-family: 'Playfair Display', serif;
-  }
-
-  .headline-rule {
-    height: 3px;
-    background: var(--ink);
-    margin: 0.8rem 0;
-    position: relative;
-  }
-
-  .headline-rule::after {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--ink);
-    opacity: 0.4;
-  }
-
-  .lead-text {
-    font-family: 'IM Fell English', serif;
-    font-size: 0.92rem;
-    line-height: 1.65;
-    color: var(--ink-faded);
-    column-count: 2;
-    column-gap: 1.2rem;
-    column-rule: 1px solid rgba(0,0,0,0.2);
-    text-align: justify;
-    hyphens: auto;
-  }
-
-  .lead-text::first-letter {
-    font-family: 'UnifrakturMaguntia', cursive;
-    font-size: 3.5rem;
-    float: left;
-    line-height: 0.75;
-    margin: 0.1rem 0.3rem 0 0;
-    color: var(--ink);
-  }
-
-  .dispatch-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 1.2rem;
-  }
-
-  .dispatch-tag {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--parchment);
-    background: var(--ink-faded);
-    padding: 0.2rem 0.5rem;
-    border: 1px solid var(--ink);
-  }
-
-  .dispatch-tag.highlight {
-    background: var(--blood-red);
-  }
-
-  /* COLUMN 3: Links + quick facts */
-  .col-sidebar {
-    padding-left: 1.5rem;
-  }
-
-  .sidebar-box {
-    border: 2px solid var(--ink);
-    margin-bottom: 1.2rem;
-    position: relative;
-  }
-
-  .sidebar-box-header {
-    background: var(--ink);
-    color: var(--parchment);
-    font-family: 'Special Elite', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.6rem;
-  }
-
-  .sidebar-box-body {
-    padding: 0.8rem;
-  }
-
-  .sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    color: var(--ink);
-    margin-bottom: 0.6rem;
-    font-family: 'IM Fell English', serif;
-    font-size: 0.8rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px dashed var(--ink-light);
-    transition: color 0.2s;
-  }
-
-  .sidebar-link:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .sidebar-link:hover { color: var(--blood-red); }
-
-  .link-glyph {
-    color: var(--gold-dim);
-    font-size: 1rem;
-  }
-
-  .star-ornament {
-    text-align: center;
-    color: var(--gold);
-    font-size: 0.9rem;
-    letter-spacing: 0.5rem;
-    padding: 0.5rem 0;
-  }
-
-  /* ============ SKILLS SECTION ============ */
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.2rem 0 0.8rem;
-  }
-
-  .section-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    color: var(--ink);
-  }
-
-  .section-rule {
-    flex: 1;
-    height: 2px;
-    background: linear-gradient(to right, var(--ink), transparent);
-    border: none;
-  }
-
-  .section-rule-left {
-    flex: 1;
-    height: 2px;
-    background: linear-gradient(to left, var(--ink), transparent);
-  }
-
-  /* SKILLS GRID */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border: 1px solid var(--ink);
-    margin-bottom: 2rem;
-  }
-
-  .skill-cell {
-    padding: 1rem;
-    border-right: 1px solid var(--ink-light);
-    border-bottom: 1px solid var(--ink-light);
-    position: relative;
-  }
-
-  .skill-cell:nth-child(4n) { border-right: none; }
-  .skill-cell:nth-last-child(-n+4) { border-bottom: none; }
-
-  .skill-cell-label {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.52rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--blood-red);
-    margin-bottom: 0.3rem;
-  }
-
-  .skill-cell-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.2;
-  }
-
-  .skill-bar {
-    display: flex;
-    gap: 2px;
-    margin-top: 0.5rem;
-  }
-
-  .skill-pip {
-    width: 8px;
-    height: 8px;
-    border: 1px solid var(--ink-faded);
-    background: transparent;
-  }
-
-  .skill-pip.filled {
-    background: var(--ink-faded);
-  }
-
-  /* ============ PROJECTS ============ */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
-    gap: 0;
-    border: 1px solid var(--ink);
-    margin-bottom: 2rem;
-  }
-
-  .project-card {
-    padding: 1.2rem;
-    border-right: 1px solid var(--ink-light);
-    position: relative;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .project-card:last-child { border-right: none; }
-  .project-card:hover { background: rgba(0,0,0,0.04); }
-
-  .project-issue {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    margin-bottom: 0.4rem;
-  }
-
-  .project-headline {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.25;
-    margin-bottom: 0.4rem;
-    border-bottom: 1px solid var(--ink-light);
-    padding-bottom: 0.5rem;
-  }
-
-  .project-deck {
-    font-family: 'IM Fell English', serif;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    color: var(--ink-faded);
-    font-style: italic;
-    margin-bottom: 0.6rem;
-  }
-
-  .project-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-  }
-
-  .project-tech span {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.5rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: 1px solid var(--ink-light);
-    padding: 0.15rem 0.4rem;
-    color: var(--ink-light);
-  }
-
-  .featured-badge {
-    position: absolute;
-    top: 0.8rem;
-    right: 0.8rem;
-    font-family: 'Special Elite', monospace;
-    font-size: 0.5rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--parchment);
-    background: var(--blood-red);
-    padding: 0.15rem 0.4rem;
-    transform: rotate(-2deg);
-  }
-
-  /* ============ FOOTER ============ */
-  .footer {
-    border-top: 4px double var(--ink);
-    padding: 1.5rem 0;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .footer-left {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
-    color: var(--ink-light);
-    text-transform: uppercase;
-    line-height: 1.8;
-  }
-
-  .footer-center {
-    font-family: 'UnifrakturMaguntia', cursive;
-    font-size: 2rem;
-    color: var(--ink);
-    text-align: center;
-  }
-
-  .footer-right {
-    font-family: 'IM Fell English', serif;
-    font-size: 0.72rem;
-    color: var(--ink-light);
-    text-align: right;
-    font-style: italic;
-    line-height: 1.8;
-  }
-
-  /* ============ GOLD STARS DECORATION ============ */
-  .stars-decoration {
-    position: fixed;
-    pointer-events: none;
-    z-index: 998;
-  }
-
-  .star {
-    position: absolute;
-    color: var(--gold);
-    font-size: 0.7rem;
-    opacity: 0.25;
-    animation: twinkle 4s ease-in-out infinite;
-  }
-
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.15; transform: scale(1); }
-    50% { opacity: 0.35; transform: scale(1.2); }
-  }
-
-  /* BURN/SCORCH EDGES */
-  .burn-overlay {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 997;
-    background:
-      radial-gradient(ellipse at 0% 0%, rgba(60,30,10,0.35) 0%, transparent 35%),
-      radial-gradient(ellipse at 100% 0%, rgba(40,20,5,0.3) 0%, transparent 30%),
-      radial-gradient(ellipse at 0% 100%, rgba(50,25,8,0.35) 0%, transparent 35%),
-      radial-gradient(ellipse at 100% 100%, rgba(60,30,10,0.4) 0%, transparent 35%);
-  }
-
-  /* FOLD LINES */
-  .fold-line-h {
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(0,0,0,0.06) 30%, rgba(0,0,0,0.06) 70%, transparent);
-    pointer-events: none;
-    z-index: 996;
-  }
-
-  /* ANIMATION */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .headline-section { animation: fadeInUp 0.8s ease both; }
-  .skills-grid { animation: fadeInUp 0.8s 0.2s ease both; }
-  .projects-grid { animation: fadeInUp 0.8s 0.4s ease both; }
-
-  /* ============ THEME SWITCHER STUB ============ */
-  .theme-switcher {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 2000;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    align-items: flex-end;
-  }
-
-  .theme-label {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    text-align: right;
-    margin-bottom: 0.2rem;
-  }
-
-  .theme-btn {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: 1px solid var(--ink-light);
-    background: var(--parchment);
-    color: var(--ink);
-    padding: 0.3rem 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .theme-btn.active {
-    background: var(--ink);
-    color: var(--parchment);
-    border-color: var(--ink);
-  }
-
-  .theme-btn:hover:not(.active) {
-    background: var(--parchment-dark);
-  }
-
-  /* ============ PULL QUOTE ============ */
-  .pull-quote {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 1rem 2rem;
-    border-top: 2px solid var(--ink);
-    border-bottom: 2px solid var(--ink);
-    margin: 1rem 0;
-  }
-
-  .pull-quote blockquote {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--ink-faded);
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  .pull-quote cite {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    display: block;
-    margin-top: 0.5rem;
-  }
-
-  /* responsive */
-  @media (max-width: 768px) {
-    .headline-section { grid-template-columns: 1fr; }
-    .col-divider { display: none; }
-    .col-portrait { padding-right: 0; margin-bottom: 1.5rem; }
-    .col-sidebar { padding-left: 0; margin-top: 1.5rem; }
-    .lead-text { column-count: 1; }
-    .skills-grid { grid-template-columns: repeat(2, 1fr); }
-    .projects-grid { grid-template-columns: 1fr; }
-    .footer { grid-template-columns: 1fr; text-align: center; }
-    .footer-right { text-align: center; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Akulwar Dispatch - Renaissance Theme</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+           1. RENAISSANCE THEME (RenaissanceTheme.css)
+           ========================================================================== */
+    .renaissance-root {
+      --parchment: #e8dcc8;
+      --parchment-dark: #d4c4a0;
+      --parchment-deep: #c4b080;
+      --ink: #1a1208;
+      --ink-faded: #3d2e18;
+      --ink-light: #6b5a3e;
+      --blood-red: #8b1a1a;
+      --gold: #c9a227;
+      --gold-dim: #8a6b1a;
+
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'IM Fell English', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Paper noise */
+    .renaissance-root::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      mix-blend-mode: multiply;
+    }
+
+    /* Aged vignette */
+    .renaissance-root::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 20%, rgba(180, 140, 60, .15) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 80%, rgba(100, 70, 30, .20) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(80, 50, 20, .12) 100%);
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .r-page-wrapper {
+      width: 100%;
+      padding: 0 2.5rem;
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box;
+    }
+
+    /* Masthead */
+    .r-masthead {
+      border-bottom: 4px double var(--ink);
+      padding: 1.8rem 0 1.1rem;
+      text-align: center;
+    }
+
+    .r-masthead-top-rule {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      justify-content: space-between;
+      flex-wrap: nowrap;
+    }
+
+    .r-masthead-top-rule::before,
+    .r-masthead-top-rule::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--ink-light);
+    }
+
+    .r-masthead-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: clamp(4rem, 9vw, 8rem);
+      line-height: 0.88;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .15);
+      margin: 0;
+    }
+
+    .r-masthead-subtitle {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--ink-light);
+      border-bottom: 1px solid var(--ink-light);
+      padding: 0.32rem 0;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .r-masthead-date-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-faded);
+      margin-top: 0.6rem;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .r-masthead-stars {
+      color: var(--gold);
+      letter-spacing: 0.45em;
+      font-size: 0.85rem;
+    }
+
+    /* Nav */
+    .r-nav-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .r-nav-bar a {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 0.5rem 2rem;
+      border-right: 1px solid var(--ink);
+      transition: background .2s, color .2s;
+    }
+
+    .r-nav-bar a:first-child {
+      border-left: 1px solid var(--ink);
+    }
+
+    .r-nav-bar a:hover {
+      background: var(--ink);
+      color: var(--parchment);
+    }
+
+    /* Headline Section */
+    .r-headline-section {
+      display: grid;
+      grid-template-columns: 1fr 1px 3fr 1px 1fr;
+      gap: 0;
+      padding: 2.5rem 0;
+      border-bottom: 3px double var(--ink);
+      animation: r-fadeInUp .8s ease both;
+    }
+
+    .r-col-divider {
+      background: var(--ink);
+      width: 1px;
+      margin: 0 1.5rem;
+      opacity: 0.35;
+    }
+
+    /* Portrait Column */
+    .r-col-portrait {
+      padding-right: 2rem;
+    }
+
+    .r-portrait-frame {
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      border: 3px solid var(--ink-faded);
+      filter: sepia(.6) contrast(1.1) brightness(.92);
+      box-shadow: 4px 4px 0 var(--ink-faded), 6px 6px 0 rgba(0, 0, 0, .1);
+    }
+
+    .r-portrait-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .r-portrait-caption {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.09em;
+      text-align: center;
+      color: var(--ink-light);
+      margin-top: 0.5rem;
+      font-style: italic;
+      text-transform: uppercase;
+    }
+
+    .r-vitals-box {
+      margin-top: 1.2rem;
+      border: 1px solid var(--ink-light);
+      padding: 0.9rem;
+      background: rgba(0, 0, 0, .04);
+    }
+
+    .r-vitals-box h4 {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blood-red);
+      border-bottom: 1px solid var(--ink-light);
+      padding-bottom: 0.3rem;
+      margin: 0 0 0.55rem 0;
+    }
+
+    .r-vital-row {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 0.32rem;
+      align-items: flex-start;
+    }
+
+    .r-vital-label {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.57rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      min-width: 62px;
+      padding-top: .05rem;
+    }
+
+    .r-vital-value {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.78rem;
+      color: var(--ink);
+      font-style: italic;
+    }
+
+    /* Main Column */
+    .r-col-main {
+      padding: 0 2.5rem;
+    }
+
+    .r-headline-kicker {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--blood-red);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .r-headline-kicker::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blood-red);
+      opacity: .5;
+    }
+
+    .r-main-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.0;
+      color: var(--ink);
+      margin: 0 0 0.7rem 0;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+    }
+
+    .r-main-headline em {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.72em;
+      color: var(--ink-faded);
+      display: block;
+      text-transform: none;
+      letter-spacing: 0;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .r-headline-rule {
+      height: 3px;
+      background: var(--ink);
+      margin: 1rem 0;
+      position: relative;
+    }
+
+    .r-headline-rule::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--ink);
+      opacity: .4;
+    }
+
+    .r-byline {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.8rem;
+    }
+
+    .r-lead-text {
+      font-family: 'IM Fell English', serif;
+      font-size: 1rem;
+      line-height: 1.82;
+      color: var(--ink-faded);
+      column-count: 3;
+      column-gap: 2.4rem;
+      column-rule: 1px solid rgba(0, 0, 0, .18);
+      text-align: justify;
+      hyphens: auto;
+      margin: 0;
+    }
+
+    .r-lead-text::first-letter {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 4rem;
+      float: left;
+      line-height: .72;
+      margin: .08rem .3rem 0 0;
+      color: var(--ink);
+    }
+
+    .r-dispatch-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1.4rem;
+    }
+
+    .r-dispatch-tag {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.57rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      background: var(--ink-faded);
+      padding: 0.22rem 0.55rem;
+      border: 1px solid var(--ink);
+    }
+
+    .r-dispatch-tag.highlight {
+      background: var(--blood-red);
+    }
+
+    /* Sidebar Column */
+    .r-col-sidebar {
+      padding-left: 2rem;
+    }
+
+    .r-sidebar-box {
+      border: 2px solid var(--ink);
+      margin-bottom: 1.3rem;
+    }
+
+    .r-sidebar-box-header {
+      background: var(--ink);
+      color: var(--parchment);
+      font-family: 'Special Elite', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.34rem 0.7rem;
+    }
+
+    .r-sidebar-box-body {
+      padding: 0.9rem;
+    }
+
+    .r-sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--ink);
+      margin-bottom: 0.65rem;
+      font-family: 'IM Fell English', serif;
+      font-size: 0.85rem;
+      padding-bottom: 0.55rem;
+      border-bottom: 1px dashed var(--ink-light);
+      transition: color .2s;
+    }
+
+    .r-sidebar-link:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .r-sidebar-link:hover {
+      color: var(--blood-red);
+    }
+
+    .r-link-glyph {
+      color: var(--gold-dim);
+      font-size: 1.05rem;
+    }
+
+    .r-star-ornament {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--gold);
+      font-size: 0.88rem;
+      letter-spacing: 0.5rem;
+      padding: 0.5rem 0;
+    }
+
+    .r-star-ornament::before,
+    .r-star-ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--ink-light);
+      opacity: 0.45;
+    }
+
+    .r-theatre-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed var(--ink-light);
+      padding-bottom: .28rem;
+      margin-bottom: .38rem;
+    }
+
+    .r-theatre-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .r-theatre-name {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.78rem;
+      font-style: italic;
+    }
+
+    .r-theatre-stars {
+      color: var(--gold-dim);
+      font-size: 0.68rem;
+    }
+
+    /* Section header */
+    .r-section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.4rem 0 1rem;
+    }
+
+    .r-section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      white-space: nowrap;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .r-section-rule {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, var(--ink), transparent);
+      border: none;
+      margin: 0;
+    }
+
+    .r-section-rule-left {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to left, var(--ink), transparent);
+      border: none;
+      margin: 0;
+    }
+
+    /* Skills grid */
+    .r-skills-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      border: 1px solid var(--ink);
+      margin-bottom: 2.5rem;
+      animation: r-fadeInUp .8s .2s ease both;
+    }
+
+    .r-skill-cell {
+      padding: 1.1rem 1.2rem;
+      border-right: 1px solid var(--ink-light);
+      border-bottom: 1px solid var(--ink-light);
+    }
+
+    .r-skill-cell:nth-child(5n) {
+      border-right: none;
+    }
+
+    .r-skill-cell:nth-last-child(-n+5) {
+      border-bottom: none;
+    }
+
+    .r-skill-cell-label {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blood-red);
+      margin-bottom: 0.35rem;
+    }
+
+    .r-skill-cell-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.22;
+    }
+
+    .r-skill-bar {
+      display: flex;
+      gap: 3px;
+      margin-top: 0.55rem;
+    }
+
+    .r-skill-pip {
+      width: 9px;
+      height: 9px;
+      border: 1px solid var(--ink-faded);
+      background: transparent;
+    }
+
+    .r-skill-pip.filled {
+      background: var(--ink-faded);
+    }
+
+    /* Projects grid */
+    .r-projects-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 1px;
+      background: var(--ink-light);
+      border: 1px solid var(--ink);
+      margin-bottom: 2.5rem;
+      animation: r-fadeInUp .8s .4s ease both;
+    }
+
+    .r-project-card {
+      padding: 1.4rem;
+      background: var(--parchment);
+      position: relative;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .r-project-card:hover {
+      background: #ddd0b0;
+    }
+
+    .r-project-issue {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.45rem;
+    }
+
+    .r-project-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.22;
+      margin: 0 0 0.5rem 0;
+      border-bottom: 1px solid var(--ink-light);
+      padding-bottom: 0.55rem;
+    }
+
+    .r-project-deck {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--ink-faded);
+      font-style: italic;
+      margin: 0 0 0.7rem 0;
+    }
+
+    .r-project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .r-project-tech span {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      border: 1px solid var(--ink-light);
+      padding: 0.18rem 0.42rem;
+      color: var(--ink-light);
+    }
+
+    .r-featured-badge {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      background: var(--blood-red);
+      padding: 0.18rem 0.45rem;
+      transform: rotate(-2deg);
+    }
+
+    /* Pull quote */
+    .r-pull-quote {
+      text-align: center;
+      padding: 1.1rem 3rem;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      margin: 1.2rem 0;
+    }
+
+    .r-pull-quote blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--ink-faded);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .r-pull-quote cite {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      display: block;
+      margin-top: 0.55rem;
+    }
+
+    /* New Skills Glossary */
+    .r-skills-glossary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+      animation: r-fadeInUp .8s .2s ease both;
+    }
+
+    .r-skill-group h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--ink);
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 0.4rem;
+      margin: 0 0 1rem 0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .r-skill-group ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .r-skill-group li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.6rem;
+    }
+
+    .r-skill-group li::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px dotted var(--ink-light);
+      margin: 0 8px;
+      opacity: 0.6;
+      order: 2;
+    }
+
+    .r-skill-name {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      order: 1;
+    }
+
+    .r-skill-type {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      color: var(--blood-red);
+      order: 3;
+      letter-spacing: 0.1em;
+    }
+
+    /* Projects Ledger */
+    .r-ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 3rem;
+      font-family: 'IM Fell English', serif;
+      animation: r-fadeInUp .8s .5s ease both;
+    }
+
+    .r-ledger-table th {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-align: left;
+      border-bottom: 2px solid var(--ink);
+      padding: 0.8rem 0.5rem;
+      color: var(--ink-faded);
+    }
+
+    .r-ledger-table td {
+      padding: 1.2rem 0.5rem;
+      border-bottom: 1px dashed var(--ink-light);
+      vertical-align: top;
+    }
+
+    .r-ledger-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .r-ledger-desc {
+      color: var(--ink-faded);
+      font-style: italic;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .r-ledger-tech {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      color: var(--blood-red);
+      letter-spacing: 0.1em;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .r-ledger-link {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      color: var(--ink);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      display: inline-block;
+      margin-top: 0.6rem;
+    }
+
+    .r-ledger-link:hover {
+      color: var(--blood-red);
+    }
+
+    /* Highlight Effect */
+    .r-highlight {
+      position: relative;
+      display: inline-block;
+      color: var(--ink);
+      z-index: 1;
+    }
+
+    .r-highlight::after {
+      content: '';
+      position: absolute;
+      left: -2px;
+      bottom: 2px;
+      height: 35%;
+      width: 0;
+      background-color: rgba(201, 162, 39, 0.4);
+      z-index: -1;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: rotate(-1deg);
+      border-radius: 2px;
+    }
+
+    .r-highlight.active::after {
+      width: calc(100% + 4px);
+    }
+
+    /* Circle Highlight Effect */
+    .r-circle-highlight {
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+    }
+
+    .r-handdrawn-circle {
+      position: absolute;
+      top: -40%;
+      left: -15%;
+      width: 130%;
+      height: 180%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: visible;
+    }
+
+    .r-handdrawn-circle path {
+      fill: none;
+      stroke: var(--blood-red);
+      stroke-width: 2.5;
+      opacity: 0.85;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      will-change: stroke-dashoffset;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.9s;
+      /* Delayed until section fully fades in */
+    }
+
+    .r-circle-highlight.active .r-handdrawn-circle path {
+      stroke-dashoffset: 0;
+    }
+
+    /* Footer */
+    .r-footer {
+      border-top: 4px double var(--ink);
+      padding: 1.8rem 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .r-footer-left {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      line-height: 1.9;
+    }
+
+    .r-footer-center {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 2.2rem;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .r-footer-right {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.75rem;
+      color: var(--ink-light);
+      text-align: right;
+      font-style: italic;
+      line-height: 1.9;
+    }
+
+    /* Decorative */
+    .r-burn-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 997;
+      background:
+        radial-gradient(ellipse at 0% 0%, rgba(60, 30, 10, .35) 0%, transparent 35%),
+        radial-gradient(ellipse at 100% 0%, rgba(40, 20, 5, .3) 0%, transparent 30%),
+        radial-gradient(ellipse at 0% 100%, rgba(50, 25, 8, .35) 0%, transparent 35%),
+        radial-gradient(ellipse at 100% 100%, rgba(60, 30, 10, .4) 0%, transparent 35%);
+    }
+
+    .r-stars-decoration {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 998;
+    }
+
+    .r-star {
+      position: absolute;
+      color: var(--gold);
+      font-size: 0.72rem;
+      opacity: .25;
+      animation: r-twinkle 4s ease-in-out infinite;
+    }
+
+    @keyframes r-twinkle {
+
+      0%,
+      100% {
+        opacity: .15;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .35;
+        transform: scale(1.2);
+      }
+    }
+
+    @keyframes r-fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .r-headline-section {
+        grid-template-columns: 1fr 1px 2fr 1px 1fr;
+      }
+
+      .r-skills-glossary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .r-lead-text {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .r-headline-section {
+        grid-template-columns: 1fr;
+      }
+
+      .r-col-divider {
+        display: none;
+      }
+
+      .r-col-portrait {
+        padding-right: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      .r-col-sidebar {
+        padding-left: 0;
+        margin-top: 1.5rem;
+      }
+
+      .r-lead-text {
+        column-count: 1;
+      }
+
+      .r-skills-glossary {
+        grid-template-columns: 1fr;
+      }
+
+      .r-projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .r-ledger-table th {
+        display: none;
+      }
+
+      .r-ledger-table td {
+        display: block;
+        border-bottom: none;
+        padding: 0.5rem 0;
+      }
+
+      .r-ledger-table tr {
+        display: block;
+        border-bottom: 2px solid var(--ink);
+        padding: 1rem 0;
+      }
+
+      .r-ledger-table tr:last-child {
+        border-bottom: none;
+      }
+
+      .r-footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .r-footer-right {
+        text-align: center;
+      }
+    }
+
+    /* ==========================================================================
+           2. CHAT DRAWER (RenaissanceChatDrawer.css)
+           ========================================================================== */
+    .r-chat-toggle {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: #1a1208;
+      color: #e8dcc8;
+      border: 2px solid #6b5a3e;
+      border-bottom: none;
+      padding: 0.5rem 1.8rem 0.55rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.35s cubic-bezier(0.32, 0, 0.2, 1), opacity 0.25s ease;
+      margin-right: 0;
+    }
+
+    .r-chat-toggle.open {
+      transform: translate(-50%, 100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .r-chat-toggle:hover {
+      background: #3d2e18;
+    }
+
+    .r-chat-toggle .r-ct-glyph {
+      font-size: 1rem;
+      color: #c9a227;
+    }
+
+    .r-ct-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #8b1a1a;
+      animation: r-pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .r-ct-dot.thinking {
+      background: #c9a227;
+    }
+
+    @keyframes r-pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.3);
+      }
+    }
+
+    .r-chat-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2999;
+      height: 52vh;
+      min-height: 320px;
+      max-height: 640px;
+      display: flex;
+      flex-direction: column;
+      background: #ede0c4;
+      border-top: 4px double #1a1208;
+      box-shadow: 0 -6px 32px rgba(0, 0, 0, 0.28);
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.32, 0, 0.2, 1), opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .r-chat-drawer.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .r-drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 1.4rem 0.45rem;
+      border-bottom: 2px solid #1a1208;
+      flex-shrink: 0;
+      background: #1a1208;
+      color: #e8dcc8;
+    }
+
+    .r-drawer-head-left {
+      display: flex;
+      align-items: baseline;
+      gap: 0.9rem;
+    }
+
+    .r-drawer-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 1.55rem;
+      line-height: 1;
+      color: #e8dcc8;
+    }
+
+    .r-drawer-subtitle {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #6b5a3e;
+    }
+
+    .r-drawer-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b5a3e;
+    }
+
+    .r-drawer-close {
+      background: none;
+      border: 1px solid #6b5a3e;
+      color: #e8dcc8;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.7rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .r-drawer-close:hover {
+      background: #3d2e18;
+    }
+
+    .r-drawer-thread {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      scrollbar-width: thin;
+      scrollbar-color: #6b5a3e #ede0c4;
+    }
+
+    .r-drawer-thread::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .r-drawer-thread::-webkit-scrollbar-track {
+      background: #ede0c4;
+    }
+
+    .r-drawer-thread::-webkit-scrollbar-thumb {
+      background: #6b5a3e;
+      border-radius: 2px;
+    }
+
+    .r-msg-user {
+      align-self: flex-end;
+      background: #1a1208;
+      color: #e8dcc8;
+      font-family: 'IM Fell English', serif;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      padding: 0.5rem 0.9rem;
+      max-width: 72%;
+      border: 1px solid #3d2e18;
+    }
+
+    .r-msg-assistant {
+      align-self: flex-start;
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid #c4b080;
+      color: #1a1208;
+      font-family: 'IM Fell English', serif;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      padding: 0.55rem 0.9rem;
+      max-width: 82%;
+    }
+
+    .r-typing {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: 'Special Elite', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b5a3e;
+    }
+
+    .r-typing-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #8a6b1a;
+      animation: r-bounce 1.2s ease-in-out infinite;
+    }
+
+    .r-typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .r-typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes r-bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .r-welcome {
+      align-self: flex-start;
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid #c4b080;
+      padding: 0.65rem 0.9rem;
+      max-width: 85%;
+    }
+
+    .r-welcome p {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.88rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: #3d2e18;
+      margin: 0;
+    }
+
+    .r-welcome-byline {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6b5a3e;
+      margin-top: 0.4rem;
+    }
+
+    .r-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .r-suggestion-pill {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid #6b5a3e;
+      background: transparent;
+      color: #3d2e18;
+      padding: 0.25rem 0.65rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .r-suggestion-pill:hover {
+      background: #1a1208;
+      color: #e8dcc8;
+    }
+
+    .r-drawer-input-area {
+      border-top: 2px solid #1a1208;
+      padding: 0.7rem 1.4rem;
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-end;
+      flex-shrink: 0;
+      background: #e4d4b0;
+    }
+
+    .r-drawer-textarea {
+      flex: 1;
+      background: #ede0c4;
+      border: 1px solid #6b5a3e;
+      color: #1a1208;
+      font-family: 'IM Fell English', serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      padding: 0.45rem 0.7rem;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s;
+      min-height: 38px;
+      max-height: 100px;
+    }
+
+    .r-drawer-textarea::placeholder {
+      color: #8a6b1a;
+      font-style: italic;
+    }
+
+    .r-drawer-textarea:focus {
+      border-color: #1a1208;
+    }
+
+    .r-drawer-send {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: #1a1208;
+      color: #e8dcc8;
+      border: 1px solid #6b5a3e;
+      padding: 0.45rem 1.1rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+      align-self: flex-end;
+    }
+
+    .r-drawer-send:hover:not(:disabled) {
+      background: #3d2e18;
+    }
+
+    .r-drawer-send:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .r-drawer-hint {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8a6b1a;
+      text-align: center;
+      margin-top: 0.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+
+    /* ==========================================================================
+           3. THEME SWITCHER (ThemeSwitcher.css)
+           ========================================================================== */
+    .theme-switcher-container {
+      position: relative;
+      display: inline-block;
+      z-index: 100;
+    }
+
+    .theme-switcher-btn {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 100px;
+      background: rgba(10, 10, 10, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      min-width: 44px;
+      height: 44px;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .switcher-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+
+    .switcher-label {
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-left: 0;
+    }
+
+    .theme-switcher-btn.show-label {
+      padding: 0.75rem 1.25rem;
+      justify-content: flex-start;
+    }
+
+    .theme-switcher-btn.show-label .switcher-label {
+      max-width: 200px;
+      opacity: 1;
+      margin-left: 0.75rem;
+    }
+
+    .theme-switcher-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .theme-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      display: none;
+      flex-direction: column;
+      min-width: 160px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 0.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      animation: dropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .theme-dropdown-menu.open {
+      display: flex;
+    }
+
+    @keyframes dropdownFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .theme-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 1rem;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: #aaa;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .theme-dropdown-item.active {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+    }
+
+    /* Specific theme override for the Renaissance button state */
+    .style-renaissance {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink);
+      font-family: 'IM Fell English', serif;
+      font-weight: 600;
+    }
+
+    .style-renaissance:hover {
+      background: rgba(26, 18, 8, 0.05);
+    }
+
+
+    /* ==========================================================================
+           4. THEME TRANSITION (ThemeTransition.css)
+           ========================================================================== */
+    .film-transition-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #000;
+      pointer-events: all;
+      animation: filmFadeIn 0.2s ease forwards;
+    }
+
+    .film-transition-overlay.exiting {
+      animation: filmFadeOut 0.7s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes filmFadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes filmFadeOut {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    .ft-screen {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+      background: #000;
+    }
+
+    .ft-screen svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .ft-flicker {
+      animation: ftFlickerAnim 0.4s step-end infinite alternate;
+    }
+
+    @keyframes ftFlickerAnim {
+      0% {
+        opacity: 0.88;
+      }
+
+      20% {
+        opacity: 0.95;
+      }
+
+      40% {
+        opacity: 0.85;
+      }
+
+      60% {
+        opacity: 0.98;
+      }
+
+      80% {
+        opacity: 0.82;
+      }
+
+      100% {
+        opacity: 0.92;
+      }
+    }
+
+    .ft-gate-weave {
+      animation: ftWeaveAnim 0.25s step-end infinite;
+    }
+
+    @keyframes ftWeaveAnim {
+      0% {
+        transform: translate(0px, 0px);
+      }
+
+      25% {
+        transform: translate(-1.5px, 2px);
+      }
+
+      50% {
+        transform: translate(2px, -1.5px);
+      }
+
+      75% {
+        transform: translate(-1px, 1px);
+      }
+
+      100% {
+        transform: translate(0px, 0px);
+      }
+    }
+
+    .ft-scratch {
+      stroke: #2a1e12;
+      stroke-width: 2.5;
+      opacity: 0;
+      animation: ftScratchAnim linear infinite step-end;
+    }
+
+    @keyframes ftScratchAnim {
+
+      0%,
+      85% {
+        opacity: 0;
+        transform: translateX(0);
+      }
+
+      86% {
+        opacity: 0.6;
+        transform: translateX(-40px);
+      }
+
+      90% {
+        opacity: 0.3;
+        transform: translateX(25px);
+      }
+
+      95% {
+        opacity: 0.5;
+        transform: translateX(10px);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(0);
+      }
+    }
+
+    .ft-moving-grain {
+      animation: ftGrainMove 0.2s step-end infinite;
+    }
+
+    @keyframes ftGrainMove {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      25% {
+        transform: translate(-2%, 1%);
+      }
+
+      50% {
+        transform: translate(1%, -2%);
+      }
+
+      75% {
+        transform: translate(-1%, -1%);
+      }
+
+      100% {
+        transform: translate(1%, 2%);
+      }
+    }
+
+    .ft-film-slip {
+      animation: ftSlipAnim 4s step-end infinite;
+      transform-origin: center;
+    }
+
+    @keyframes ftSlipAnim {
+      0% {
+        transform: translate(0, 0) scale(1) skew(0);
+      }
+
+      24% {
+        transform: translate(0, 0);
+      }
+
+      25% {
+        transform: translateY(-50px) scaleY(1.08);
+      }
+
+      26% {
+        transform: translateY(25px) scaleY(0.94);
+      }
+
+      27% {
+        transform: translate(0, 0);
+      }
+
+      63% {
+        transform: translate(0, 0);
+      }
+
+      64% {
+        transform: translateX(25px) scaleX(1.12) skewX(12deg);
+      }
+
+      65% {
+        transform: translateX(-20px) scaleX(0.88) skewX(-12deg);
+      }
+
+      66% {
+        transform: translate(0, 0);
+      }
+
+      67% {
+        transform: translateY(-220px);
+      }
+
+      68% {
+        transform: translateY(-550px) skewX(4deg);
+      }
+
+      69% {
+        transform: translateY(-980px);
+      }
+
+      70% {
+        transform: translateY(-1250px) scaleY(1.18);
+      }
+
+      71% {
+        transform: translateY(-650px) skewX(-5deg);
+      }
+
+      72% {
+        transform: translateY(-120px);
+      }
+
+      73% {
+        transform: translateY(420px);
+      }
+
+      74% {
+        transform: translateY(920px);
+      }
+
+      75% {
+        transform: translateY(1250px) scaleY(1.14);
+      }
+
+      76% {
+        transform: translateY(720px) skewX(7deg);
+      }
+
+      77% {
+        transform: translateY(-620px);
+      }
+
+      78% {
+        transform: translateY(1100px);
+      }
+
+      79% {
+        transform: translateY(-1100px);
+      }
+
+      80% {
+        transform: translateY(560px) skewX(-7deg);
+      }
+
+      81% {
+        transform: translateY(-560px);
+      }
+
+      82% {
+        transform: translateY(310px);
+      }
+
+      83% {
+        transform: translateY(-850px) skewX(5deg);
+      }
+
+      84% {
+        transform: translateY(220px);
+      }
+
+      85% {
+        transform: translateY(-420px);
+      }
+
+      86% {
+        transform: translateY(640px) skewX(-4deg);
+      }
+
+      87% {
+        transform: translateY(-210px);
+      }
+
+      88% {
+        transform: translateY(160px);
+      }
+
+      89% {
+        transform: translateY(-520px);
+      }
+
+      90% {
+        transform: translateY(360px) scaleY(1.06);
+      }
+
+      91% {
+        transform: translateY(-90px);
+      }
+
+      92% {
+        transform: translateY(45px);
+      }
+
+      93% {
+        transform: translateY(-28px);
+      }
+
+      94% {
+        transform: translateY(16px);
+      }
+
+      95% {
+        transform: translateY(-10px);
+      }
+
+      96% {
+        transform: translateY(6px);
+      }
+
+      97% {
+        transform: translateY(-3px);
+      }
+
+      98% {
+        transform: translateY(2px);
+      }
+
+      99% {
+        transform: translateY(-1px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .ft-font-glitch {
+      animation: ftFontAnim 10s step-end infinite;
+    }
+
+    @keyframes ftFontAnim {
+      0% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        font-weight: normal;
+        letter-spacing: 2px;
+      }
+
+      18% {
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        letter-spacing: -3px;
+      }
+
+      19% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: italic;
+        letter-spacing: 6px;
+      }
+
+      20% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        letter-spacing: 2px;
+      }
+
+      55% {
+        font-family: 'Impact', 'Arial Black', sans-serif;
+        font-stretch: condensed;
+        letter-spacing: 3px;
+      }
+
+      56% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        letter-spacing: 2px;
+      }
+
+      85% {
+        font-family: 'Georgia', serif;
+        font-weight: bold;
+        font-style: italic;
+        letter-spacing: -1px;
+      }
+
+      86% {
+        font-family: 'Garamond', 'Times New Roman', serif;
+        font-style: normal;
+        letter-spacing: 2px;
+      }
+    }
+
+    .ft-text-style {
+      font-size: 130px;
+      fill: #261c11;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- DECORATIVE STARS (like the Renaissance paintings) -->
-<div class="stars-decoration" style="top:0;left:0;width:100%;height:100%;">
-  <span class="star" style="top:8%;left:3%;animation-delay:0s;">✦</span>
-  <span class="star" style="top:15%;left:92%;animation-delay:1.2s;">✦</span>
-  <span class="star" style="top:45%;left:1%;animation-delay:2.4s;">✦</span>
-  <span class="star" style="top:70%;left:97%;animation-delay:0.8s;">✦</span>
-  <span class="star" style="top:88%;left:5%;animation-delay:3s;">✦</span>
-  <span class="star" style="top:30%;left:95%;animation-delay:1.8s;">✦</span>
-</div>
+  <!-- ==========================================================================
+         FILM TRANSITION OVERLAY
+         ========================================================================== -->
+  <div id="transition-overlay" class="film-transition-overlay" aria-hidden="true">
+    <div class="ft-screen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="ft-vignette" cx="50%" cy="50%" r="75%">
+            <stop offset="30%" stopColor="transparent" />
+            <stop offset="85%" stopColor="#4a3520" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#120c06" stopOpacity="0.95" />
+          </radialGradient>
+          <filter id="ft-grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" result="noise" />
+            <feColorMatrix type="matrix" values="1 0 0 0 0  0 0.9 0 0 0  0 0.8 0 0 0  0 0 0 0.4 0" in="noise"
+              result="coloredNoise" />
+          </filter>
+          <filter id="ft-ink-bleed" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+            <feGaussianBlur stdDeviation="0.8" result="blurred" />
+            <feMerge>
+              <feMergeNode in="blurred" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="ft-projector-blur">
+            <feGaussianBlur stdDeviation="0.5">
+              <animate attributeName="stdDeviation" values="0.2; 1.5; 0.2; 2.5; 0.2" dur="5s" calcMode="discrete"
+                repeatCount="indefinite" />
+            </feGaussianBlur>
+          </filter>
+        </defs>
 
-<!-- BURN EDGES -->
-<div class="burn-overlay"></div>
+        <g class="ft-flicker">
+          <rect width="100%" height="100%" fill="#e0cbb3" />
+          <g class="ft-gate-weave" filter="url(#ft-projector-blur)">
+            <g class="ft-film-slip">
+              <rect x="-100" y="-1080" width="2120" height="30" fill="#050302" opacity="0.85" />
+              <rect x="-100" y="0" width="2120" height="30" fill="#050302" opacity="0.85" />
+              <rect x="-100" y="1080" width="2120" height="30" fill="#050302" opacity="0.85" />
+              <rect x="-100" y="2160" width="2120" height="30" fill="#050302" opacity="0.85" />
 
-<!-- FOLD LINES -->
-<div class="fold-line-h" style="top:33%;"></div>
-<div class="fold-line-h" style="top:66%;"></div>
+              <text x="965" y="-535" text-anchor="middle" dominant-baseline="middle"
+                class="ft-text-style ft-font-glitch" fill="#000" opacity="0.15" filter="url(#ft-ink-bleed)">The Akulwar
+                Dispatch</text>
+              <text x="960" y="-540" text-anchor="middle" dominant-baseline="middle"
+                class="ft-text-style ft-font-glitch" filter="url(#ft-ink-bleed)">The Akulwar Dispatch</text>
 
-<div class="page-wrapper">
+              <text x="965" y="545" text-anchor="middle" dominant-baseline="middle" class="ft-text-style ft-font-glitch"
+                fill="#000" opacity="0.15" filter="url(#ft-ink-bleed)">The Akulwar Dispatch</text>
+              <text x="960" y="540" text-anchor="middle" dominant-baseline="middle" class="ft-text-style ft-font-glitch"
+                filter="url(#ft-ink-bleed)">The Akulwar Dispatch</text>
 
-  <!-- ===== MASTHEAD ===== -->
-  <header class="masthead">
-    <div class="masthead-top-rule">
-      <span>Est. Anno Domini 2001</span>
-      <span class="masthead-stars">✦ ✦ ✦ ✦ ✦</span>
-      <span>Pune, India Dispatch</span>
+              <text x="965" y="1625" text-anchor="middle" dominant-baseline="middle"
+                class="ft-text-style ft-font-glitch" fill="#000" opacity="0.15" filter="url(#ft-ink-bleed)">The Akulwar
+                Dispatch</text>
+              <text x="960" y="1620" text-anchor="middle" dominant-baseline="middle"
+                class="ft-text-style ft-font-glitch" filter="url(#ft-ink-bleed)">The Akulwar Dispatch</text>
+            </g>
+          </g>
+          <g>
+            <line x1="15%" y1="0" x2="15%" y2="1080" class="ft-scratch"
+              style="animation-duration: 2.1s; animation-delay: 0.2s;" />
+            <line x1="30%" y1="0" x2="30%" y2="1080" class="ft-scratch"
+              style="animation-duration: 3.7s; animation-delay: 1.5s; stroke-width: 1.5;" />
+            <line x1="78%" y1="0" x2="78%" y2="1080" class="ft-scratch"
+              style="animation-duration: 1.6s; animation-delay: 0.8s;" />
+            <line x1="92%" y1="0" x2="92%" y2="1080" class="ft-scratch"
+              style="animation-duration: 4.2s; animation-delay: 0.1s; stroke-width: 3.5; stroke: #120c06;" />
+            <line x1="0" y1="15%" x2="100%" y2="15%" stroke="#120c06" stroke-width="3" opacity="0">
+              <animate attributeName="opacity" values="0; 0; 0.3; 0; 0" keyTimes="0; 0.94; 0.95; 0.96; 1" dur="4s"
+                calcMode="discrete" repeatCount="indefinite" />
+              <animate attributeName="y1" values="10%; 80%; 20%; 90%" calcMode="discrete" dur="4s"
+                repeatCount="indefinite" />
+              <animate attributeName="y2" values="10%; 80%; 20%; 90%" calcMode="discrete" dur="4s"
+                repeatCount="indefinite" />
+            </line>
+          </g>
+          <svg x="-10%" y="-10%" width="120%" height="120%">
+            <rect width="100%" height="100%" filter="url(#ft-grain)" opacity="0.45" class="ft-moving-grain"
+              pointer-events="none" style="mix-blend-mode: multiply;" />
+          </svg>
+          <rect width="100%" height="100%" fill="url(#ft-vignette)" pointer-events="none"
+            style="mix-blend-mode: multiply;" />
+          <rect width="100%" height="100%" fill="#fff" opacity="0" pointer-events="none">
+            <animate attributeName="opacity" values="0; 0; 0.3; 0; 0; 0.4; 0; 0.5; 0; 0.2; 0"
+              keyTimes="0; 0.35; 0.36; 0.38; 0.67; 0.70; 0.75; 0.82; 0.88; 0.94; 1" dur="4s" calcMode="discrete"
+              repeatCount="indefinite" />
+          </rect>
+          <rect width="100%" height="100%" fill="#d2a679" opacity="0.15" pointer-events="none"
+            style="mix-blend-mode: color;" />
+        </g>
+      </svg>
     </div>
-    <h1 class="masthead-title">The Akulwar Dispatch</h1>
-    <div class="masthead-subtitle">Portfolio of Record &nbsp;·&nbsp; Software Engineering &nbsp;·&nbsp; Artificial Intelligence &nbsp;·&nbsp; Automation Systems</div>
-    <div class="masthead-date-bar">
-      <span>Vol. XXIII &nbsp;·&nbsp; No. 1</span>
-      <span class="masthead-stars">✦ ✦ ✦</span>
-      <span>March, Anno Domini MMXXVI</span>
-      <span class="masthead-stars">✦ ✦ ✦</span>
-      <span>Price: One Good Opportunity</span>
+  </div>
+
+  <!-- ==========================================================================
+         MAIN LAYOUT (RenaissanceTheme)
+         ========================================================================== -->
+  <div class="renaissance-root">
+    <!-- Atmosphere -->
+    <div class="r-stars-decoration">
+      <span class="r-star" style="top: 8%; left: 3%; animation-delay: 0s;">✦</span>
+      <span class="r-star" style="top: 15%; left: 92%; animation-delay: 1.2s;">✦</span>
+      <span class="r-star" style="top: 45%; left: 1%; animation-delay: 2.4s;">✦</span>
+      <span class="r-star" style="top: 70%; left: 97%; animation-delay: 0.8s;">✦</span>
+      <span class="r-star" style="top: 88%; left: 5%; animation-delay: 3s;">✦</span>
+      <span class="r-star" style="top: 30%; left: 95%; animation-delay: 1.8s;">✦</span>
     </div>
-  </header>
+    <div class="r-burn-overlay"></div>
 
-  <!-- ===== NAV ===== -->
-  <nav class="nav-bar">
-    <a href="#" class="active">About</a>
-    <a href="#">Skills</a>
-    <a href="#">Projects</a>
-    <a href="#">Education</a>
-    <a href="#">Contact</a>
-  </nav>
+    <div class="r-page-wrapper">
+      <!-- Masthead -->
+      <header class="r-masthead">
+        <div class="r-masthead-top-rule">
+          <span>Est. Anno Domini 2001</span>
 
-  <!-- ===== HEADLINE SECTION ===== -->
-  <section class="headline-section">
+          <!-- Theme Switcher UI -->
+          <div class="theme-switcher-container" id="theme-switcher-dropdown">
+            <button class="theme-switcher-btn style-renaissance show-label" id="theme-btn" title="Change Theme"
+              aria-label="Change Theme">
+              <span class="switcher-icon">⚜</span>
+              <span class="switcher-label">Renaissance View</span>
+            </button>
+            <div class="theme-dropdown-menu" id="theme-menu">
+              <button class="theme-dropdown-item"><span class="dropdown-icon">◈</span>Modern</button>
+              <button class="theme-dropdown-item active"><span class="dropdown-icon">⚜</span>Renaissance</button>
+              <button class="theme-dropdown-item"><span class="dropdown-icon">◩</span>Architectural</button>
+            </div>
+          </div>
 
-    <!-- COL 1: PORTRAIT -->
-    <div class="col-portrait">
-      <div class="portrait-frame">
-        <img src="https://via.placeholder.com/300x400/5a4a3a/c4b080?text=R.B.A." alt="Rohit Bharat Akulwar" />
-      </div>
-      <p class="portrait-caption">Fig. I — R.B. Akulwar, Software Developer<br>Photographed at Headquarters, Pune</p>
-
-      <div class="vitals-box">
-        <h4>Dossier</h4>
-        <div class="vital-row">
-          <span class="vital-label">Station:</span>
-          <span class="vital-value">Pune, India</span>
+          <span>Pune, India Dispatch</span>
         </div>
-        <div class="vital-row">
-          <span class="vital-label">Rank:</span>
-          <span class="vital-value">MCA Candidate</span>
+        <h1 class="r-masthead-title">The Akulwar Dispatch</h1>
+        <div class="r-masthead-subtitle">
+          Portfolio of Record &nbsp;·&nbsp; Software Engineering &nbsp;·&nbsp; Artificial Intelligence &nbsp;·&nbsp;
+          Automation Systems
         </div>
-        <div class="vital-row">
-          <span class="vital-label">Unit:</span>
-          <span class="vital-value">IMED Bharti Vidyapeeth</span>
+        <div class="r-masthead-date-bar">
+          <span>Vol. XXIII &nbsp;·&nbsp; No. 1</span>
+          <span class="r-masthead-stars">✦ ✦ ✦</span>
+          <span>March, Anno Domini MMXXVI</span>
+          <span class="r-masthead-stars">✦ ✦ ✦</span>
+          <span>Price: One Good Opportunity</span>
         </div>
-        <div class="vital-row">
-          <span class="vital-label">Mission:</span>
-          <span class="vital-value">AI & Automation</span>
-        </div>
-        <div class="vital-row">
-          <span class="vital-label">Age:</span>
-          <span class="vital-value">23 Years</span>
-        </div>
-      </div>
-    </div>
+      </header>
 
-    <div class="col-divider"></div>
+      <!-- Nav -->
+      <nav class="r-nav-bar">
+        <a href="#r-about">About</a>
+        <a href="#r-skills">Skills</a>
+        <a href="#r-projects">Campaigns</a>
+        <a href="#r-education">Education</a>
+        <a href="#r-contact">Contact</a>
+      </nav>
 
-    <!-- COL 2: MAIN HEADLINE -->
-    <div class="col-main">
-      <div class="headline-kicker">Special Report — Technology & Innovation</div>
+      <!-- Headline Section -->
+      <section class="r-headline-section" id="r-about">
 
-      <h2 class="main-headline">
-        Engineer of the<br>New Machine Age
-        <em>builds intelligent systems that adapt, endure & conquer</em>
-      </h2>
-
-      <div class="headline-rule"></div>
-
-      <p class="lead-text">
-        Aspiring software developer with a formidable focus upon artificial intelligence and automation systems. A detail-oriented problem solver of considerable analytical power, demonstrating remarkable adaptability across the rapidly evolving theatres of technological conflict. Trained in the full-stack arts of development, our correspondent has constructed AI-powered applications of considerable distinction — from LangGraph agents to learning assistants capable of digesting entire video archives. Having recently been summoned to interview by TailorTalk and Emergence Software, the young engineer stands at the threshold of a most distinguished campaign.
-      </p>
-
-      <div class="dispatch-tags">
-        <span class="dispatch-tag highlight">AI Applications</span>
-        <span class="dispatch-tag">Workflow Automation</span>
-        <span class="dispatch-tag">Full-Stack</span>
-        <span class="dispatch-tag">Python · Java · Kotlin</span>
-        <span class="dispatch-tag">n8n · FastAPI</span>
-      </div>
-    </div>
-
-    <div class="col-divider"></div>
-
-    <!-- COL 3: SIDEBAR -->
-    <div class="col-sidebar">
-      <div class="sidebar-box">
-        <div class="sidebar-box-header">Communiqués</div>
-        <div class="sidebar-box-body">
-          <a href="#" class="sidebar-link">
-            <span class="link-glyph">⊕</span>
-            <span>LinkedIn Dispatch</span>
-          </a>
-          <a href="#" class="sidebar-link">
-            <span class="link-glyph">⊕</span>
-            <span>GitHub Repository</span>
-          </a>
-          <a href="#" class="sidebar-link">
-            <span class="link-glyph">⊕</span>
-            <span>Telegram — Email</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="star-ornament">✦ ✦ ✦</div>
-
-      <div class="sidebar-box">
-        <div class="sidebar-box-header">Intelligence Report</div>
-        <div class="sidebar-box-body">
-          <p style="font-family:'IM Fell English',serif;font-size:0.75rem;line-height:1.6;color:var(--ink-faded);font-style:italic;">
-            "Our operatives report with confidence that the subject demonstrates mastery over the Python tongue, Java scriptures, and the arcane Kotlin protocols..."
+        <!-- Col 1: Portrait -->
+        <div class="r-col-portrait">
+          <div class="r-portrait-frame">
+            <img src="/RohitProfilePhoto.jpeg"
+              onerror="this.src='https://placehold.co/400x533/e8dcc8/3d2e18?text=Portrait'" alt="Rohit Bharat Akulwar">
+          </div>
+          <p class="r-portrait-caption">
+            Fig. I — R.B. Akulwar, Software Developer<br>
+            Photographed at Headquarters, Pune
           </p>
-          <p style="font-family:'Special Elite',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-top:0.6rem;">
-            — Field Assessment, March 2026
-          </p>
-        </div>
-      </div>
-
-      <div class="sidebar-box" style="margin-top:1rem;">
-        <div class="sidebar-box-header">Theatre of Operations</div>
-        <div class="sidebar-box-body">
-          <div style="display:flex;flex-direction:column;gap:0.4rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed var(--ink-light);padding-bottom:0.3rem;">
-              <span style="font-family:'IM Fell English',serif;font-size:0.75rem;font-style:italic;">LLM Engineering</span>
-              <span style="color:var(--gold-dim);font-size:0.65rem;">✦✦✦✦✦</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed var(--ink-light);padding-bottom:0.3rem;">
-              <span style="font-family:'IM Fell English',serif;font-size:0.75rem;font-style:italic;">RAG Systems</span>
-              <span style="color:var(--gold-dim);font-size:0.65rem;">✦✦✦✦✦</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed var(--ink-light);padding-bottom:0.3rem;">
-              <span style="font-family:'IM Fell English',serif;font-size:0.75rem;font-style:italic;">n8n Automation</span>
-              <span style="color:var(--gold-dim);font-size:0.65rem;">✦✦✦✦</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-family:'IM Fell English',serif;font-size:0.75rem;font-style:italic;">GSAP & Frontend</span>
-              <span style="color:var(--gold-dim);font-size:0.65rem;">✦✦✦✦</span>
+          <div class="r-vitals-box">
+            <h4>Dossier</h4>
+            <div class="r-vital-row"><span class="r-vital-label">Station:</span><span class="r-vital-value">Pune,
+                India</span></div>
+            <div class="r-vital-row"><span class="r-vital-label">Rank:</span><span class="r-vital-value">MCA
+                Candidate</span></div>
+            <div class="r-vital-row"><span class="r-vital-label">Unit:</span><span class="r-vital-value">IMED Bharti
+                Vidyapeeth</span></div>
+            <div class="r-vital-row"><span class="r-vital-label">Mission:</span><span class="r-vital-value">AI &amp;
+                Automation</span></div>
+            <div class="r-vital-row"><span class="r-vital-label">Age:</span><span class="r-vital-value">23 Years</span>
             </div>
           </div>
         </div>
+
+        <div class="r-col-divider"></div>
+
+        <!-- Col 2: Main -->
+        <div class="r-col-main">
+          <div class="r-headline-kicker">Special Report — Technology &amp; Innovation</div>
+          <h2 class="r-main-headline">
+            Engineer of the New Machine Age
+            <em>builds intelligent systems that adapt, endure &amp; conquer</em>
+          </h2>
+          <div class="r-headline-rule"></div>
+          <div class="r-byline">
+            By <strong>Rohit Bharat Akulwar</strong> &nbsp;·&nbsp;
+            Our Own Correspondent, Pune Station &nbsp;·&nbsp; March 2026
+          </div>
+          <p class="r-lead-text">
+            Aspiring software developer with a formidable focus upon <span class="r-highlight">artificial intelligence
+              and automation systems</span>. A detail-oriented problem solver of considerable analytical power,
+            demonstrating remarkable adaptability across the rapidly evolving theatres of technological conflict.
+            Trained in the <span class="r-highlight">full-stack arts of development</span>, our correspondent has
+            constructed AI-powered applications of considerable distinction — from <span class="r-highlight">LangGraph
+              agents to learning assistants</span> capable of digesting entire video archives. Having recently been
+            summoned to interview by TailorTalk and Emergence Software, the young engineer stands at the threshold of a
+            most distinguished campaign. With arms forged in Python, Java, and the Kotlin protocols, and intelligence
+            supplied by LangGraph and FastAPI, the subject is prepared for the campaigns of the new machine age.
+          </p>
+          <div class="r-dispatch-tags">
+            <span class="r-dispatch-tag highlight">AI Applications</span>
+            <span class="r-dispatch-tag">Workflow Automation</span>
+            <span class="r-dispatch-tag">Full-Stack</span>
+            <span class="r-dispatch-tag">Python · Java · Kotlin</span>
+            <span class="r-dispatch-tag">n8n · FastAPI</span>
+          </div>
+        </div>
+
+        <div class="r-col-divider"></div>
+
+        <!-- Col 3: Sidebar -->
+        <div class="r-col-sidebar">
+          <div class="r-sidebar-box">
+            <div class="r-sidebar-box-header">Communiqués</div>
+            <div class="r-sidebar-box-body">
+              <a href="#" class="r-sidebar-link"><span class="r-link-glyph">⊕</span><span>LinkedIn Dispatch</span></a>
+              <a href="#" class="r-sidebar-link"><span class="r-link-glyph">⊕</span><span>GitHub Repository</span></a>
+              <a href="#" class="r-sidebar-link"><span class="r-link-glyph">⊕</span><span>Electronic Missive</span></a>
+            </div>
+          </div>
+          <div class="r-star-ornament">✦ ✦ ✦</div>
+          <div class="r-sidebar-box">
+            <div class="r-sidebar-box-header">Intelligence Report</div>
+            <div class="r-sidebar-box-body">
+              <p
+                style="font-family: 'IM Fell English',serif; font-size: 0.8rem; line-height: 1.65; color: var(--ink-faded); font-style: italic;">
+                "Our operatives confirm mastery of the Python tongue, Java scriptures, and the arcane Kotlin protocols —
+                a most formidable arsenal indeed."
+              </p>
+              <p
+                style="font-family: 'Special Elite',monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-top: 0.6rem;">
+                — Field Assessment, March 2026
+              </p>
+            </div>
+          </div>
+          <div class="r-sidebar-box" style="margin-top: 1rem;" id="r-education">
+            <div class="r-sidebar-box-header">Theatre of Operations</div>
+            <div class="r-sidebar-box-body">
+              <div class="r-theatre-row"><span class="r-theatre-name">LLM Engineering</span><span
+                  class="r-theatre-stars">✦✦✦✦✦</span></div>
+              <div class="r-theatre-row"><span class="r-theatre-name">RAG Systems</span><span
+                  class="r-theatre-stars">✦✦✦✦✦</span></div>
+              <div class="r-theatre-row"><span class="r-theatre-name">n8n Automation</span><span
+                  class="r-theatre-stars">✦✦✦✦</span></div>
+              <div class="r-theatre-row"><span class="r-theatre-name">GSAP & Frontend</span><span
+                  class="r-theatre-stars">✦✦✦✦</span></div>
+            </div>
+          </div>
+          <div class="r-sidebar-box" style="margin-top: 1rem;">
+            <div class="r-sidebar-box-header">Academy</div>
+            <div class="r-sidebar-box-body">
+              <div class="r-vital-row"><span class="r-vital-label">Degree:</span><span class="r-vital-value">MCA</span>
+              </div>
+              <div class="r-vital-row"><span class="r-vital-label">Institution:</span><span class="r-vital-value">IMED
+                  Bharti Vidyapeeth</span></div>
+              <div class="r-vital-row"><span class="r-vital-label">Period:</span><span class="r-vital-value">2024 -
+                  2026</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Grid -->
+      <section id="r-skills">
+        <div class="r-section-header">
+          <hr class="r-section-rule-left">
+          <h2>Arsenal of Competencies</h2>
+          <hr class="r-section-rule">
+        </div>
+        <div class="r-skills-glossary">
+          <div class="r-skill-group">
+            <h3>Core Languages</h3>
+            <ul>
+              <li>
+                <span class="r-skill-name r-circle-highlight">
+                  Python
+                  <svg class="r-handdrawn-circle" viewBox="0 0 100 40" preserveAspectRatio="none">
+                    <path d="M 12 25 C 20 5, 80 0, 92 18 C 98 32, 60 42, 18 35 C 2 30, -2 15, 22 10" />
+                  </svg>
+                </span>
+                <span class="r-skill-type">Primary</span>
+              </li>
+              <li><span class="r-skill-name">Java</span><span class="r-skill-type">Secondary</span></li>
+              <li><span class="r-skill-name">Kotlin</span><span class="r-skill-type">JVM</span></li>
+              <li><span class="r-skill-name">JavaScript</span><span class="r-skill-type">Web</span></li>
+              <li><span class="r-skill-name">TypeScript</span><span class="r-skill-type">Strict</span></li>
+            </ul>
+          </div>
+          <div class="r-skill-group">
+            <h3>AI & Intelligence</h3>
+            <ul>
+              <li>
+                <span class="r-skill-name r-circle-highlight">
+                  LangGraph
+                  <svg class="r-handdrawn-circle" viewBox="0 0 100 40" preserveAspectRatio="none">
+                    <path d="M 12 25 C 20 5, 80 0, 92 18 C 98 32, 60 42, 18 35 C 2 30, -2 15, 22 10" />
+                  </svg>
+                </span>
+                <span class="r-skill-type">Agents</span>
+              </li>
+              <li><span class="r-skill-name">RAG Systems</span><span class="r-skill-type">Retrieval</span></li>
+              <li><span class="r-skill-name">Vector DBs</span><span class="r-skill-type">Storage</span></li>
+              <li><span class="r-skill-name">OpenAI API</span><span class="r-skill-type">Models</span></li>
+              <li><span class="r-skill-name">Whisper</span><span class="r-skill-type">Audio</span></li>
+            </ul>
+          </div>
+          <div class="r-skill-group">
+            <h3>Frameworks & Tools</h3>
+            <ul>
+              <li>
+                <span class="r-skill-name r-circle-highlight">
+                  FastAPI
+                  <svg class="r-handdrawn-circle" viewBox="0 0 100 40" preserveAspectRatio="none">
+                    <path d="M 12 25 C 20 5, 80 0, 92 18 C 98 32, 60 42, 18 35 C 2 30, -2 15, 22 10" />
+                  </svg>
+                </span>
+                <span class="r-skill-type">Backend</span>
+              </li>
+              <li>
+                <span class="r-skill-name r-circle-highlight">
+                  n8n
+                  <svg class="r-handdrawn-circle" viewBox="0 0 100 40" preserveAspectRatio="none">
+                    <path d="M 12 25 C 20 5, 80 0, 92 18 C 98 32, 60 42, 18 35 C 2 30, -2 15, 22 10" />
+                  </svg>
+                </span>
+                <span class="r-skill-type">Automation</span>
+              </li>
+              <li>
+                <span class="r-skill-name r-circle-highlight">
+                  React
+                  <svg class="r-handdrawn-circle" viewBox="0 0 100 40" preserveAspectRatio="none">
+                    <path d="M 12 25 C 20 5, 80 0, 92 18 C 98 32, 60 42, 18 35 C 2 30, -2 15, 22 10" />
+                  </svg>
+                </span>
+                <span class="r-skill-type">Frontend</span>
+              </li>
+              <li><span class="r-skill-name">Supabase</span><span class="r-skill-type">Database</span></li>
+              <li><span class="r-skill-name">GSAP</span><span class="r-skill-type">Animation</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Grid -->
+      <section id="r-projects">
+        <div class="r-section-header">
+          <hr class="r-section-rule-left">
+          <h2>Notable Campaigns</h2>
+          <hr class="r-section-rule">
+        </div>
+        <div class="r-projects-grid">
+          <div class="r-project-card">
+            <span class="r-featured-badge">Front Page</span>
+            <div class="r-project-issue">Dispatch No. I — AI Systems</div>
+            <h3 class="r-project-headline">LangGraph Autonomous Agent</h3>
+            <p class="r-project-deck">A multi-agent workflow system designed to automate complex research and
+              compilation tasks using LLM chaining.</p>
+            <div class="r-project-tech"><span>Python</span><span>LangGraph</span><span>OpenAI</span></div>
+          </div>
+          <div class="r-project-card">
+            <div class="r-project-issue">Dispatch No. II — AI Systems</div>
+            <h3 class="r-project-headline">RAG Document Assistant</h3>
+            <p class="r-project-deck">Retrieval-augmented generation interface built to swiftly parse and query vast
+              internal intelligence dossiers.</p>
+            <div class="r-project-tech"><span>FastAPI</span><span>Vector DB</span><span>RAG</span></div>
+          </div>
+          <div class="r-project-card">
+            <div class="r-project-issue">Dispatch No. III — AI Systems</div>
+            <h3 class="r-project-headline">Video Archive Analyzer</h3>
+            <p class="r-project-deck">Automated transcription and semantic indexing system for digesting video evidence
+              into searchable text.</p>
+            <div class="r-project-tech"><span>Whisper</span><span>n8n</span><span>Supabase</span></div>
+          </div>
+        </div>
+
+        <div class="r-pull-quote">
+          <blockquote>
+            "A software developer building things that adapt — in the tradition of the great artificers, forging tools
+            not for a single battle, but for the campaigns of a generation."
+            <cite>— Self-assessment filed at portfolio headquarters, Pune Station</cite>
+          </blockquote>
+        </div>
+      </section>
+
+      <!-- Projects Ledger -->
+      <section id="r-projects-archive">
+        <div class="r-section-header">
+          <hr class="r-section-rule-left">
+          <h2>Projects Ledger</h2>
+          <hr class="r-section-rule">
+        </div>
+        <table class="r-ledger-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Codename / Period</th>
+              <th style="width: 50%;">Operation Details</th>
+              <th style="width: 25%;">Technologies Deployed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="r-ledger-title">E-Commerce Microservices</span>
+                <span class="r-ledger-desc">Winter 2025</span>
+              </td>
+              <td>
+                <p class="r-ledger-desc">Engineered a scalable backend architecture utilizing Spring Boot and Java.
+                  Implemented robust API gateways and localized databases to ensure fault-tolerant transaction
+                  processing during peak traffic intervals.</p>
+                <a href="#" class="r-ledger-link">Review Documentation ⊕</a>
+              </td>
+              <td>
+                <div class="r-ledger-tech">
+                  <span>Java</span>
+                  <span>Spring Boot</span>
+                  <span>PostgreSQL</span>
+                  <span>Docker</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="r-ledger-title">Interactive Resume Platform</span>
+                <span class="r-ledger-desc">Spring 2026</span>
+              </td>
+              <td>
+                <p class="r-ledger-desc">Constructed an immersive portfolio experience featuring a cinematic Renaissance
+                  theme, an integrated AI chat oracle, and dynamic smooth-scrolling animations.</p>
+                <a href="#" class="r-ledger-link">Review Documentation ⊕</a>
+              </td>
+              <td>
+                <div class="r-ledger-tech">
+                  <span>React</span>
+                  <span>Tailwind CSS</span>
+                  <span>LLM Agents</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Footer -->
+      <footer class="r-footer" id="r-contact">
+        <div class="r-footer-left">
+          Rohit Bharat Akulwar<br>
+          MCA — IMED Bharti Vidyapeeth<br>
+          Pune, Maharashtra, India<br>
+          © Anno Domini MMXXVI
+        </div>
+        <div class="r-footer-center">✦</div>
+        <div class="r-footer-right">
+          All dispatches verified &amp; sealed<br>
+          by the Office of the Portfolio<br>
+          <em>Omnia dicta fortiora si dicta Latina</em>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+         CHAT ORACLE (RenaissanceChatDrawer)
+         ========================================================================== -->
+  <button class="r-chat-toggle" id="chatToggleBtn" aria-label="Open oracle chat">
+    <span class="r-ct-glyph">⊕</span>
+    Enquire of the Oracle
+    <span class="r-ct-dot"></span>
+  </button>
+
+  <div class="r-chat-drawer" id="chatDrawer" role="dialog" aria-label="Resume Oracle Chat">
+    <div class="r-drawer-head">
+      <div class="r-drawer-head-left">
+        <span class="r-drawer-title">The Oracle</span>
+        <span class="r-drawer-subtitle">Resume Intelligence · Powered by AI</span>
       </div>
+      <div class="r-drawer-status">
+        <span class="r-ct-dot" id="drawerStatusDot" style="display: inline-block"></span>
+        <span id="drawerStatusText">Ready to dispatch</span>
+      </div>
+      <button class="r-drawer-close" id="chatCloseBtn">Close ✕</button>
     </div>
 
-  </section>
-
-  <!-- ===== SKILLS ===== -->
-  <section>
-    <div class="section-header">
-      <hr class="section-rule-left">
-      <h2>Arsenal of Competencies</h2>
-      <hr class="section-rule">
+    <div class="r-drawer-thread" id="chatThread">
+      <div class="r-welcome" id="welcomeMessage">
+        <p>
+          "Hail, visitor. I am Rohit's resume oracle — keeper of his skills,
+          campaigns, and academic scrolls. Put your enquiry to me and I shall
+          dispatch a reply of considerable accuracy."
+        </p>
+        <div class="r-welcome-byline">— The Oracle, Pune Station · Ready for queries</div>
+        <div class="r-suggestions">
+          <button class="r-suggestion-pill" onclick="sendSuggestion('What projects has he worked on?')">What projects
+            has he worked on?</button>
+          <button class="r-suggestion-pill" onclick="sendSuggestion('What is his AI tech stack?')">What's his AI tech
+            stack?</button>
+          <button class="r-suggestion-pill" onclick="sendSuggestion('Tell me about his education')">Tell me about his
+            education</button>
+          <button class="r-suggestion-pill" onclick="sendSuggestion('What is he passionate about?')">What is he
+            passionate about?</button>
+        </div>
+      </div>
+      <!-- Messages inserted here via JS -->
+      <div id="typingIndicator" class="r-typing" style="display: none; align-self: flex-start; margin-top: 0.5rem;">
+        <span>Consulting the oracle</span>
+        <div class="r-typing-dot"></div>
+        <div class="r-typing-dot"></div>
+        <div class="r-typing-dot"></div>
+      </div>
+      <div id="threadBottom"></div>
     </div>
 
-    <div class="skills-grid">
-      <div class="skill-cell">
-        <div class="skill-cell-label">Primary Arm</div>
-        <div class="skill-cell-name">Python</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <div class="skill-cell-label">Secondary Arm</div>
-        <div class="skill-cell-name">Java & Kotlin</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <div class="skill-cell-label">Signal Corps</div>
-        <div class="skill-cell-name">LangGraph + FastAPI</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <div class="skill-cell-label">Field Intelligence</div>
-        <div class="skill-cell-name">RAG & Embeddings</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <div class="skill-cell-label">Logistics</div>
-        <div class="skill-cell-name">n8n Automation</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <div class="skill-cell-label">Provisions</div>
-        <div class="skill-cell-name">Supabase + pgvector</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <div class="skill-cell-label">Reconnaissance</div>
-        <div class="skill-cell-name">GSAP & Frontend</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div>
-        </div>
-      </div>
-      <div class="skill-cell">
-        <div class="skill-cell-label">Communications</div>
-        <div class="skill-cell-name">React Native + Expo</div>
-        <div class="skill-bar">
-          <div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div><div class="skill-pip"></div>
-        </div>
-      </div>
+    <div class="r-drawer-input-area">
+      <textarea class="r-drawer-textarea" id="chatInput" placeholder="Dispatch your enquiry to the oracle..." rows="1"
+        aria-label="Chat input"></textarea>
+      <button class="r-drawer-send" id="chatSendBtn" disabled aria-label="Send">Dispatch ⊕</button>
     </div>
-  </section>
+    <div class="r-drawer-hint">Press Enter to send · Shift+Enter for new line</div>
+  </div>
 
-  <!-- ===== PROJECTS ===== -->
-  <section>
-    <div class="section-header">
-      <hr class="section-rule-left">
-      <h2>Notable Campaigns</h2>
-      <hr class="section-rule">
-    </div>
+  <!-- ==========================================================================
+         INTERACTIVE SCRIPTS
+         ========================================================================== -->
+  <script>
+    // --- FILM TRANSITION LOGIC ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('transition-overlay');
+      // Start fading out at 3.8s, hide entirely at 4.5s
+      setTimeout(() => { overlay.classList.add('exiting'); }, 3800);
+      setTimeout(() => { overlay.style.display = 'none'; }, 4500);
 
-    <div class="projects-grid">
-      <div class="project-card">
-        <span class="featured-badge">Front Page</span>
-        <div class="project-issue">Dispatch No. I — AI Systems</div>
-        <h3 class="project-headline">The Titanic Intelligence: A Deep-Sea Agent of Considerable Power</h3>
-        <p class="project-deck">A full-stack application deploying LangGraph agents upon the famous Titanic dataset — a chatbot of nautical theme and immense analytical capacity, capable of answering queries of considerable complexity from the deep archive.</p>
-        <div class="project-tech">
-          <span>LangGraph</span><span>FastAPI</span><span>Railway</span><span>Streamlit</span>
-        </div>
-      </div>
+      // Theme Switcher Dropdown Label timeout logic
+      const themeBtn = document.getElementById('theme-btn');
+      setTimeout(() => { themeBtn.classList.remove('show-label'); }, 2000);
 
-      <div class="project-card">
-        <div class="project-issue">Dispatch No. II — Education</div>
-        <h3 class="project-headline">The Learning Engine: Consuming Videos & Documents with Mechanical Hunger</h3>
-        <p class="project-deck">An AI learning assistant that processes YouTube archives and PDF scrolls to generate flashcards, examinations, and RAG-powered discourse — powered by the LLaMA 3.1 regiment.</p>
-        <div class="project-tech">
-          <span>OpenRouter</span><span>OpenAI Embeddings</span><span>Supabase</span>
-        </div>
-      </div>
+      // --- HIGHLIGHT ANIMATION LOGIC ---
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5
+      };
 
-      <div class="project-card">
-        <div class="project-issue">Dispatch No. III — Automation</div>
-        <h3 class="project-headline">The RSS Aggregation Pipeline: Intelligence Harvested from a Thousand Sources</h3>
-        <p class="project-deck">A multi-workflow intelligence system employing Firecrawl scouting, Gemini AI processing, and a full-stack dashboard integrated with Postgres — a masterwork of automated information warfare.</p>
-        <div class="project-tech">
-          <span>n8n</span><span>Firecrawl</span><span>Gemini AI</span><span>Postgres</span>
-        </div>
-      </div>
-    </div>
+      const highlightObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target); // Animate only once
+          }
+        });
+      }, observerOptions);
 
-    <!-- PULL QUOTE -->
-    <div class="pull-quote">
-      <blockquote>
-        "A software developer building things that adapt — in the tradition of the great artificers, forging tools not for a single battle, but for the campaigns of a generation."
-        <cite>— Self-assessment filed at portfolio headquarters, Pune Station</cite>
-      </blockquote>
-    </div>
-  </section>
+      document.querySelectorAll('.r-highlight, .r-circle-highlight').forEach(el => {
+        highlightObserver.observe(el);
+      });
+    });
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="footer-left">
-      Rohit Bharat Akulwar<br>
-      MCA — IMED Bharti Vidyapeeth<br>
-      Pune, Maharashtra, India<br>
-      ©  Anno Domini MMXXVI
-    </div>
-    <div class="footer-center">✦</div>
-    <div class="footer-right">
-      All dispatches verified &amp; sealed<br>
-      by the Office of the Portfolio<br>
-      <em>Omnia dicta fortiora si dicta Latina</em>
-    </div>
-  </footer>
+    // --- THEME SWITCHER LOGIC ---
+    const themeBtn = document.getElementById('theme-btn');
+    const themeMenu = document.getElementById('theme-menu');
 
-</div>
+    themeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      themeMenu.classList.toggle('open');
+    });
 
-<!-- THEME SWITCHER (stub for future themes) -->
-<div class="theme-switcher">
-  <div class="theme-label">Theme Select</div>
-  <button class="theme-btn active">Renaissance ·  War Dispatch</button>
-  <button class="theme-btn">Modern · Clean</button>
-  <button class="theme-btn">Dark · Editorial</button>
-</div>
+    document.addEventListener('click', (e) => {
+      if (!document.getElementById('theme-switcher-dropdown').contains(e.target)) {
+        themeMenu.classList.remove('open');
+      }
+    });
 
+    // --- CHAT DRAWER LOGIC ---
+    const chatToggleBtn = document.getElementById('chatToggleBtn');
+    const chatDrawer = document.getElementById('chatDrawer');
+    const chatCloseBtn = document.getElementById('chatCloseBtn');
+    const chatInput = document.getElementById('chatInput');
+    const chatSendBtn = document.getElementById('chatSendBtn');
+    const chatThread = document.getElementById('chatThread');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const typingIndicator = document.getElementById('typingIndicator');
+    const threadBottom = document.getElementById('threadBottom');
+
+    const drawerStatusDot = document.getElementById('drawerStatusDot');
+    const drawerStatusText = document.getElementById('drawerStatusText');
+
+    let isChatOpen = false;
+    let isLoading = false;
+
+    function toggleChat() {
+      isChatOpen = !isChatOpen;
+      if (isChatOpen) {
+        chatToggleBtn.classList.add('open');
+        chatDrawer.classList.add('open');
+        setTimeout(() => chatInput.focus(), 350);
+      } else {
+        chatToggleBtn.classList.remove('open');
+        chatDrawer.classList.remove('open');
+      }
+    }
+
+    chatToggleBtn.addEventListener('click', toggleChat);
+    chatCloseBtn.addEventListener('click', toggleChat);
+
+    chatInput.addEventListener('input', () => {
+      chatSendBtn.disabled = chatInput.value.trim().length === 0 || isLoading;
+    });
+
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitChat();
+      }
+    });
+
+    chatSendBtn.addEventListener('click', submitChat);
+
+    function sendSuggestion(text) {
+      chatInput.value = text;
+      submitChat();
+      if (!isChatOpen) toggleChat();
+    }
+
+    function submitChat() {
+      const text = chatInput.value.trim();
+      if (!text || isLoading) return;
+
+      // Remove welcome if it's there
+      if (welcomeMessage) welcomeMessage.style.display = 'none';
+
+      // Add user bubble
+      appendMessage('user', text);
+      chatInput.value = '';
+      chatSendBtn.disabled = true;
+
+      // Simulate Oracle loading
+      isLoading = true;
+      chatToggleBtn.querySelector('.r-ct-dot').classList.add('thinking');
+      drawerStatusDot.classList.add('thinking');
+      drawerStatusText.innerText = 'Consulting archives...';
+      chatInput.disabled = true;
+      typingIndicator.style.display = 'flex';
+      scrollToBottom();
+
+      // Mock response delay
+      setTimeout(() => {
+        const response = getMockResponse(text);
+        typingIndicator.style.display = 'none';
+        appendMessage('assistant', response);
+
+        isLoading = false;
+        chatToggleBtn.querySelector('.r-ct-dot').classList.remove('thinking');
+        drawerStatusDot.classList.remove('thinking');
+        drawerStatusText.innerText = 'Ready to dispatch';
+        chatInput.disabled = false;
+        setTimeout(() => chatInput.focus(), 50);
+        scrollToBottom();
+      }, 1800);
+    }
+
+    function appendMessage(role, text) {
+      const bubble = document.createElement('div');
+      bubble.className = role === 'user' ? 'r-msg-user' : 'r-msg-assistant';
+
+      if (role === 'assistant') {
+        // Simple bold markdown parsing simulator
+        let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        bubble.innerHTML = html;
+      } else {
+        bubble.innerText = text;
+      }
+
+      chatThread.insertBefore(bubble, typingIndicator);
+      scrollToBottom();
+    }
+
+    function scrollToBottom() {
+      threadBottom.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Mock AI answers
+    function getMockResponse(query) {
+      const q = query.toLowerCase();
+      if (q.includes('project') || q.includes('campaign')) {
+        return "The subject's notable campaigns include a **LangGraph Autonomous Agent**, a highly efficient **RAG Document Assistant**, and a **Video Archive Analyzer** powered by n8n workflows and Whisper.";
+      } else if (q.includes('stack') || q.includes('technology') || q.includes('skill')) {
+        return "His primary armament consists of **Python, Java, and Kotlin**. In the field of intelligence (AI), he commands **LangGraph, FastAPI, and n8n** for robust workflow automation.";
+      } else if (q.includes('education') || q.includes('academy')) {
+        return "He currently pursues a **Master of Computer Applications (MCA)** at **IMED Bharti Vidyapeeth**, slated for completion in the year of our Lord 2026.";
+      } else if (q.includes('passion') || q.includes('goal')) {
+        return "He is possessed by a formidable passion for **artificial intelligence and automation systems**, striving always to build tools that adapt, endure, and conquer complex workflows.";
+      } else {
+        return "I have consulted the archives, yet your precise query eludes my current scrolls. Rest assured, Rohit is a formidable engineer of the new machine age. Is there another matter of his portfolio you wish to query?";
+      }
+    }
+  </script>
 </body>
+
 </html>

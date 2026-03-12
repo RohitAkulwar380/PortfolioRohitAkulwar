@@ -506,62 +506,63 @@
     border: none;
 }
 
-/* ── Skills grid — full-width, 5 columns ─────────────────────────────────────── */
-.r-skills-grid {
+/* ── Skills Glossary — 3 columns ─────────────────────────────────────────────── */
+.r-skills-glossary {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0;
-    border: 1px solid var(--ink);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
     margin-bottom: 2.5rem;
     animation: r-fadeInUp .8s .2s ease both;
 }
 
-.r-skill-cell {
-    padding: 1.1rem 1.2rem;
-    border-right: 1px solid var(--ink-light);
-    border-bottom: 1px solid var(--ink-light);
-}
-
-.r-skill-cell:nth-child(5n) {
-    border-right: none;
-}
-
-.r-skill-cell:nth-last-child(-n+5) {
-    border-bottom: none;
-}
-
-.r-skill-cell-label {
-    font-family: 'Special Elite', monospace;
-    font-size: 0.54rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--blood-red);
-    margin-bottom: 0.35rem;
-}
-
-.r-skill-cell-name {
+.r-skill-group h3 {
     font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.4rem;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.r-skill-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.r-skill-group li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.6rem;
+}
+
+.r-skill-group li::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dotted var(--ink-light);
+    margin: 0 8px;
+    opacity: 0.6;
+    order: 2;
+}
+
+.r-skill-name {
+    font-family: 'IM Fell English', serif;
     font-size: 1.05rem;
     font-weight: 700;
     color: var(--ink);
-    line-height: 1.22;
+    order: 1;
 }
 
-.r-skill-bar {
-    display: flex;
-    gap: 3px;
-    margin-top: 0.55rem;
-}
-
-.r-skill-pip {
-    width: 9px;
-    height: 9px;
-    border: 1px solid var(--ink-faded);
-    background: transparent;
-}
-
-.r-skill-pip.filled {
-    background: var(--ink-faded);
+.r-skill-type {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    color: var(--blood-red);
+    order: 3;
+    letter-spacing: 0.1em;
 }
 
 /* ── Projects grid — full-width, 3 equal columns ────────────────────────────── */
@@ -756,6 +757,68 @@
     }
 }
 
+/* ── Highlights ──────────────────────────────────────────────────────────────── */
+.r-highlight {
+    position: relative;
+    display: inline-block;
+    color: var(--ink);
+    z-index: 1;
+}
+
+.r-highlight::after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    bottom: 2px;
+    height: 35%;
+    width: 0;
+    background-color: rgba(201, 162, 39, 0.4);
+    z-index: -1;
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: rotate(-1deg);
+    border-radius: 2px;
+}
+
+.r-highlight.active::after {
+    width: calc(100% + 4px);
+}
+
+.r-circle-highlight {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+
+.r-handdrawn-circle {
+    position: absolute;
+    top: -40%;
+    left: -15%;
+    width: 130%;
+    height: 180%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: visible;
+}
+
+.r-handdrawn-circle path {
+    fill: none;
+    stroke: var(--blood-red);
+    stroke-width: 2.5;
+    opacity: 0.85;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    will-change: stroke-dashoffset;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.9s;
+    /* Delayed until section fully fades in */
+}
+
+.r-circle-highlight.active .r-handdrawn-circle path {
+    stroke-dashoffset: 0;
+}
+
 /* ── Animations ──────────────────────────────────────────────────────────────── */
 @keyframes r-fadeInUp {
     from {
@@ -779,24 +842,8 @@
         grid-template-columns: 1fr 1px 2fr 1px 1fr;
     }
 
-    .r-skills-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .r-skills-grid .r-skill-cell:nth-child(5n) {
-        border-right: 1px solid var(--ink-light);
-    }
-
-    .r-skills-grid .r-skill-cell:nth-child(4n) {
-        border-right: none;
-    }
-
-    .r-skills-grid .r-skill-cell:nth-last-child(-n+5) {
-        border-bottom: 1px solid var(--ink-light);
-    }
-
-    .r-skills-grid .r-skill-cell:nth-last-child(-n+4) {
-        border-bottom: none;
+    .r-skills-glossary {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .r-lead-text {

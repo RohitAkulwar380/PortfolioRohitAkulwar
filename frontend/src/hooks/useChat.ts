@@ -90,8 +90,15 @@ export function useChat(): UseChatReturn {
             setMessages((prev) => [...prev, assistantMsg]);
 
         } catch (err) {
-            const msg = err instanceof Error ? err.message : 'Something went wrong';
-            setError(msg);
+            console.warn('Chat API failed. Using offline fallback response.', err);
+
+            const assistantMsg: Message = {
+                id: uuid(),
+                role: 'assistant',
+                content: "System: Backend connection lost. I am operating in offline mode. I can still display Rohit's local resume data, but dynamic AI queries are currently unavailable. Please ensure the FastAPI backend is running for full interactivity.",
+                timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, assistantMsg]);
         } finally {
             setIsLoading(false);
         }

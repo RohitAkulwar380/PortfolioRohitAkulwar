@@ -6,7 +6,15 @@ import './ThemeSwitcher.css';
 export default function ThemeSwitcher() {
     const { activeTheme, switchTheme, isTransitioning } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
+    const [showLabel, setShowLabel] = useState(true);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Show label for 2 seconds on mount or theme change
+    useEffect(() => {
+        setShowLabel(true);
+        const timer = setTimeout(() => setShowLabel(false), 2000);
+        return () => clearTimeout(timer);
+    }, [activeTheme]);
 
     // Close on click outside
     useEffect(() => {
@@ -30,14 +38,14 @@ export default function ThemeSwitcher() {
     return (
         <div className="theme-switcher-container" ref={dropdownRef}>
             <button
-                className={`theme-switcher-btn style-${activeTheme}`}
+                className={`theme-switcher-btn style-${activeTheme} ${showLabel ? 'show-label' : ''}`}
                 onClick={() => setIsOpen(!isOpen)}
                 disabled={isTransitioning}
                 title="Change Theme"
                 aria-label="Change Theme"
             >
                 <span className="switcher-icon">{currentThemeData.icon}</span>
-                {currentThemeData.label} View
+                <span className="switcher-label">{currentThemeData.label} View</span>
             </button>
 
             {isOpen && (

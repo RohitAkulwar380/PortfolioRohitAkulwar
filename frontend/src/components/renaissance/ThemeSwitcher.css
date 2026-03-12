@@ -9,24 +9,51 @@
 .theme-switcher-btn {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.25rem;
-
+    padding: 0.75rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 100px;
     background: rgba(10, 10, 10, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
     font-family: var(--font-secondary, 'Inter', sans-serif);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.05em;
     white-space: nowrap;
-
     color: #fff;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    min-width: 44px;
+    height: 44px;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.switcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+}
+
+.switcher-label {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-left: 0;
+}
+
+.theme-switcher-btn.show-label {
+    padding: 0.75rem 1.25rem;
+    justify-content: flex-start;
+}
+
+.theme-switcher-btn.show-label .switcher-label {
+    max-width: 200px;
+    opacity: 1;
+    margin-left: 0.75rem;
 }
 
 .theme-switcher-btn:hover {
@@ -131,7 +158,6 @@
     font-family: var(--dm, 'DM Sans', sans-serif);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 0.5rem 0;
 }
 
 .style-architectural:hover {

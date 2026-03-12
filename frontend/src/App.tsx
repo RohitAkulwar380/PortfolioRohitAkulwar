@@ -14,6 +14,7 @@ import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import RenaissanceTheme from './components/renaissance/RenaissanceTheme';
 import ArchitecturalTheme from './components/architectural/ArchitecturalTheme';
 import ThemeTransition from './components/renaissance/ThemeTransition';
+import { fallbackResume } from './data/fallbackResume';
 import './styles/globals.css';
 
 /* Base API URL from .env */
@@ -23,7 +24,6 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL;
 function AppInner() {
   const [resume, setResume] = useState<ResumeData | null>(null);
   const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [introFinished, setIntroFinished] = useState(false);
 
   const { activeTheme, isTransitioning } = useTheme();
@@ -39,8 +39,8 @@ function AppInner() {
         setLoading(false);
       })
       .catch((err: Error) => {
-        console.error('Failed to load resume:', err.message);
-        setError('Could not load portfolio data. Is the backend running?');
+        console.warn('Failed to load resume from API. Using local offline fallback data. Error:', err.message);
+        setResume(fallbackResume as ResumeData);
         setLoading(false);
       });
   }, []);
@@ -55,32 +55,10 @@ function AppInner() {
     }
   }, [resume]);
 
-  /*
-   * Handle the intro completion signal from child components.
-   * We add the 'intro-finished' class to the body here so that
-   * CSS-based stagger animations (.fade-in-item) can trigger.
-   */
   const handleIntroComplete = () => {
     setIntroFinished(true);
     document.body.classList.add('intro-finished');
   };
-
-  if (error) {
-    return (
-      <div style={{
-        display: 'flex',
-        height: '100dvh',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Inter, sans-serif',
-        color: '#6B6564',
-        padding: '2rem',
-        textAlign: 'center',
-      }}>
-        <p>{error}</p>
-      </div>
-    );
-  }
 
   return (
     <>
