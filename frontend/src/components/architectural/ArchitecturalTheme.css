@@ -1,0 +1,1793 @@
+/*
+ * ArchitecturalTheme.css
+ * ───────────────────────
+ * Tokens & Reset
+ */
+
+/* ─────────────────────────────
+   GLOBAL OVERRIDES (when active)
+───────────────────────────── */
+html.theme-architectural-active {
+    scroll-behavior: auto !important;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+html.theme-architectural-active::-webkit-scrollbar {
+    display: none;
+}
+
+body.theme-architectural-active,
+body.theme-architectural-active #root {
+    height: auto !important;
+    min-height: 100vh;
+    overflow: visible !important;
+    background: var(--ink) !important;
+    font-size: 69% !important;
+    /* Scale overall rems by 40% (115% * 0.6) */
+}
+
+body.theme-architectural-active.noscroll-architectural {
+    overflow: hidden !important;
+}
+
+.architectural-root {
+    --cream: #f0ece3;
+    --ink: #111010;
+    --sage: #7a8c6e;
+    --sage-bg: #b8c4a8;
+    --sage-dk: #3d4a34;
+    --cobalt: #1f3a8f;
+    --orange: #d44b1a;
+    --olive: #5c5a38;
+
+    --bb: 'Bebas Neue', sans-serif;
+    --dm: 'DM Sans', sans-serif;
+    --is: 'Instrument Serif', serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--dm);
+    overflow-x: hidden;
+    cursor: none;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+}
+
+/* ─────────────────────────────
+   CURSOR
+───────────────────────────── */
+.architectural-root #cur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background: var(--cream);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s;
+    mix-blend-mode: difference;
+}
+
+.architectural-root #cur.expand {
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    border: 1px solid var(--cream);
+    mix-blend-mode: normal;
+}
+
+.architectural-root #cur.dark-mode {
+    background: var(--ink);
+    mix-blend-mode: normal;
+}
+
+/* ─────────────────────────────
+   NAV — Bauhaus Hover
+───────────────────────────── */
+.architectural-root nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+    mix-blend-mode: difference;
+    pointer-events: none;
+}
+
+.architectural-root .nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.architectural-root nav a {
+    position: relative;
+    font-family: var(--dm);
+    font-weight: 400;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    pointer-events: all;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    height: 1.2rem;
+    /* Exactly tuned container to clip off bleed */
+}
+
+/* Bauhaus duplicate text hover effect */
+.architectural-root nav a span {
+    display: block;
+    transition: transform 0.4s var(--ease-out-expo), opacity 0.4s var(--ease-out-expo);
+}
+
+.architectural-root nav a::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-family: var(--bb);
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    transition: transform 0.4s var(--ease-out-expo);
+}
+
+.architectural-root nav a:hover span {
+    transform: translateY(-150%);
+    opacity: 0;
+}
+
+.architectural-root nav a:hover::after {
+    transform: translateY(-100%);
+}
+
+/* ─────────────────────────────
+   INTRO — Monolith Lift
+───────────────────────────── */
+.architectural-root #architectural-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 8000;
+    background: var(--ink);
+    display: flex;
+    align-items: flex-end;
+    padding: 3rem;
+    overflow: hidden;
+}
+
+.architectural-root .intro-text-block {
+    width: 100%;
+}
+
+.architectural-root .intro-line-wrap {
+    overflow: hidden;
+}
+
+.architectural-root .intro-line {
+    font-family: var(--bb);
+    font-size: clamp(3rem, 8.4vw, 8.4rem);
+    line-height: 0.85;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    transform: translateY(110%);
+    display: block;
+}
+
+.architectural-root .intro-line.l2 {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--cream);
+}
+
+.architectural-root .intro-line.l3 {
+    font-family: var(--dm);
+    font-weight: 200;
+    font-size: clamp(0.7rem, 1vw, 1rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 1.5rem;
+}
+
+/* ─────────────────────────────
+   SECTION ZERO — HERO
+───────────────────────────── */
+.architectural-root .s0 {
+    min-height: 100vh;
+    background: var(--cream);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    padding: 4rem 3rem;
+    transition: background 0.5s var(--ease);
+}
+
+.architectural-root .s0.dark-mode {
+    background: var(--ink);
+}
+
+/* Hero Theme Switcher */
+.architectural-root .hero-theme-switcher {
+    position: absolute;
+    top: 8rem;
+    right: 3rem;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.architectural-root .ht-btn-bulb {
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    cursor: none;
+    transition: all 0.3s var(--ease);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.architectural-root .s0.dark-mode .ht-btn-bulb {
+    color: var(--cream);
+}
+
+.architectural-root .ht-btn-bulb:hover {
+    transform: scale(1.1);
+}
+
+
+
+.architectural-root .s0-letter {
+    position: absolute;
+    top: -5%;
+    right: -5%;
+    font-family: var(--bb);
+    font-size: clamp(12rem, 30vw, 27rem);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(0, 0, 0, 0.04);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    transition: -webkit-text-stroke 0.5s var(--ease);
+}
+
+.architectural-root .s0.dark-mode .s0-letter {
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.04);
+}
+
+.architectural-root .s0-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 4rem;
+}
+
+.architectural-root .s0-name {
+    font-family: var(--bb);
+    font-size: clamp(2.4rem, 5.4vw, 5.4rem);
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0;
+    transition: color 0.5s var(--ease);
+}
+
+.architectural-root .s0.dark-mode .s0-name {
+    color: var(--cream);
+}
+
+.architectural-root .s0-name span {
+    display: block;
+    font-family: var(--dm);
+    font-weight: 300;
+    font-size: 0.12em;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 1.5rem;
+}
+
+.architectural-root .s0-right {
+    max-width: 340px;
+    text-align: right;
+}
+
+.architectural-root .s0-bio {
+    font-family: var(--is);
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 2rem;
+    transition: color 0.5s var(--ease);
+}
+
+.architectural-root .s0.dark-mode .s0-bio {
+    color: #aaa;
+}
+
+/* ─────────────────────────────
+   HERO FALLING CARDS STREAM
+───────────────────────────── */
+.architectural-root .hero-streams {
+    position: absolute;
+    top: -10vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+.architectural-root .hero-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50vh;
+    background: linear-gradient(to top, var(--cream) 15%, transparent);
+    z-index: 2;
+    pointer-events: none;
+    transition: background 0.5s var(--ease);
+}
+
+.architectural-root .s0.dark-mode .hero-fade {
+    background: linear-gradient(to top, var(--ink) 15%, transparent);
+}
+
+.architectural-root .h-stream {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(240px, 22vw, 320px);
+}
+
+.architectural-root .h-stream-1 {
+    left: 5%;
+}
+
+.architectural-root .h-stream-2 {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.architectural-root .h-stream-3 {
+    right: 5%;
+}
+
+.architectural-root .h-track {
+    display: flex;
+    flex-direction: column;
+}
+
+.architectural-root .h-set {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 2rem;
+}
+
+.architectural-root .h-card {
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+    min-height: 280px;
+    cursor: none;
+    transition: border-color 0.5s var(--ease);
+}
+
+.architectural-root .s0.dark-mode .h-card {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.architectural-root .h-card.cc-0 {
+    background: var(--sage-bg);
+    color: var(--sage-dk);
+}
+
+.architectural-root .h-card.cc-1 {
+    background: #c8b8d8;
+    color: #3a2a4a;
+}
+
+.architectural-root .h-card.cc-2 {
+    background: var(--cream);
+    color: var(--ink);
+}
+
+.architectural-root .h-card.cc-3 {
+    background: #d6d0c8;
+    color: #333;
+}
+
+.architectural-root .h-card.cc-4 {
+    background: var(--cobalt);
+    color: #ccd8ff;
+    border: none;
+}
+
+.architectural-root .hc-head {
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1rem;
+    opacity: 0.7;
+    margin-bottom: 1.5rem;
+}
+
+.architectural-root .hc-q {
+    font-family: var(--is);
+    font-style: italic;
+    font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.architectural-root .hc-foot {
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* ─────────────────────────────
+   SECTION ONE — PROJECTS
+───────────────────────────── */
+.architectural-root .s1 {
+    background: var(--ink);
+    padding: 10rem 3rem;
+    position: relative;
+}
+
+.architectural-root .s1-label {
+    font-family: var(--dm);
+    font-weight: 300;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 6rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.architectural-root .s1-label::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: #333;
+}
+
+.architectural-root .proj-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.architectural-root .proj-item {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 320px;
+    cursor: none;
+    position: relative;
+}
+
+.architectural-root .pi-color {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 3rem;
+    overflow: hidden;
+    transform-origin: left center;
+    box-sizing: border-box;
+}
+
+/* INTERACTIVE VIDEO & PROGRESS BORDER STYLES */
+.architectural-root .pi-video-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background: var(--ink);
+}
+
+.architectural-root .pi-video-wrap video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    mix-blend-mode: luminosity;
+    transform: scale(1.1);
+    outline: none;
+    border: none;
+}
+
+.architectural-root .pi-progress-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    overflow: visible;
+}
+
+.architectural-root .pi-progress-rect {
+    fill: none;
+    stroke: var(--proj-color);
+    stroke-width: 4px;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    filter: drop-shadow(0 0 10px var(--proj-color));
+}
+
+/* Expand Button */
+.architectural-root .pi-expand-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--cream);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+    cursor: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), background 0.3s;
+}
+
+.architectural-root .proj-item:hover .pi-expand-btn {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.architectural-root .pi-expand-btn:hover {
+    background: var(--ink);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Video Lightbox Overlay */
+.architectural-root #video-lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(17, 16, 16, 0.9);
+    backdrop-filter: blur(15px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease);
+}
+
+.architectural-root #lightbox-close {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    background: transparent;
+    border: none;
+    color: var(--cream);
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: color 0.3s;
+    z-index: 10001;
+}
+
+.architectural-root #lightbox-close:hover {
+    color: var(--orange);
+}
+
+.architectural-root .pi-num {
+    position: absolute;
+    bottom: -0.1em;
+    left: -0.05em;
+    font-family: var(--bb);
+    font-size: 14rem;
+    line-height: 0.8;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 0.4s, transform 0.6s var(--ease-out-expo);
+}
+
+.architectural-root .proj-item:hover .pi-num {
+    opacity: 0.3;
+    transform: scale(1.05) translateX(20px);
+}
+
+.architectural-root .pi-title-big {
+    font-family: var(--bb);
+    font-size: clamp(1.2rem, 2.4vw, 2.4rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    z-index: 2;
+    position: relative;
+    transition: transform 0.6s var(--ease-out-expo);
+}
+
+.architectural-root .proj-item:hover .pi-title-big {
+    transform: translateX(15px);
+}
+
+.architectural-root .pi-body {
+    padding: 3rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.architectural-root .pi-cat {
+    font-family: var(--dm);
+    font-weight: 300;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.architectural-root .pi-desc {
+    font-family: var(--is);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #999;
+    margin: 1.5rem 0 2.5rem;
+}
+
+/* Keyword Underline Animation */
+.architectural-root .kw-ul {
+    position: relative;
+    display: inline-block;
+    color: #dcdcdc;
+    /* Slightly brighter for keyword emphasis */
+}
+
+.architectural-root .kw-ul::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.1em;
+    width: 100%;
+    height: 1px;
+    background: var(--proj-color);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.8s var(--ease-out-expo);
+}
+
+.architectural-root .proj-item.revealed .kw-ul::after {
+    transform: scaleX(1);
+    transition-delay: 0.5s;
+    /* Sweep under the keyword right after the card floats up */
+}
+
+.architectural-root .pi-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.architectural-root .pi-pill {
+    font-family: var(--dm);
+    font-weight: 300;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid #333;
+    color: #777;
+    padding: 0.3rem 0.7rem;
+    border-radius: 40px;
+}
+
+.architectural-root .pi-c0 {
+    background: var(--cobalt);
+    color: #ccd8ff;
+}
+
+.architectural-root .pi-c1 {
+    background: #5c3a1e;
+    color: #f0c898;
+}
+
+.architectural-root .pi-c2 {
+    background: #2d4a3e;
+    color: #a8d4c0;
+}
+
+.architectural-root .pi-c3 {
+    background: #4a1e3a;
+    color: #e8b8d8;
+}
+
+/* ─────────────────────────────
+   SECTION TWO — SAGE SKILLS
+───────────────────────────── */
+.architectural-root .s2 {
+    background: var(--sage-bg);
+    padding: 12rem 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.architectural-root .s2-rotate {
+    position: absolute;
+    top: 0;
+    left: -1rem;
+    transform-origin: left top;
+    font-family: var(--bb);
+    font-size: clamp(4.8rem, 9vw, 9rem);
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(60, 72, 48, 0.15);
+    pointer-events: none;
+    white-space: nowrap;
+    line-height: 0.75;
+}
+
+.architectural-root .s2-inner {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.architectural-root .s2-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 6rem;
+    border-bottom: 1px solid rgba(60, 72, 48, 0.2);
+    padding-bottom: 2rem;
+}
+
+.architectural-root .s2-title {
+    font-family: var(--bb);
+    font-size: clamp(2.1rem, 4.2vw, 4.2rem);
+    line-height: 0.85;
+    color: var(--sage-dk);
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+.architectural-root .s2-sub {
+    font-family: var(--is);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--olive);
+    max-width: 300px;
+    text-align: right;
+}
+
+.architectural-root .s2-toggle {
+    display: inline-flex;
+    margin-top: 3rem;
+    border: 1px solid var(--sage-dk);
+}
+
+.architectural-root .s2-tab {
+    font-family: var(--dm);
+    font-weight: 400;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-dk);
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--sage-dk);
+    padding: 1rem 2.5rem;
+    border-radius: 0;
+    transition: color 0.3s var(--ease), background 0.3s var(--ease);
+    cursor: none;
+}
+
+.architectural-root .s2-tab:last-child {
+    border-right: none;
+}
+
+.architectural-root .s2-tab.active,
+.architectural-root .s2-tab:hover {
+    background: var(--sage-dk);
+    color: var(--sage-bg);
+}
+
+.architectural-root .skill-catalogue {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(60, 72, 48, 0.15);
+    border-left: 1px solid rgba(60, 72, 48, 0.15);
+    /* No preserve-3d here — it breaks overflow:hidden on child sc-items.
+       GSAP rotationX on individual items works fine without it. */
+    background: transparent;
+}
+
+.architectural-root .sc-item {
+    background: var(--sage-bg);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    border-right: 1px solid rgba(60, 72, 48, 0.15);
+    border-bottom: 1px solid rgba(60, 72, 48, 0.15);
+    isolation: isolate;
+    /* Perspective on the item itself — keeps rotationX depth without
+       needing preserve-3d on the parent (which breaks overflow:hidden) */
+    perspective: 1200px;
+    transform-style: flat;
+}
+
+.architectural-root .sc-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* ─────────────────────────────
+   THREE BOLD SLANTED STRIPES
+   Hardware-accelerated sliding
+───────────────────────────── */
+.architectural-root .sc-chip {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    /* clip-path as a belt-and-suspenders guard against preserve-3d bleed */
+    clip-path: inset(0);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.architectural-root .sc-stripe {
+    position: absolute;
+    top: -40%;
+    bottom: -40%;
+    background: var(--chip-color, rgba(61, 74, 52, 0.15));
+    transform-origin: center;
+    /* Hardware acceleration hint */
+    will-change: transform;
+    /* Start completely off-screen to the left via transform */
+    transform: translateX(-400px) skewX(-16deg);
+    opacity: 0;
+}
+
+/* Base horizontal resting points setup via standard CSS left values */
+.architectural-root .sc-stripe:nth-child(1) {
+    left: 52%;
+    width: 58px;
+    --target-op: 0.9;
+}
+
+.architectural-root .sc-stripe:nth-child(2) {
+    left: 66%;
+    width: 38px;
+    --target-op: 0.55;
+}
+
+.architectural-root .sc-stripe:nth-child(3) {
+    left: 77%;
+    width: 22px;
+    --target-op: 0.28;
+}
+
+/* The 'stripes-in' class triggers the GPU-accelerated transform animation 
+   Slower durations for majestic sweep */
+.architectural-root .sc-item.stripes-in .sc-stripe:nth-child(1) {
+    animation: smooth-stripe-sweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+}
+
+.architectural-root .sc-item.stripes-in .sc-stripe:nth-child(2) {
+    animation: smooth-stripe-sweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+.architectural-root .sc-item.stripes-in .sc-stripe:nth-child(3) {
+    animation: smooth-stripe-sweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+}
+
+@keyframes smooth-stripe-sweep {
+    0% {
+        transform: translateX(-400px) skewX(-16deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: var(--target-op);
+    }
+
+    70% {
+        transform: translateX(12px) skewX(-16deg);
+        opacity: var(--target-op);
+        /* Slight spring overshoot */
+    }
+
+    100% {
+        transform: translateX(0px) skewX(-16deg);
+        opacity: var(--target-op);
+    }
+}
+
+/* ─────────────────────────────
+   TEXT LAYERS
+───────────────────────────── */
+.architectural-root .sc-name {
+    position: relative;
+    z-index: 2;
+    font-family: var(--bb);
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--sage-dk);
+    margin: 0 0 0.8rem 0;
+    max-width: 50%;
+}
+
+.architectural-root .sc-name::before {
+    content: attr(data-name);
+    position: absolute;
+    inset: 0;
+    font-family: var(--bb);
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--chip-color, rgba(61, 74, 52, 0.4));
+    opacity: 0.45;
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.architectural-root .sc-detail {
+    position: relative;
+    z-index: 2;
+    font-family: var(--dm);
+    font-weight: 300;
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: var(--olive);
+    letter-spacing: 0.05em;
+    max-width: 50%;
+}
+
+.architectural-root .sc-level {
+    position: absolute;
+    bottom: -5%;
+    right: 0%;
+    white-space: nowrap;
+    font-family: var(--bb);
+    font-size: 10rem;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 3px var(--chip-color, rgba(60, 72, 48, 0.2));
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.35s ease;
+}
+
+.architectural-root .sc-item:hover .sc-level {
+    opacity: 0.32;
+}
+
+/* ─────────────────────────────
+   SECTION THREE — ABOUT VOID
+───────────────────────────── */
+.architectural-root .s3 {
+    background: var(--cream);
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 3rem 5rem;
+    overflow: hidden;
+}
+
+.architectural-root .s3-block {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: clamp(250px, 40vw, 500px);
+    aspect-ratio: 3/4;
+    background: var(--cobalt);
+    z-index: 0;
+    box-shadow: 20px 20px 0px rgba(0, 0, 0, 0.03);
+}
+
+.architectural-root .s3-bottom {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+}
+
+.architectural-root .s3-right {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    background: var(--cream);
+    padding: 3rem;
+    margin: -3rem;
+}
+
+.architectural-root .s3-title {
+    font-family: var(--bb);
+    font-size: clamp(1.8rem, 3.6vw, 3.6rem);
+    line-height: 0.85;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+.architectural-root .s3 {
+    background: var(--cobalt);
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 3rem 5rem;
+    overflow: hidden;
+}
+
+.architectural-root .s3-block {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: clamp(250px, 40vw, 500px);
+    aspect-ratio: 3/4;
+    background: var(--orange);
+    z-index: 0;
+    box-shadow: 20px 20px 0px rgba(0, 0, 0, 0.15);
+    border: 15px solid var(--orange);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.architectural-root .s3-profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.architectural-root .s3-bottom {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+}
+
+.architectural-root .s3-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background: transparent;
+    padding: 3rem;
+    margin: -3rem;
+}
+
+.architectural-root .s3-title {
+    font-family: var(--bb);
+    font-size: clamp(3rem, 6vw, 6rem);
+    line-height: 0.85;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+.architectural-root .s3-title em {
+    display: block;
+    font-family: var(--is);
+    font-style: italic;
+    font-size: 0.4em;
+    color: #ccd8ff;
+    letter-spacing: 0;
+    margin-top: 0.5rem;
+}
+
+.architectural-root .s3-text {
+    font-family: var(--is);
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #ccd8ff;
+}
+
+.architectural-root .s3-text strong {
+    color: var(--cream);
+    font-style: normal;
+    font-family: var(--dm);
+    font-weight: 400;
+}
+
+.architectural-root .s3-edu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2.5rem;
+}
+
+.architectural-root .edu-sm-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--orange);
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: transform 0.4s var(--ease), background 0.4s var(--ease), border-color 0.4s;
+    cursor: none;
+}
+
+.architectural-root .edu-sm-card:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.architectural-root .edu-sm-year {
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+}
+
+.architectural-root .edu-sm-deg {
+    font-family: var(--bb);
+    font-size: 1.8rem;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.02em;
+}
+
+.architectural-root .edu-sm-inst {
+    font-family: var(--is);
+    font-style: italic;
+    font-size: 1rem;
+    color: #ccd8ff;
+}
+
+/* SGPA Counter Styling */
+.architectural-root .edu-sm-sgpa {
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.architectural-root .sgpa-counter {
+    font-family: var(--bb);
+    font-size: 2.2rem;
+    color: var(--orange);
+    line-height: 0.8;
+    letter-spacing: 0.02em;
+}
+
+/* ─────────────────────────────
+   SECTION FOUR — FOOTER BLEED
+───────────────────────────── */
+.architectural-root .s4 {
+    background: var(--ink);
+    padding: 8rem 3rem 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.architectural-root .s4-top.s4-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.architectural-root .s4-contact {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(3rem, 6vw, 8rem);
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.architectural-root .s4-clink {
+    position: relative;
+    font-family: var(--bb);
+    font-size: clamp(3rem, 6vw, 5rem);
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.8em;
+    /* Expands bounding box vertically to protect ascenders/descenders */
+    padding: 0 0.4em;
+    /* Expands bounding box horizontally to protect the italic slant */
+}
+
+.architectural-root .s4-clink span {
+    display: block;
+    line-height: 1.8em;
+    /* Matches the new height */
+    transition: transform 0.5s var(--ease-out-expo);
+}
+
+.architectural-root .s4-clink::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    /* Spans the full new padded width */
+    text-align: center;
+    /* Centers text perfectly within the padded box */
+    font-family: var(--is);
+    font-style: italic;
+    color: var(--sage);
+    font-size: 1em;
+    /* Inherits the clamp size from the parent safely */
+    line-height: 1.8em;
+    /* Matches the new height */
+    transition: transform 0.5s var(--ease-out-expo);
+}
+
+.architectural-root .s4-clink:hover span {
+    transform: translateY(-100%);
+}
+
+.architectural-root .s4-clink:hover::after {
+    transform: translateY(-100%);
+}
+
+.architectural-root .s4-wordmark-wrap {
+    margin-top: auto;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+}
+
+.architectural-root .s4-wordmark {
+    font-family: var(--bb);
+    font-size: 26vw;
+    line-height: 0.75;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    white-space: nowrap;
+    margin-left: 2vw;
+}
+
+/* Theme Switcher in Footer */
+.architectural-root .footer-theme-nav {
+    position: absolute;
+    right: 4rem;
+    bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.architectural-root .ftn-label {
+    font-family: var(--dm);
+    font-weight: 300;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-right: 0.4em;
+}
+
+.architectural-root .ftn-label::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: var(--orange);
+}
+
+.architectural-root .ftn-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+}
+
+.architectural-root .ftn-link {
+    position: relative;
+    font-family: var(--bb);
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.8em;
+    padding: 0 0.6em;
+    background: transparent;
+    border: none;
+    cursor: none;
+    transition: letter-spacing 0.5s var(--ease-out-expo);
+}
+
+.architectural-root .ftn-link span {
+    display: block;
+    line-height: 1.8em;
+    transition: transform 0.5s var(--ease-out-expo);
+}
+
+.architectural-root .ftn-link::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: var(--is);
+    font-style: italic;
+    color: var(--orange);
+    font-size: 1em;
+    line-height: 1.8em;
+    transition: transform 0.5s var(--ease-out-expo);
+}
+
+.architectural-root .ftn-link:hover {
+    letter-spacing: 0.1em;
+}
+
+.architectural-root .ftn-link:hover span {
+    transform: translateY(-100%);
+}
+
+.architectural-root .ftn-link:hover::after {
+    transform: translateY(-100%);
+}
+
+/* Responsive adjust */
+@media(max-width: 1200px) {
+    .architectural-root .s4-top.s4-centered {
+        flex-direction: column;
+        gap: 4rem;
+        position: relative;
+    }
+
+    .architectural-root .footer-theme-nav {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        align-items: center;
+        margin: 2rem 0;
+    }
+
+    .architectural-root .ftn-links {
+        align-items: center;
+    }
+
+    .architectural-root .ftn-link {
+        justify-content: center;
+    }
+
+    .architectural-root .ftn-link::after {
+        text-align: center;
+    }
+}
+
+/* ─────────────────────────────
+   CHAT INTERFACE
+───────────────────────────── */
+.architectural-root .chat-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1.2rem;
+    text-align: center;
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    z-index: 998;
+    cursor: none;
+    transform: translateY(100%);
+    transition: transform 0.6s var(--ease-out-expo), background 0.3s var(--ease);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.architectural-root .chat-bar.visible {
+    transform: translateY(0);
+}
+
+.architectural-root .chat-bar:hover {
+    background: var(--cobalt);
+    border-color: var(--cobalt);
+}
+
+.architectural-root .chat-window {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65vh;
+    max-height: 600px;
+    background: var(--cream);
+    z-index: 999;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--ink);
+    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.architectural-root .cw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.architectural-root .cw-title {
+    font-family: var(--bb);
+    font-size: 3rem;
+    line-height: 0.85;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.architectural-root .cw-close,
+.architectural-root .cw-expand {
+    background: transparent;
+    border: none;
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: none;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+    transition: color 0.3s;
+}
+
+.architectural-root .cw-close:hover,
+.architectural-root .cw-expand:hover {
+    color: var(--orange);
+}
+
+.architectural-root .cw-body {
+    flex: 1;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.architectural-root .cw-msg {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.architectural-root .cw-sender {
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.architectural-root .cw-bot {
+    align-self: flex-start;
+}
+
+.architectural-root .cw-bot p {
+    background: var(--sage-bg);
+    color: var(--sage-dk);
+    padding: 1.5rem;
+    font-family: var(--is);
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    border: 1px solid var(--sage-dk);
+    margin: 0;
+}
+
+.architectural-root .cw-user {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.architectural-root .cw-user p {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1.5rem;
+    font-family: var(--dm);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Processing Animation */
+.architectural-root .cw-loading {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    height: 1.5rem;
+}
+
+.architectural-root .cw-block {
+    width: 10px;
+    height: 100%;
+    background-color: var(--sage-dk);
+    animation: process-blink 1.2s infinite ease-in-out;
+    transform-origin: center;
+}
+
+.architectural-root .cw-block:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.architectural-root .cw-block:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.architectural-root .cw-block:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes process-blink {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scaleY(0.4);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+.architectural-root .cw-input-area {
+    display: flex;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+.architectural-root .cw-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 1.5rem 3rem;
+    font-family: var(--dm);
+    font-size: 1.1rem;
+    color: var(--ink);
+}
+
+.architectural-root .cw-input::placeholder {
+    color: #aaa;
+}
+
+.architectural-root .cw-send {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 0 3rem;
+    font-family: var(--dm);
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.3s;
+}
+
+.architectural-root .cw-send:hover {
+    background: var(--cobalt);
+}
+
+/* ─────────────────────────────
+   RESPONSIVE
+───────────────────────────── */
+@media(max-width: 900px) {
+    .architectural-root nav {
+        padding: 1.5rem;
+    }
+
+    .architectural-root .s0,
+    .architectural-root .s1,
+    .architectural-root .s2,
+    .architectural-root .s3,
+    .architectural-root .s4 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .architectural-root .s0-content,
+    .architectural-root .s3-bottom,
+    .architectural-root .s4-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3rem;
+    }
+
+    .architectural-root .proj-item {
+        grid-template-columns: 1fr;
+    }
+
+    .architectural-root .pi-color {
+        min-height: 250px;
+    }
+
+    .architectural-root .s2-head {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-start;
+    }
+
+    .architectural-root .s2-sub {
+        text-align: left;
+    }
+
+    .architectural-root .skill-catalogue {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .architectural-root .s2-rotate {
+        display: none;
+    }
+
+    .architectural-root .s3-block {
+        position: relative;
+        width: 100%;
+        top: 0;
+        left: 0;
+        margin-bottom: -5rem;
+        aspect-ratio: 16/9;
+    }
+
+    .architectural-root .s3-right {
+        margin: 0;
+        padding: 2rem 0 0 0;
+        background: transparent;
+    }
+
+    .architectural-root .hero-theme-switcher {
+        top: 6rem;
+        right: 1.5rem;
+    }
+
+    .architectural-root .h-stream-1 {
+        left: -5%;
+        width: 45%;
+    }
+
+    .architectural-root .h-stream-2 {
+        left: 45%;
+        width: 45%;
+    }
+
+    .architectural-root .h-stream-3 {
+        display: none;
+    }
+
+    .architectural-root .h-card {
+        min-height: 220px;
+        padding: 1.5rem;
+    }
+
+    .architectural-root .hc-q {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .architectural-root .cw-header,
+    .architectural-root .cw-body,
+    .architectural-root .cw-input {
+        padding: 1.5rem;
+    }
+
+    .architectural-root .cw-send {
+        padding: 0 1.5rem;
+    }
+
+    .architectural-root .cw-msg {
+        max-width: 95%;
+    }
+}
+
+@media(max-width: 500px) {
+    .architectural-root .skill-catalogue {
+        grid-template-columns: 1fr;
+    }
+
+    .architectural-root .nav-links {
+        gap: 1.5rem;
+    }
+}

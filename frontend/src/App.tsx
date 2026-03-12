@@ -1,30 +1,34 @@
 /*
  * App.tsx
  * ────────
- * Application root. Single Responsibility: fetch resume data on mount
- * and pass it down to the layout tree via props.
- *
- * All routing, data-fetching, and error handling lives here.
- * Components below App are purely presentational.
+ * Supports two themes: 'modern' (original) and 'renaissance'.
+ * A floating ThemeSwitcher button lets the user toggle between them.
+ * All original intro animation and portfolio logic is fully preserved.
  */
 
 import { useEffect, useState } from 'react';
 import type { ResumeData } from './types';
 import SplitLayout from './components/layout/SplitLayout';
 import IntroOverlay from './components/layout/IntroOverlay';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import RenaissanceTheme from './components/renaissance/RenaissanceTheme';
+import ArchitecturalTheme from './components/architectural/ArchitecturalTheme';
+import ThemeTransition from './components/renaissance/ThemeTransition';
+import { fallbackResume } from './data/fallbackResume';
 import './styles/globals.css';
 
 /* Base API URL from .env */
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export default function App() {
+/* ── Inner app — must live inside ThemeProvider so useTheme() works ── */
+function AppInner() {
   const [resume, setResume] = useState<ResumeData | null>(null);
   const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [introFinished, setIntroFinished] = useState(false);
 
+  const { activeTheme, isTransitioning } = useTheme();
+
   useEffect(() => {
-    /* Fetch resume from our FastAPI backend on mount — once only */
     fetch(`${API_BASE}/api/resume`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -35,20 +39,14 @@ export default function App() {
         setLoading(false);
       })
       .catch((err: Error) => {
-        console.error('Failed to load resume:', err.message);
-        setError('Could not load portfolio data. Is the backend running?');
+        console.warn('Failed to load resume from API. Using local offline fallback data. Error:', err.message);
+        setResume(fallbackResume as ResumeData);
         setLoading(false);
       });
-  }, []); /* Empty deps — run once on mount */
+  }, []);
 
-  /*
-   * Assign stagger animation delays once the resume DOM has rendered.
-   * By using inline styles for the delay, React won't overwrite them on re-renders,
-   * but the CSS animation itself will drive the opacity safely.
-   */
   useEffect(() => {
     if (resume) {
-      // Small timeout to ensure SplitLayout children have mounted into the DOM
       setTimeout(() => {
         document.querySelectorAll('.fade-in-item').forEach((el, i) => {
           (el as HTMLElement).style.animationDelay = `${i * 90}ms`;
@@ -57,42 +55,61 @@ export default function App() {
     }
   }, [resume]);
 
-  /* Error state — only shown if the backend is completely unreachable */
-  if (error) {
-    return (
-      <div style={{
-        display: 'flex',
-        height: '100dvh',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Inter, sans-serif',
-        color: '#6B6564',
-        padding: '2rem',
-        textAlign: 'center',
-      }}>
-        <p>{error}</p>
-      </div>
-    );
-  }
+  const handleIntroComplete = () => {
+    setIntroFinished(true);
+    document.body.classList.add('intro-finished');
+  };
 
-  /*
-   * Pass resume + loading state down to LeftPanel via SplitLayout.
-   * IntroOverlay runs initially if we have the resume data.
-   */
   return (
     <>
-      {resume && !introFinished && (
-        <IntroOverlay name={resume.personal.name} onComplete={() => setIntroFinished(true)} />
+      {/* ── Vintage film transition overlay ── */}
+      {isTransitioning && (
+        <ThemeTransition name={resume?.personal?.name ?? 'Rohit Bharat Akulwar'} />
       )}
 
-      {/* Portfolio must always be in the DOM (opacity 0 until intro done)
-          so getBoundingClientRect() can measure portfolio-name during the fly. */}
+      {resume && !introFinished && activeTheme === 'modern' && (
+        <IntroOverlay name={resume.personal.name} onComplete={handleIntroComplete} />
+      )}
+
+      {/* ── Theme switcher injected into components locally ── */}
+
+      {/* ── Renaissance theme ── */}
+      {activeTheme === 'renaissance' && (
+        <RenaissanceTheme resume={resume} />
+      )}
+
+      {/* ── Architectural theme ── */}
+      {resume && activeTheme === 'architectural' && (
+        <ArchitecturalTheme resume={resume} />
+      )}
+
+      {/* ── Modern (original) portfolio ──────────────────────────────────────
+          Note: kept in DOM even when renaissance is active so the 'glitch'
+          intro can measure #portfolio-name. Hidden via display:none instead
+          of conditional rendering to preserve DOM references.
+      ── */}
       <div
         id="portfolio"
-        style={{ opacity: introFinished ? 1 : 0, transition: 'opacity 0.3s ease' }}
+        className="intro-variant-glitch"
+        style={{
+          opacity: introFinished && activeTheme === 'modern' ? 1 : 0,
+          // No transition here — individual items use .fade-in-item CSS animations.
+          // A transition would keep #portfolio-name invisible (opacity:0 parent)
+          // for up to 300ms after the flying clone hides, causing the flicker.
+          display: activeTheme !== 'modern' ? 'none' : undefined,
+        }}
       >
         <SplitLayout resume={resume} isLoading={isLoading} />
       </div>
     </>
+  );
+}
+
+/* ── Root export — wraps AppInner in ThemeProvider ── */
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
   );
 }

@@ -48,7 +48,7 @@ engine = create_engine(
 metadata = MetaData()
 
 # ── Table: chat_logs ──────────────────────────────────────────────────────────
-# Optional but useful: stores every chat exchange for analytics / debugging.
+# stores every chat exchange for analytics / debugging.
 chat_logs = Table(
     "chat_logs",
     metadata,

@@ -15,6 +15,7 @@ import Education from '../portfolio/Education';
 import Contact from '../portfolio/Contact';
 import BottomNav from './BottomNav';
 import TopNav from './TopNav';
+import ThemeSwitcher from '../renaissance/ThemeSwitcher';
 import './LeftPanel.css';
 
 interface LeftPanelProps {
@@ -39,6 +40,9 @@ export default function LeftPanel({ resume, isLoading, isChatMinimized, setIsCha
 
     return (
         <main className="left-panel" id="main-content">
+            <div style={{ position: 'absolute', top: '1.2rem', right: '1.2rem', zIndex: 110 }}>
+                <ThemeSwitcher />
+            </div>
             <TopNav personal={resume.personal} isChatMinimized={isChatMinimized} />
             <BottomNav isChatMinimized={isChatMinimized} />
             <Hero
